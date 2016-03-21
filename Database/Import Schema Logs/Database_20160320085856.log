@@ -1,0 +1,71 @@
+20-03-2016 21:58:56	This log contains information about the import schema operation into project 'Database' on computer 'MORTEN-PC' by user 'Morten'.
+20-03-2016 21:58:56	Import of database schema has started.
+20-03-2016 21:59:04	Gathering database options
+20-03-2016 21:59:04	Gathering users
+20-03-2016 21:59:04	Gathering roles
+20-03-2016 21:59:04	Gathering application roles
+20-03-2016 21:59:04	Gathering role memberships
+20-03-2016 21:59:04	Gathering filegroups
+20-03-2016 21:59:04	Gathering full-text catalogs
+20-03-2016 21:59:04	Gathering assemblies
+20-03-2016 21:59:04	Gathering certificates
+20-03-2016 21:59:04	Gathering asymmetric keys
+20-03-2016 21:59:04	Gathering symmetric keys
+20-03-2016 21:59:04	Gathering encrypted symmetric keys
+20-03-2016 21:59:04	Gathering schemas
+20-03-2016 21:59:04	Gathering XML schema collections
+20-03-2016 21:59:04	Gathering user-defined data types
+20-03-2016 21:59:04	Gathering user-defined types
+20-03-2016 21:59:04	Gathering table types
+20-03-2016 21:59:04	Gathering unique keys for table types
+20-03-2016 21:59:04	Gathering primary keys for table types
+20-03-2016 21:59:04	Gathering check constraints for table types
+20-03-2016 21:59:05	Gathering default constraints for table types
+20-03-2016 21:59:05	Gathering partition functions
+20-03-2016 21:59:05	Gathering partition schemes
+20-03-2016 21:59:05	Gathering functions
+20-03-2016 21:59:05	Gathering encrypted functions
+20-03-2016 21:59:05	Gathering aggregates
+20-03-2016 21:59:05	Gathering procedures
+20-03-2016 21:59:05	Gathering encrypted procedures
+20-03-2016 21:59:05	Gathering tables
+20-03-2016 21:59:05	Gathering primary keys
+20-03-2016 21:59:05	Gathering unique constraints
+20-03-2016 21:59:05	Gathering foreign keys
+20-03-2016 21:59:05	Gathering default constraints
+20-03-2016 21:59:05	Gathering check constraints
+20-03-2016 21:59:05	Gathering views
+20-03-2016 21:59:05	Gathering encrypted views
+20-03-2016 21:59:05	Gathering indexes
+20-03-2016 21:59:05	Gathering statistics
+20-03-2016 21:59:05	Gathering full-text index stoplists
+20-03-2016 21:59:05	Gathering full-text indexes
+20-03-2016 21:59:05	Gathering spatial indexes
+20-03-2016 21:59:05	Gathering XML indexes
+20-03-2016 21:59:05	Gathering encrypted triggers
+20-03-2016 21:59:05	Gathering triggers
+20-03-2016 21:59:05	Gathering encrypted and clr ddl triggers
+20-03-2016 21:59:05	Gathering ddl triggers
+20-03-2016 21:59:05	Gathering synonyms
+20-03-2016 21:59:05	Gathering defaults
+20-03-2016 21:59:05	Gathering data constraint uddt bindings
+20-03-2016 21:59:05	Gathering rules
+20-03-2016 21:59:05	Gathering data constraint uddt bindings
+20-03-2016 21:59:05	Gathering message types
+20-03-2016 21:59:05	Gathering queues
+20-03-2016 21:59:05	Gathering contracts
+20-03-2016 21:59:05	Gathering services
+20-03-2016 21:59:05	Gathering event notifications
+20-03-2016 21:59:05	Gathering remote service bindings
+20-03-2016 21:59:05	Gathering broker priorities
+20-03-2016 21:59:05	Gathering signatures
+20-03-2016 21:59:05	Gathering data compression options
+20-03-2016 21:59:05	Gathering extended properties
+20-03-2016 21:59:05	Gathering credentials
+20-03-2016 21:59:05	Gathering logins
+20-03-2016 21:59:05	Gathering server audits
+20-03-2016 21:59:06	Scanning project for duplicate elements
+20-03-2016 21:59:06	Finished duplicate element processing
+20-03-2016 21:59:06	Finished importing database.
+20-03-2016 21:59:06	A summary of the import was saved to the following location: Z:\Documents\Visual Studio 2015\Projects\TrafficControl\Database\Import Schema Logs\Database_20160320085856.log
+20-03-2016 21:59:06	Click Finish to continue...
