@@ -1,5 +1,0 @@
-Z:\Documents\Visual Studio 2015\Projects\TrafficControl\API.DataAcces\bin\Debug\API.DataAcces.dll
-Z:\Documents\Visual Studio 2015\Projects\TrafficControl\API.DataAcces\bin\Debug\API.DataAcces.pdb
-Z:\Documents\Visual Studio 2015\Projects\TrafficControl\API.DataAcces\obj\Debug\API.DataAcces.csprojResolveAssemblyReference.cache
-Z:\Documents\Visual Studio 2015\Projects\TrafficControl\API.DataAcces\obj\Debug\API.DataAcces.dll
-Z:\Documents\Visual Studio 2015\Projects\TrafficControl\API.DataAcces\obj\Debug\API.DataAcces.pdb
