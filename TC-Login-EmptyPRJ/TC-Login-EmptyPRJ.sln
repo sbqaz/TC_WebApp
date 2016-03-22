@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TC-Login-EmptyPRJ", "TC-Login-EmptyPRJ\TC-Login-EmptyPRJ.csproj", "{3564D437-C396-471D-8FBB-AA0685058B59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficControl.DAL", "..\..\..\Git-repository\TC_DAL\TrafficControl.DAL\TrafficControl.DAL.csproj", "{4396C852-8EC9-4A9C-BB5D-8E5C45407C51}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficControl.DAL", "..\..\TC_DAL\TrafficControl.DAL\TrafficControl.DAL.csproj", "{4396C852-8EC9-4A9C-BB5D-8E5C45407C51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

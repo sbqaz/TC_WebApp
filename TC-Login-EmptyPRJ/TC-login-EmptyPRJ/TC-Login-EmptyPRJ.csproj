@@ -184,7 +184,7 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Git-repository\TC_DAL\TrafficControl.DAL\TrafficControl.DAL.csproj">
+    <ProjectReference Include="..\..\..\TC_DAL\TrafficControl.DAL\TrafficControl.DAL.csproj">
       <Project>{4396c852-8ec9-4a9c-bb5d-8e5c45407c51}</Project>
       <Name>TrafficControl.DAL</Name>
     </ProjectReference>

@@ -6,8 +6,9 @@ using System.Web.Mvc;
 
 namespace TC_Login_EmptyPRJ.Controllers
 {
-    [Authorize]
-    public class HomeController : Controller
+    [Authorize(Users = "1234")]
+
+	public class HomeController : Controller
     {
         // GET: Home
 
