@@ -1,0 +1,40 @@
+﻿@model IEnumerable<StudentCourseManagement.Models.Course>
+
+@{
+    ViewBag.Title = "Assigned";
+}
+
+<h2>Assigned to User</h2>
+
+<p>
+    @Html.ActionLink("Assign New", "Assign")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Credit)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Credit)
+        </td>
+    </tr>
+}
+
+</table>
