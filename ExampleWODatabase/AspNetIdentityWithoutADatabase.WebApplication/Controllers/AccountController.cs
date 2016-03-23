@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 
 using Microsoft.Owin.Security;
 using AspNetIdentityWithoutADatabase.WebApplication.Models;
+using TrafficControl.DAL;
 
 namespace AspNetIdentityWithoutADatabase.WebApplication.Controllers
 {
@@ -66,7 +67,36 @@ namespace AspNetIdentityWithoutADatabase.WebApplication.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        protected override void Dispose(bool disposing)
+		//GET
+	    [AllowAnonymous]
+	    public ActionResult Register()
+	    {
+		    return View();
+	    }
+
+		[HttpPost]
+		[AllowAnonymous]
+		public async Task<ActionResult> Register(RegisterViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var user = new ApplicationUser(); { user.Id = model.UserName;};
+				var result = await CustomUserManager.CreateAsync(user);
+				if (result.Succeeded)
+				{
+					await SignInAsync(user, isPersistent: false);
+					return RedirectToAction("Index", "Home");
+				}
+				else
+				{
+					AddErrors(result);
+				}
+			}
+			return View(model);
+		}
+
+
+		protected override void Dispose(bool disposing)
         {
             if (disposing && CustomUserManager != null)
             {
@@ -114,6 +144,7 @@ namespace AspNetIdentityWithoutADatabase.WebApplication.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
+
 
         #endregion
     }

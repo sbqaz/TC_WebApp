@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
+using TrafficControl.DAL;
 
 namespace AspNetIdentityWithoutADatabase.WebApplication.Models
 {
@@ -8,17 +9,15 @@ namespace AspNetIdentityWithoutADatabase.WebApplication.Models
         public CustomUserManager()
             : base(new CustomUserSore<ApplicationUser>())
         {
-
         }
 
-        public override Task<ApplicationUser> FindAsync(string userName, string password)
+	    public override Task<ApplicationUser> FindAsync(string userName, string password)
         {
+			TCApi ValidateLogin = new TCApi();
             var taskInvoke = Task<ApplicationUser>.Factory.StartNew(() =>
                 {
-                    if (userName == "username" && password == "password")
-                    {
-                        return new ApplicationUser { Id="NeedsAnId", UserName = "UsernameHere" };
-                    }
+					if (ValidateLogin.LogIn(userName, password))
+                        return new ApplicationUser { Id="NeedsAnId", UserName = "UsernameHere"};
                     return null;
                 });
 

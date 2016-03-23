@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using TrafficControl.DAL;
 
 namespace AspNetIdentityWithoutADatabase.WebApplication.Models
 {
@@ -8,11 +10,11 @@ namespace AspNetIdentityWithoutADatabase.WebApplication.Models
 
         System.Threading.Tasks.Task IUserStore<T>.CreateAsync(T user)
         {
-            //Create /Register New User
-            throw new NotImplementedException();
-        }
+			//Create /Register New User
+			throw new NotImplementedException();
+		}
 
-        System.Threading.Tasks.Task IUserStore<T>.DeleteAsync(T user)
+		System.Threading.Tasks.Task IUserStore<T>.DeleteAsync(T user)
         {
             //Delete User
             throw new NotImplementedException();
