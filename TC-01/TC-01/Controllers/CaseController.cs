@@ -13,13 +13,17 @@ namespace TC_01.Controllers
 {
     public class CaseController : Controller
     {
-        private CaseContext db = new CaseContext();
+        ApplicationDbContext _context;
 
+        public CaseController()
+        {
+            _context = new ApplicationDbContext();
+        }
         // GET: Case
         [AuthLog(Roles = "Admin")]
         public ActionResult Index()
         {
-            return View(db.Cases.ToList());
+            return View(_context.Cases.ToList());
         }
 
         // GET: Case/Details/5
@@ -29,7 +33,7 @@ namespace TC_01.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Case @case = db.Cases.Find(id);
+            Case @case = _context.Cases.Find(id);
             if (@case == null)
             {
                 return HttpNotFound();
@@ -52,8 +56,8 @@ namespace TC_01.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Cases.Add(@case);
-                db.SaveChanges();
+                _context.Cases.Add(@case);
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -67,7 +71,7 @@ namespace TC_01.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Case @case = db.Cases.Find(id);
+            Case @case = _context.Cases.Find(id);
             if (@case == null)
             {
                 return HttpNotFound();
@@ -84,8 +88,8 @@ namespace TC_01.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(@case).State = EntityState.Modified;
-                db.SaveChanges();
+                _context.Entry(@case).State = EntityState.Modified;
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(@case);
@@ -98,7 +102,7 @@ namespace TC_01.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Case @case = db.Cases.Find(id);
+            Case @case = _context.Cases.Find(id);
             if (@case == null)
             {
                 return HttpNotFound();
@@ -111,9 +115,9 @@ namespace TC_01.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Case @case = db.Cases.Find(id);
-            db.Cases.Remove(@case);
-            db.SaveChanges();
+            Case @case = _context.Cases.Find(id);
+            _context.Cases.Remove(@case);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -121,7 +125,7 @@ namespace TC_01.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
         }

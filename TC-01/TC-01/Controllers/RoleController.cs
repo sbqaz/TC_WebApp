@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 //Added below - For Role creation
 using Microsoft.AspNet.Identity.EntityFramework;
+using TC_01.CustomFilter;
 using TC_01.Models;
 
 namespace TC_01.Controllers
@@ -17,7 +18,7 @@ namespace TC_01.Controllers
         {
             _context = new ApplicationDbContext();
         }
-
+        [AuthLog(Roles = "Admin")]
         //GET: All Roles
         public ActionResult RoleIndex()
         {
