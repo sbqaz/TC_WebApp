@@ -38,7 +38,7 @@ namespace TC_01.Controllers
         {
             _context.Roles.Add(Role);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("RoleIndex");
         }
     }
 }
