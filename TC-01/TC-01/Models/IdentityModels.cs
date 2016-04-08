@@ -31,5 +31,6 @@ namespace TC_01.Models
         }
 
         public System.Data.Entity.DbSet<TC_01.Models.Case> Cases { get; set; }
-    }
+
+        }
 }
