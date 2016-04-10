@@ -30,7 +30,8 @@ namespace TC_01.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<TC_01.Models.Case> Cases { get; set; }
+        public DbSet<Case> Cases { get; set; }
 
-        }
+        
+    }
 }

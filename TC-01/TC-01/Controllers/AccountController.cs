@@ -145,35 +145,35 @@ namespace TC_01.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
+        //// Currently implemented in UserAdminController
+        //// POST: /Account/Register
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Register(RegisterViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+        //        var result = await UserManager.CreateAsync(user, model.Password);
+        //        if (result.Succeeded)
+        //        {
 
-                    //Assign Role to user Here 
-                    await this.UserManager.AddToRoleAsync(user.Id, model.Name);
-                    //Ends Here
+        //            //Assign Role to user Here 
+        //            await this.UserManager.AddToRoleAsync(user.Id, model.Name);
+        //            //Ends Here
 
+        //            //Newly created user will be signed in with this line:
+        //            //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    
+        //            return View("UserIndex");
+        //        }
+        //        AddErrors(result);
+        //    }
 
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    return RedirectToAction("Index", "Home");
-                }
-                AddErrors(result);
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
+        //    // If we got this far, something failed, redisplay form
+        //    return View(model);
+        //}
 
         //
         // GET: /Account/ConfirmEmail
@@ -425,6 +425,11 @@ namespace TC_01.Controllers
 
             base.Dispose(disposing);
         }
+
+        //GET: User
+
+
+
 
         #region Helpers
         // Used for XSRF protection when adding external logins
