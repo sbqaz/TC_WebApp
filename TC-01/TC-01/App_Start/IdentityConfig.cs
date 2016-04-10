@@ -14,6 +14,7 @@ using TC_01.Models;
 
 namespace TC_01
 {
+
     public class EmailService : IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)

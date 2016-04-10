@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.AccessControl;
+using System.Web.Security;
 
 namespace TC_01.Models
 {
@@ -113,4 +115,5 @@ namespace TC_01.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+
 }
