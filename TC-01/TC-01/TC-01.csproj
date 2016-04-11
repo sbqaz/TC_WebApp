@@ -5708,11 +5708,7 @@
     <Content Include="Content\assets\global\plugins\uniform\css\uniform.default.scss" />
     <Content Include="Content\assets\global\plugins\uniform\README.md" />
     <None Include="Properties\PublishProfiles\TC-01-PublishTest.pubxml" />
-<<<<<<< Updated upstream
     <None Include="Properties\PublishProfiles\TC.pubxml" />
-=======
-    <None Include="Properties\PublishProfiles\Web.pubxml" />
->>>>>>> Stashed changes
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
