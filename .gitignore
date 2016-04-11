@@ -251,3 +251,8 @@ paket-files/
 .idea/
 *.sln.iml
 TC-01/.vs/config/applicationhost.config
+*.config
+
+TC-01/.vs/config/applicationhost.config
+
+*.csproj
