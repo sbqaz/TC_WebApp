@@ -34,7 +34,7 @@ namespace TC_01.Controllers
         public ApplicationDbContext context { get; private set; }
         //
         // GET: /Roles/
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             return View(RoleManager.Roles);
         }

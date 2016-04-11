@@ -8,6 +8,8 @@ namespace TC_01
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            //Forces controllers to use SSL
+            filters.Add(new RequireHttpsAttribute());
         }
     }
 }
