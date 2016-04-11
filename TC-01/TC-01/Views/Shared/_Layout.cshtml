@@ -200,19 +200,13 @@ License: You must have a valid license purchased only from themeforest(the above
                             </ul>
                         </li>
                         <!-- END NOTIFICATION DROPDOWN -->
-
-                        <!-- BEGIN LOGOUT BUTTON -->
-                        <li class="dropdown dropdown-extended quick-sidebar-toggler">
-                            <a href='@Url.Action("Login", "Account")' style="text-align: center;" class="dropdown-toggle" data-hover="dropdown" data-close-others="true">
-                                <i class="icon-logout"></i>
-                            </a>
-                        </li>
-                        <!-- END LOGOUT BUTTON-->
+                        @Html.Partial("_LoginPartial")
                     </ul>
                 </div>
                 <!-- END TOP NAVIGATION MENU -->
-<!--
-            <div class="navbar-collapse collapse">
+
+@*Merge her
+                <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Roles", "Index", "RolesAdmin")</li>
@@ -220,7 +214,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     <li>@Html.ActionLink("Users", "Index", "UsersAdmin")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
-THIS SECTION IS MERGED! -->
+MERGE OVENOVER*@
 
 				</div>
             <!-- END PAGE TOP -->
@@ -262,6 +256,12 @@ THIS SECTION IS MERGED! -->
                         </a>
                     </li>
                     <li class="nav-item  ">
+                        <a href='@Url.Action("Index", "UsersAdmin")' class="nav-link nav-toggle">
+                            <i class="icon-users"></i>
+                            <span class="title">Brugere</span>
+                        </a>
+                    </li>
+                    <li class="nav-item  ">
                         <a href='@Url.Action("Index", "Map")' class="nav-link nav-toggle">
                             <i class="icon-pointer"></i>
                             <span class="title">Kort</span>
@@ -270,9 +270,16 @@ THIS SECTION IS MERGED! -->
                     <li class="nav-item  ">
                         <a href='@Url.Action("Index", "Manage")' class="nav-link nav-toggle">
                             <i class="icon-settings"></i>
-                            <span class="title">Indstillinger</span>
+                            <span class="title">Privatindstillinger</span>
                         </a>
                     </li>
+                    <li class="nav-item  ">
+                        <a href='@Url.Action("Index", "RolesAdmin")' class="nav-link nav-toggle">
+                            <i class="icon-question"></i>
+                            <span class="title">Roller</span>
+                        </a>
+                    </li>
+
                 </ul>
                 <!-- END SIDEBAR MENU -->
             </div>
