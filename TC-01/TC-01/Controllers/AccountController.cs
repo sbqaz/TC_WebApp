@@ -426,11 +426,6 @@ namespace TC_01.Controllers
             base.Dispose(disposing);
         }
 
-        //GET: User
-
-
-
-
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
