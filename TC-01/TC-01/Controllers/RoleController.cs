@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 //Added below - For Role creation
 using Microsoft.AspNet.Identity.EntityFramework;
 using TC_01.CustomFilter;
@@ -10,36 +13,190 @@ using TC_01.Models;
 
 namespace TC_01.Controllers
 {
-    public class RoleController : Controller
+    [Authorize(Roles = "Admin")]
+    public class RolesAdminController : Controller
     {
-        ApplicationDbContext _context;
+        public RolesAdminController()
+        {
+            context = new ApplicationDbContext();
+            UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+        }
 
-        public RoleController()
+        public RolesAdminController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            _context = new ApplicationDbContext();
+            UserManager = userManager;
+            RoleManager = roleManager;
         }
-        [AuthLog(Roles = "Admin")]
-        //GET: All Roles
-        public ActionResult RoleIndex()
+
+        public UserManager<ApplicationUser> UserManager { get; private set; }
+        public RoleManager<IdentityRole> RoleManager { get; private set; }
+        public ApplicationDbContext context { get; private set; }
+        //
+        // GET: /Roles/
+        public async Task<ActionResult> Index()
         {
-            var Roles = _context.Roles.ToList();
-            return View(Roles);
+            return View(RoleManager.Roles);
         }
-        
-        //Create a New Role
+
+        //
+        // GET: /Roles/Details/5
+        public async Task<ActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var role = await RoleManager.FindByIdAsync(id);
+            return View(role);
+        }
+
+        //
+        // GET: /Roles/Create
         public ActionResult Create()
         {
-            var Role = new IdentityRole();
-            return View(Role);
+            return View();
         }
 
-        //Create a New Role - POST
+        //
+        // POST: /Roles/Create
         [HttpPost]
-        public ActionResult Create(IdentityRole Role)
+        public async Task<ActionResult> Create(RoleViewModel roleViewModel)
         {
-            _context.Roles.Add(Role);
-            _context.SaveChanges();
-            return RedirectToAction("RoleIndex");
+            if (ModelState.IsValid)
+            {
+                var role = new IdentityRole(roleViewModel.Name);
+                var roleresult = await RoleManager.CreateAsync(role);
+                if (!roleresult.Succeeded)
+                {
+                    ModelState.AddModelError("", roleresult.Errors.First().ToString());
+                    return View();
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        //
+        // GET: /Roles/Edit/Admin
+        public async Task<ActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var role = await RoleManager.FindByIdAsync(id);
+            if (role == null)
+            {
+                return HttpNotFound();
+            }
+            return View(role);
+        }
+
+        //
+        // POST: /Roles/Edit/5
+        [HttpPost]
+
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit([Bind(Include = "Name,Id")] IdentityRole role)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await RoleManager.UpdateAsync(role);
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError("", result.Errors.First().ToString());
+                    return View();
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        //
+        // GET: /Roles/Delete/5
+        public async Task<ActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var role = await RoleManager.FindByIdAsync(id);
+            if (role == null)
+            {
+                return HttpNotFound();
+            }
+            return View(role);
+        }
+
+        //
+        // POST: /Roles/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(string id)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                var role = await RoleManager.FindByIdAsync(id);
+                var result = await RoleManager.DeleteAsync(role);
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError("", result.Errors.First().ToString());
+                    return View();
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
         }
     }
+
+
+
+
+    //**** Commented out - Working code
+    //public class RoleController : Controller
+    //{
+    //    ApplicationDbContext _context;
+
+    //    public RoleController()
+    //    {
+    //        _context = new ApplicationDbContext();
+    //    }
+    //    [AuthLog(Roles = "Admin")]
+    //    //GET: All Roles
+    //    public ActionResult RoleIndex()
+    //    {
+    //        var Roles = _context.Roles.ToList();
+    //        return View(Roles);
+    //    }
+
+    //    //Create a New Role
+    //    public ActionResult Create()
+    //    {
+    //        var Role = new IdentityRole();
+    //        return View(Role);
+    //    }
+
+    //    //Create a New Role - POST
+    //    [HttpPost]
+    //    public ActionResult Create(IdentityRole Role)
+    //    {
+    //        _context.Roles.Add(Role);
+    //        _context.SaveChanges();
+    //        return RedirectToAction("RoleIndex");
+    //    }
+    //}
 }
