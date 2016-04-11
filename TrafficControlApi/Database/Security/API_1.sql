@@ -1,3 +1,0 @@
-﻿CREATE LOGIN [API]
-    WITH PASSWORD = N'mbQafTajv7Pwrncma!ckqddimsFT7_&#$!~<j|sa~hdppfcd', SID = 0x5D5B753D38514F4A9591F266CAD8935A, DEFAULT_LANGUAGE = [us_english], CHECK_POLICY = OFF;
-

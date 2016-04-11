@@ -1,2 +1,0 @@
-﻿CREATE USER [API] FOR LOGIN [API];
-
