@@ -29,7 +29,5 @@ namespace API.Models
         {
             return new ApplicationDbContext();
         }
-
-        public System.Data.Entity.DbSet<WebLib.Models.Case> Cases { get; set; }
     }
 }

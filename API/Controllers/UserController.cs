@@ -30,9 +30,11 @@ namespace API.Controllers
                     Id = u.Id,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
+                    PhoneNumber = u.PhoneNumber,
                     EmailNotification = u.EmailNotification,
                     SMSNotification = u.SMSNotification
                 };
+
             return Ok(User);
         }
 
