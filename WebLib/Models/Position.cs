@@ -4,7 +4,7 @@ using System.Data.Entity;
 
 namespace WebLib.Models
 {
-    public class Position : DbContext
+    public class Position
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

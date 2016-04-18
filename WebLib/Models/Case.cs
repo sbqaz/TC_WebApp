@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
 
 namespace WebLib.Models
 {
-    public class Case : DbContext
+    public class Case
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
