@@ -11,12 +11,20 @@ using System.Web.Http.Description;
 using API.Models;
 using WebLib.Models;
 using Microsoft.AspNet.Identity;
+using WebLib.InterfaceAppContext;
 
 namespace API.Controllers
 {
     public class UserController : ApiController
     {
-        private APIContext db = new APIContext();
+        private ICaseAppContext db = new ApiContext();
+
+        public UserController() { }
+
+        public UserController(ICaseAppContext context)
+        {
+            db = context;
+        }
 
         // GET: api/User
         [ResponseType(typeof(UserDTO))]
@@ -34,7 +42,6 @@ namespace API.Controllers
                     EmailNotification = u.EmailNotification,
                     SMSNotification = u.SMSNotification
                 };
-
             return Ok(User);
         }
 
@@ -64,7 +71,8 @@ namespace API.Controllers
 
             user.Id = UserId;
 
-            db.Entry(user).State = EntityState.Modified;
+            //db.Entry(user).State = EntityState.Modified;
+            db.MarkAsModified(user);
 
             try
             {

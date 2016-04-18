@@ -2,6 +2,8 @@
 using System.Web.Http.Results;
 using API.Controllers;
 using NUnit.Framework;
+using WebLib.AppCentext;
+using WebLib.DbSet;
 using WebLib.Models;
 
 namespace API.Tests.Unit.Controllers
@@ -14,7 +16,7 @@ namespace API.Tests.Unit.Controllers
             [Test]
             public void PostProduct_ShouldReturnSameProduct()
             {
-                var controller = new CaseController(new TestStoreAppContext());
+                var controller = new CaseController(new TestCaseAppContext());
 
                 var item = GetDemoProduct();
 
@@ -30,7 +32,7 @@ namespace API.Tests.Unit.Controllers
             [Test]
             public void PutProduct_ShouldReturnStatusCode()
             {
-                var controller = new CaseController(new TestStoreAppContext());
+                var controller = new CaseController(new TestCaseAppContext());
 
                 var item = GetDemoProduct();
 
@@ -43,7 +45,7 @@ namespace API.Tests.Unit.Controllers
             [Test]
             public void PutProduct_ShouldFail_WhenDifferentID()
             {
-                var controller = new CaseController(new TestStoreAppContext());
+                var controller = new CaseController(new TestCaseAppContext());
 
                 var badresult = controller.PutCase(999, GetDemoProduct());
                 Assert.IsInstanceOf(typeof(BadRequestResult), badresult);
@@ -52,7 +54,7 @@ namespace API.Tests.Unit.Controllers
             [Test]
             public void GetProduct_ShouldReturnProductWithSameID()
             {
-                var context = new TestStoreAppContext();
+                var context = new TestCaseAppContext();
                 context.Cases.Add(GetDemoProduct());
 
                 var controller = new CaseController(context);
@@ -65,7 +67,7 @@ namespace API.Tests.Unit.Controllers
             [Test]
             public void GetProducts_ShouldReturnAllProducts()
             {
-                var context = new TestStoreAppContext();
+                var context = new TestCaseAppContext();
                 context.Cases.Add(new Case { Id = 1, Worker = "Demo1", Observer = 20 });
                 context.Cases.Add(new Case { Id = 2, Worker = "Demo2", Observer = 30 });
                 context.Cases.Add(new Case { Id = 3, Worker = "Demo3", Observer = 40 });
@@ -80,7 +82,7 @@ namespace API.Tests.Unit.Controllers
             [Test]
             public void DeleteProduct_ShouldReturnOK()
             {
-                var context = new TestStoreAppContext();
+                var context = new TestCaseAppContext();
                 var item = GetDemoProduct();
                 context.Cases.Add(item);
 

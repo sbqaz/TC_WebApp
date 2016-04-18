@@ -10,13 +10,21 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using API.Models;
+using WebLib.InterfaceAppContext;
 using WebLib.Models;
 
 namespace API.Controllers
 {
     public class InstallationController : ApiController
     {
-        private APIContext db = new APIContext();
+        private ICaseAppContext db = new ApiContext();
+
+        public InstallationController() { }
+
+        public InstallationController(ICaseAppContext context)
+        {
+            db = context;
+        }
 
         // GET: api/Installation
         public IQueryable<Installation> GetInstallations()
@@ -26,9 +34,9 @@ namespace API.Controllers
 
         // GET: api/Installation/5
         [ResponseType(typeof(Installation))]
-        public async Task<IHttpActionResult> GetInstallation(long id)
+        public IHttpActionResult GetInstallation(long id)
         {
-            Installation installation = await db.Installations.FindAsync(id);
+            Installation installation = db.Installations.Find(id);
             if (installation == null)
             {
                 return NotFound();
@@ -39,7 +47,7 @@ namespace API.Controllers
 
         // PUT: api/Installation/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutInstallation(long id, Installation installation)
+        public IHttpActionResult PutInstallation(long id, Installation installation)
         {
             if (!ModelState.IsValid)
             {
@@ -51,11 +59,11 @@ namespace API.Controllers
                 return BadRequest();
             }
 
-            db.Entry(installation).State = EntityState.Modified;
-
+           // db.Entry(installation).State = EntityState.Modified;
+            db.MarkAsModified(installation);
             try
             {
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -74,7 +82,7 @@ namespace API.Controllers
 
         // POST: api/Installation
         [ResponseType(typeof(Installation))]
-        public async Task<IHttpActionResult> PostInstallation(Installation installation)
+        public IHttpActionResult PostInstallation(Installation installation)
         {
             if (!ModelState.IsValid)
             {
@@ -82,23 +90,23 @@ namespace API.Controllers
             }
 
             db.Installations.Add(installation);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = installation.Id }, installation);
         }
 
         // DELETE: api/Installation/5
         [ResponseType(typeof(Installation))]
-        public async Task<IHttpActionResult> DeleteInstallation(long id)
+        public IHttpActionResult DeleteInstallation(long id)
         {
-            Installation installation = await db.Installations.FindAsync(id);
+            Installation installation = db.Installations.Find(id);
             if (installation == null)
             {
                 return NotFound();
             }
 
             db.Installations.Remove(installation);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
 
             return Ok(installation);
         }

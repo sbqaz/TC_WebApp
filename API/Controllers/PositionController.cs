@@ -10,13 +10,21 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using API.Models;
+using WebLib.InterfaceAppContext;
 using WebLib.Models;
 
 namespace API.Controllers
 {
     public class PositionController : ApiController
     {
-        private APIContext db = new APIContext();
+        private ICaseAppContext db = new ApiContext();
+
+        public PositionController() { }
+
+        public PositionController(ICaseAppContext context)
+        {
+            db = context;
+        }
 
         // GET: api/Position
         public IQueryable<Position> GetPositions()
@@ -26,9 +34,9 @@ namespace API.Controllers
 
         // GET: api/Position/5
         [ResponseType(typeof(Position))]
-        public async Task<IHttpActionResult> GetPosition(long id)
+        public IHttpActionResult GetPosition(long id)
         {
-            Position position = await db.Positions.FindAsync(id);
+            Position position = db.Positions.Find(id);
             if (position == null)
             {
                 return NotFound();
@@ -39,7 +47,7 @@ namespace API.Controllers
 
         // PUT: api/Position/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutPosition(long id, Position position)
+        public IHttpActionResult PutPosition(long id, Position position)
         {
             if (!ModelState.IsValid)
             {
@@ -51,11 +59,12 @@ namespace API.Controllers
                 return BadRequest();
             }
 
-            db.Entry(position).State = EntityState.Modified;
+            //db.Entry(position).State = EntityState.Modified;
+            db.MarkAsModified(position);
 
             try
             {
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -74,7 +83,7 @@ namespace API.Controllers
 
         // POST: api/Position
         [ResponseType(typeof(Position))]
-        public async Task<IHttpActionResult> PostPosition(Position position)
+        public IHttpActionResult PostPosition(Position position)
         {
             if (!ModelState.IsValid)
             {
@@ -82,23 +91,23 @@ namespace API.Controllers
             }
 
             db.Positions.Add(position);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = position.Id }, position);
         }
 
         // DELETE: api/Position/5
         [ResponseType(typeof(Position))]
-        public async Task<IHttpActionResult> DeletePosition(long id)
+        public IHttpActionResult DeletePosition(long id)
         {
-            Position position = await db.Positions.FindAsync(id);
+            Position position = db.Positions.Find(id);
             if (position == null)
             {
                 return NotFound();
             }
 
             db.Positions.Remove(position);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
 
             return Ok(position);
         }

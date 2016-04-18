@@ -9,23 +9,23 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using API.Models;
-using StoreApp.Models;
+using WebLib.InterfaceAppContext;
 using WebLib.Models;
 
 namespace API.Controllers
 {
     public class CaseController : ApiController
     {
-        private IStoreAppContext db = new APIContext();
+        private ICaseAppContext db = new ApiContext();
 
         public CaseController() { }
 
-        public CaseController(IStoreAppContext context)
+        public CaseController(ICaseAppContext context)
         {
             db = context;
         }
 
-        // GET: api/Case
+       // GET: api/Case
         public IQueryable<Case> GetCases()
         {
             return db.Cases;
@@ -92,6 +92,11 @@ namespace API.Controllers
             db.Cases.Add(@case);
             db.SaveChanges();
 
+            Notification noti = new Notification();
+            noti.Msg = "Der er oprettet en ny sag på lyskrydet: \n" + db.Installations.Find(@case.InstallationId).Name + " \n" + db.Installations.Find(@case.InstallationId).Address;
+
+            db.Notifications.Add(noti);
+            db.SaveChanges();
             return CreatedAtRoute("DefaultApi", new { id = @case.Id }, @case);
         }
 

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
-using StoreApp.Models;
+using WebLib.InterfaceAppContext;
 using WebLib.Models;
 
 namespace API.Models
 {
-    public class APIContext : DbContext, IStoreAppContext
+    public class ApiContext : DbContext, ICaseAppContext
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 
@@ -17,21 +17,40 @@ namespace API.Models
         // For more information refer to the documentation:
         // http://msdn.microsoft.com/en-us/data/jj591621.aspx
     
-        public APIContext() : base("APIContext")
+        public ApiContext() : base("APIContext")
         {
         }
 
-        public System.Data.Entity.DbSet<WebLib.Models.Case> Cases { get; set; }
+        public DbSet<Case> Cases { get; set; }
+        public DbSet<Installation> Installations { get; set; }
+        public DbSet<Position> Positions { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Notification> Notifications { get; set; } 
 
-        public System.Data.Entity.DbSet<WebLib.Models.Installation> Installations { get; set; }
-
-        public System.Data.Entity.DbSet<WebLib.Models.Position> Positions { get; set; }
-
+        //Code for unit test
         public void MarkAsModified(Case item)
         {
             Entry(item).State = EntityState.Modified;
         }
 
-        public System.Data.Entity.DbSet<WebLib.Models.User> Users { get; set; }
+        public void MarkAsModified(Installation item)
+        {
+            Entry(item).State = EntityState.Modified;
+        }
+
+        public void MarkAsModified(Position item)
+        {
+            Entry(item).State = EntityState.Modified;
+        }
+
+        public void MarkAsModified(User item)
+        {
+            Entry(item).State = EntityState.Modified;
+        }
+
+        public void MarkAsModified(Notification item)
+        {
+            Entry(item).State = EntityState.Modified;
+        }
     }
 }
