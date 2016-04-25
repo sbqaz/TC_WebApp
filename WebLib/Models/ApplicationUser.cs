@@ -16,7 +16,7 @@ namespace WebLib.Models
             return userIdentity;
         }
 
-        // 3 additional rows added to User in ASPNetUsers
+        // 4 additional rows added to User in ASPNetUsers
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public bool EmailNotification { get; set; }

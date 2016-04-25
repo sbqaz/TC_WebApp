@@ -65,7 +65,8 @@ namespace WebSite.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser();
-                user.UserName = userViewModel.UserName;
+                user.Email = userViewModel.Email;
+                user.UserName = userViewModel.Email;
                 user.FirstName = userViewModel.FirstName;
                 user.LastName = userViewModel.LastName;
                 user.PhoneNumber = userViewModel.WorkNumber;
@@ -133,6 +134,7 @@ namespace WebSite.Controllers
             }
             ViewBag.RoleId = new SelectList(_roleManager.Roles, "Id", "Name");
             var user = await _userManager.FindByIdAsync(id);
+            user.Email = formuser.Email;
             user.UserName = formuser.UserName;
             user.FirstName = formuser.FirstName;
             user.LastName = formuser.LastName;
