@@ -272,6 +272,10 @@
     <Compile Include="Migrations\201604181736253_Notification.Designer.cs">
       <DependentUpon>201604181736253_Notification.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604250637345_Status.cs" />
+    <Compile Include="Migrations\201604250637345_Status.Designer.cs">
+      <DependentUpon>201604250637345_Status.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -371,6 +375,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604181736253_Notification.resx">
       <DependentUpon>201604181736253_Notification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604250637345_Status.resx">
+      <DependentUpon>201604250637345_Status.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

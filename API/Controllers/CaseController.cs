@@ -60,6 +60,9 @@ namespace API.Controllers
 
             //db.Entry(@case).State = EntityState.Modified;
             db.MarkAsModified(@case);
+            Notification noti = new Notification();
+            noti.Msg = noti.BuildStatusChangedCase(db.Installations.Find(@case.InstallationId).Name,
+                db.Installations.Find(@case.InstallationId).Address, db.Cases.Find(@case.Id).Status, @case.Status);
 
             try
             {
@@ -89,13 +92,13 @@ namespace API.Controllers
                 return BadRequest(ModelState);
             }
 
+            @case.Status = (int)Case.CaseStatus.created;
             db.Cases.Add(@case);
-            db.SaveChanges();
-
+            
             Notification noti = new Notification();
-            noti.Msg = "Der er oprettet en ny sag på lyskrydet: \n" + db.Installations.Find(@case.InstallationId).Name + " \n" + db.Installations.Find(@case.InstallationId).Address;
-
+            noti.Msg = noti.BuildNewCaseString(db.Installations.Find(@case.InstallationId).Name, db.Installations.Find(@case.InstallationId).Address);
             db.Notifications.Add(noti);
+
             db.SaveChanges();
             return CreatedAtRoute("DefaultApi", new { id = @case.Id }, @case);
         }
