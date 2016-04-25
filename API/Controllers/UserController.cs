@@ -11,17 +11,17 @@ using System.Web.Http.Description;
 using API.Models;
 using WebLib.Models;
 using Microsoft.AspNet.Identity;
-using WebLib.InterfaceAppContext;
+using WebLib.DependencyInjection;
 
 namespace API.Controllers
 {
     public class UserController : ApiController
     {
-        private ICaseAppContext db = new ApiContext();
+        private IAppContext db = new ApiContext();
 
         public UserController() { }
 
-        public UserController(ICaseAppContext context)
+        public UserController(IAppContext context)
         {
             db = context;
         }

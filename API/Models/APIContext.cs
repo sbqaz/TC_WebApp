@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
-using WebLib.InterfaceAppContext;
+using WebLib.DependencyInjection;
 using WebLib.Models;
 
 namespace API.Models
 {
-    public class ApiContext : DbContext, ICaseAppContext
+    public class ApiContext : DbContext, IAppContext
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 

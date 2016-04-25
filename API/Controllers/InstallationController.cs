@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using API.Models;
-using WebLib.InterfaceAppContext;
+using WebLib.DependencyInjection;
 using WebLib.Models;
 
 namespace API.Controllers
 {
     public class InstallationController : ApiController
     {
-        private ICaseAppContext db = new ApiContext();
+        private IAppContext db = new ApiContext();
 
         public InstallationController() { }
 
-        public InstallationController(ICaseAppContext context)
+        public InstallationController(IAppContext context)
         {
             db = context;
         }

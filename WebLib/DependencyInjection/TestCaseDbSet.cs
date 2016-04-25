@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using WebLib.Models;
-using WebLib.TestDbSet;
 
-namespace WebLib.DbSet
+namespace WebLib.DependencyInjection
 {
     public class TestCaseDbSet : TestDbSet<Case>
     {

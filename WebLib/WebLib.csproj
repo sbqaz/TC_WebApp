@@ -50,22 +50,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DependencyInjection\IAppContext.cs" />
+    <Compile Include="DependencyInjection\TestAppContext.cs" />
+    <Compile Include="DependencyInjection\TestCaseDbSet.cs" />
+    <Compile Include="DependencyInjection\TestDbSet.cs" />
     <Compile Include="Models\Case.cs" />
     <Compile Include="Models\Installation.cs" />
-    <Compile Include="InterfaceAppContext\ICaseAppContext.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Position.cs" />
     <Compile Include="Models\UserDTO.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestDbSet\TestDbSet.cs" />
-    <Compile Include="DbSet\TestCaseDbSet.cs" />
-    <Compile Include="AppCentext\TestCaseAppContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

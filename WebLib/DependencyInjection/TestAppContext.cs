@@ -1,13 +1,11 @@
 ﻿using System.Data.Entity;
-using WebLib.DbSet;
-using WebLib.InterfaceAppContext;
 using WebLib.Models;
 
-namespace WebLib.AppCentext
+namespace WebLib.DependencyInjection
 {
-    public class TestCaseAppContext : DbContext, ICaseAppContext
+    public class TestAppContext : DbContext, IAppContext
     {
-        public TestCaseAppContext()
+        public TestAppContext()
         {
             this.Cases = new TestCaseDbSet();
             this.Notifications = new TestNotificationDbSet();

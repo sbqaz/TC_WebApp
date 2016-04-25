@@ -9,18 +9,18 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using API.Models;
-using WebLib.InterfaceAppContext;
+using WebLib.DependencyInjection;
 using WebLib.Models;
 
 namespace API.Controllers
 {
     public class CaseController : ApiController
     {
-        private ICaseAppContext db = new ApiContext();
+        private IAppContext db = new ApiContext();
 
         public CaseController() { }
 
-        public CaseController(ICaseAppContext context)
+        public CaseController(IAppContext context)
         {
             db = context;
         }

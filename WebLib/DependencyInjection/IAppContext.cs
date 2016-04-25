@@ -2,9 +2,9 @@
 using System.Data.Entity;
 using WebLib.Models;
 
-namespace WebLib.InterfaceAppContext
+namespace WebLib.DependencyInjection
 {
-    public interface ICaseAppContext : IDisposable
+    public interface IAppContext : IDisposable
     {
         DbSet<Case> Cases { get; } 
         DbSet<Installation> Installations { get; }

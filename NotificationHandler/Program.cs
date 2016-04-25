@@ -10,7 +10,7 @@ namespace NotificationHandler
         static void Main(string[] args)
         {
             SqlConnection con = new SqlConnection(@"Data Source=db.trafficcontrol.dk;Initial Catalog=Identity;Integrated Security=False;User ID=API;Password=phantom161;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            SqlCommand cmd = new SqlCommand("SELECT Email FROM dbo.AspNetUsers INNER JOIN dbo.Users ON dbo.AspNetUsers.Id=dbo.Users.id", con);
+            SqlCommand cmd = new SqlCommand("SELECT Email FROM dbo.AspNetUsers INNER JOIN dbo.Users ON dbo.AspNetUsers.Id=dbo.Users.id WHERE dbo.Users.EmailNotification='1'", con);
             
             List<string> reciver = new List<string>();
             List<long> msgToDelete = new List<long>();
@@ -49,8 +49,8 @@ namespace NotificationHandler
                         mail.Subject = "Ny sag oprettet";
                         mail.Body = rdr["Msg"].ToString();
                         client.Send(mail);
-                        msgToDelete.Add((long)rdr["Id"]);
                     }
+                    msgToDelete.Add((long)rdr["Id"]);
                 }
             }
             rdr.Close();

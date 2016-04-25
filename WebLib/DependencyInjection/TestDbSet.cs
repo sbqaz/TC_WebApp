@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
 
-namespace WebLib.TestDbSet
+namespace WebLib.DependencyInjection
 {
         public class TestDbSet<T> : DbSet<T>, IQueryable, IEnumerable<T>
         where T : class
