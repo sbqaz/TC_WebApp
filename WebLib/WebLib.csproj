@@ -50,6 +50,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DependencyInjection\IAppContext.cs" />
+    <Compile Include="DependencyInjection\TestAppContext.cs" />
+    <Compile Include="DependencyInjection\TestCaseDbSet.cs" />
+    <Compile Include="DependencyInjection\TestDbSet.cs" />
     <Compile Include="Migrations\201604221729246_Test01.cs" />
     <Compile Include="Migrations\201604221729246_Test01.Designer.cs">
       <DependentUpon>201604221729246_Test01.cs</DependentUpon>
