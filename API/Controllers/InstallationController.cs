@@ -15,6 +15,7 @@ using WebLib.Models;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class InstallationController : ApiController
     {
         private IAppContext db = new ApiContext();

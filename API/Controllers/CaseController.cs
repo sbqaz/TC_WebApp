@@ -14,6 +14,7 @@ using WebLib.Models;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class CaseController : ApiController
     {
         private IAppContext db = new ApiContext();

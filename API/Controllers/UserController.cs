@@ -15,6 +15,7 @@ using WebLib.DependencyInjection;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class UserController : ApiController
     {
         private IAppContext db = new ApiContext();
