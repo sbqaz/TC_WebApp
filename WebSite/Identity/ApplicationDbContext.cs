@@ -1,6 +1,7 @@
 using System.Data.Entity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using WebLib.Models;
 
 namespace WebSite.Identity
 {
@@ -12,12 +13,6 @@ namespace WebSite.Identity
             : base("LocalTestConnection", throwIfV1Schema: false)
         {
         }
-
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
-        }
-
 
        /* protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -76,9 +71,5 @@ namespace WebSite.Identity
                 }
             }
         }
-
-
-
-
     }
 }

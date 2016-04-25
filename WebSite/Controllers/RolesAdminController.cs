@@ -15,27 +15,20 @@ namespace WebSite.Controllers
     [Authorize(Roles = "Admin")]
     public class RolesAdminController : Controller
     {
-        public RolesAdminController()
-        {
-            context = new ApplicationDbContext();
-            UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-            RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-        }
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RolesAdminController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            UserManager = userManager;
-            RoleManager = roleManager;
+            this._userManager = userManager;
+            this._roleManager = roleManager;
         }
 
-        public UserManager<ApplicationUser> UserManager { get; private set; }
-        public RoleManager<IdentityRole> RoleManager { get; private set; }
-        public ApplicationDbContext context { get; private set; }
         //
         // GET: /Roles/
         public async Task<ActionResult> Index()
         {
-            return View(RoleManager.Roles);
+            return View(_roleManager.Roles);
         }
 
         //
@@ -46,7 +39,7 @@ namespace WebSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var role = await RoleManager.FindByIdAsync(id);
+            var role = await _roleManager.FindByIdAsync(id);
             return View(role);
         }
 
@@ -65,7 +58,7 @@ namespace WebSite.Controllers
             if (ModelState.IsValid)
             {
                 var role = new IdentityRole(roleViewModel.Name);
-                var roleresult = await RoleManager.CreateAsync(role);
+                var roleresult = await _roleManager.CreateAsync(role);
                 if (!roleresult.Succeeded)
                 {
                     ModelState.AddModelError("", roleresult.Errors.First().ToString());
@@ -87,7 +80,7 @@ namespace WebSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var role = await RoleManager.FindByIdAsync(id);
+            var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
             {
                 return HttpNotFound();
@@ -104,7 +97,7 @@ namespace WebSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await RoleManager.UpdateAsync(role);
+                var result = await _roleManager.UpdateAsync(role);
                 if (!result.Succeeded)
                 {
                     ModelState.AddModelError("", result.Errors.First().ToString());
@@ -126,7 +119,7 @@ namespace WebSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var role = await RoleManager.FindByIdAsync(id);
+            var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
             {
                 return HttpNotFound();
@@ -146,8 +139,8 @@ namespace WebSite.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                var role = await RoleManager.FindByIdAsync(id);
-                var result = await RoleManager.DeleteAsync(role);
+                var role = await _roleManager.FindByIdAsync(id);
+                var result = await _roleManager.DeleteAsync(role);
                 if (!result.Succeeded)
                 {
                     ModelState.AddModelError("", result.Errors.First().ToString());

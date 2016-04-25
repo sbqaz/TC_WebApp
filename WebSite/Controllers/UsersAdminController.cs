@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -16,28 +17,22 @@ namespace WebSite.Controllers
     [Authorize(Roles = "Admin")]
     public class UsersAdminController : Controller
     {
-        public UsersAdminController()
-        {
-            context = new ApplicationDbContext();
-            UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-            RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-        }
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UsersAdminController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UsersAdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            UserManager = userManager;
-            RoleManager = roleManager;
+            this._context = context;
+            this._userManager = userManager;
+            this._roleManager = roleManager;
         }
-
-        public UserManager<ApplicationUser> UserManager { get; private set; }
-        public RoleManager<IdentityRole> RoleManager { get; private set; }
-        public ApplicationDbContext context { get; private set; }
 
         //
         // GET: /Users/
         public async Task<ActionResult> Index()
         {
-            return View(await UserManager.Users.ToListAsync());
+            return View(await _userManager.Users.ToListAsync());
         }
 
         //
@@ -48,7 +43,7 @@ namespace WebSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var user = await UserManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
             return View(user);
         }
 
@@ -57,7 +52,7 @@ namespace WebSite.Controllers
         public async Task<ActionResult> Create()
         {
             //Get the list of Roles
-            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
+            ViewBag.RoleId = new SelectList(await _roleManager.Roles.ToListAsync(), "Id", "Name");
             return View();
         }
 
@@ -73,7 +68,7 @@ namespace WebSite.Controllers
                 user.FirstName = userViewModel.FirstName;
                 user.LastName = userViewModel.LastName;
                 user.WorkNumber = userViewModel.WorkNumber;
-                var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
+                var adminresult = await _userManager.CreateAsync(user, userViewModel.Password);
 
                 //Add User Admin to Role Admin
                 if (adminresult.Succeeded)
@@ -81,12 +76,12 @@ namespace WebSite.Controllers
                     if (!String.IsNullOrEmpty(RoleId))
                     {
                         //Find Role Admin
-                        var role = await RoleManager.FindByIdAsync(RoleId);
-                        var result = await UserManager.AddToRoleAsync(user.Id, role.Name);
+                        var role = await _roleManager.FindByIdAsync(RoleId);
+                        var result = await _userManager.AddToRoleAsync(user.Id, role.Name);
                         if (!result.Succeeded)
                         {
                             ModelState.AddModelError("", result.Errors.First().ToString());
-                            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
+                            ViewBag.RoleId = new SelectList(await _roleManager.Roles.ToListAsync(), "Id", "Name");
                             return View();
                         }
                     }
@@ -94,7 +89,7 @@ namespace WebSite.Controllers
                 else
                 {
                     ModelState.AddModelError("", adminresult.Errors.First().ToString());
-                    ViewBag.RoleId = new SelectList(RoleManager.Roles, "Id", "Name");
+                    ViewBag.RoleId = new SelectList(_roleManager.Roles, "Id", "Name");
                     return View();
 
                 }
@@ -102,7 +97,7 @@ namespace WebSite.Controllers
             }
             else
             {
-                ViewBag.RoleId = new SelectList(RoleManager.Roles, "Id", "Name");
+                ViewBag.RoleId = new SelectList(_roleManager.Roles, "Id", "Name");
                 return View();
             }
         }
@@ -115,9 +110,9 @@ namespace WebSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ViewBag.RoleId = new SelectList(RoleManager.Roles, "Id", "Name");
+            ViewBag.RoleId = new SelectList(_roleManager.Roles, "Id", "Name");
 
-            var user = await UserManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -135,8 +130,8 @@ namespace WebSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ViewBag.RoleId = new SelectList(RoleManager.Roles, "Id", "Name");
-            var user = await UserManager.FindByIdAsync(id);
+            ViewBag.RoleId = new SelectList(_roleManager.Roles, "Id", "Name");
+            var user = await _userManager.FindByIdAsync(id);
             user.UserName = formuser.UserName;
             user.FirstName = formuser.FirstName;
             user.LastName = formuser.LastName;
@@ -144,30 +139,30 @@ namespace WebSite.Controllers
             if (ModelState.IsValid)
             {
                 //Update the user details
-                await UserManager.UpdateAsync(user);
+                await _userManager.UpdateAsync(user);
 
                 //If user has existing Role then remove the user from the role
                 // This also accounts for the case when the Admin selected Empty from the drop-down and
                 // this means that all roles for the user must be removed
-                var rolesForUser = await UserManager.GetRolesAsync(id);
+                var rolesForUser = await _userManager.GetRolesAsync(id);
                 if (rolesForUser.Count() > 0)
                 {
                     foreach (var item in rolesForUser)
                     {
-                        var result = await UserManager.RemoveFromRoleAsync(id, item);
+                        var result = await _userManager.RemoveFromRoleAsync(id, item);
                     }
                 }
 
                 if (!String.IsNullOrEmpty(RoleId))
                 {
                     //Find Role
-                    var role = await RoleManager.FindByIdAsync(RoleId);
+                    var role = await _roleManager.FindByIdAsync(RoleId);
                     //Add user to new role
-                    var result = await UserManager.AddToRoleAsync(id, role.Name);
+                    var result = await _userManager.AddToRoleAsync(id, role.Name);
                     if (!result.Succeeded)
                     {
                         ModelState.AddModelError("", result.Errors.First().ToString());
-                        ViewBag.RoleId = new SelectList(RoleManager.Roles, "Id", "Name");
+                        ViewBag.RoleId = new SelectList(_roleManager.Roles, "Id", "Name");
                         return View();
                     }
                 }
@@ -175,64 +170,64 @@ namespace WebSite.Controllers
             }
             else
             {
-                ViewBag.RoleId = new SelectList(RoleManager.Roles, "Id", "Name");
+                ViewBag.RoleId = new SelectList(_roleManager.Roles, "Id", "Name");
                 return View();
             }
         }
 
-        ////
-        //// GET: /Users/Delete/5
-        //public async Task<ActionResult> Delete(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    var user = await context.Users.FindAsync(id);
-        //    if (user == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(user);
-        //}
+        //
+        // GET: /Users/Delete/5
+        public async Task<ActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = _context.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
 
-        ////
-        //// POST: /Users/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> DeleteConfirmed(string id)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (id == null)
-        //        {
-        //            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //        }
+        //
+        // POST: /Users/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(string id)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
 
-        //        var user = await context.Users.FindAsync(id);
-        //        var logins = user.Logins;
-        //        foreach (var login in logins)
-        //        {
-        //            context.UserLogins.Remove(login);
-        //        }
-        //        var rolesForUser = await IdentityManager.Roles.GetRolesForUserAsync(id, CancellationToken.None);
-        //        if (rolesForUser.Count() > 0)
-        //        {
+                var user = _context.Users.Find(id);
+                //var logins = user.Logins;
+                //foreach (var login in logins)
+                //{
+                //    _context.UserLogins.Remove(login);
+                //}
+                //var rolesForUser = await _roleManager.Roles.GetRolesForUserAsync(id, CancellationToken.None);
+                //if (rolesForUser.Count() > 0)
+                //{
 
-        //            foreach (var item in rolesForUser)
-        //            {
-        //                var result = await IdentityManager.Roles.RemoveUserFromRoleAsync(user.Id, item.Id, CancellationToken.None);
-        //            }
-        //        }
-        //        context.Users.Remove(user);
-        //        await context.SaveChangesAsync();
-        //        return RedirectToAction("Index");
-        //    }
-        //    else
-        //    {
-        //        return View();
-        //    }
-        //}
+                //    foreach (var item in rolesForUser)
+                //    {
+                //        var result = await _roleManager.Roles.RemoveUserFromRoleAsync(user.Id, item.Id, CancellationToken.None);
+                //    }
+                //}
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
     }
 
 }

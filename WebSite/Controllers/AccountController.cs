@@ -17,17 +17,13 @@ namespace WebSite.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        public AccountController()
-            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IAuthenticationManager _authenticationManager;
+        public AccountController(UserManager<ApplicationUser> userManager, IAuthenticationManager authenticationManager)
         {
+            this._userManager = userManager;
+            this._authenticationManager = authenticationManager;
         }
-
-        public AccountController(UserManager<ApplicationUser> userManager)
-        {
-            UserManager = userManager;
-        }
-
-        public UserManager<ApplicationUser> UserManager { get; private set; }
 
         //
         // GET: /Account/Login
@@ -47,7 +43,7 @@ namespace WebSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindAsync(model.UserName, model.Password);
+                var user = await _userManager.FindAsync(model.UserName, model.Password);
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
@@ -88,7 +84,7 @@ namespace WebSite.Controllers
                 // Store Gender as Claim
                 user.Claims.Add(new IdentityUserClaim() { ClaimType = ClaimTypes.Gender, ClaimValue = "Male" });
 
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
@@ -112,7 +108,7 @@ namespace WebSite.Controllers
         public async Task<ActionResult> Disassociate(string loginProvider, string providerKey)
         {
             ManageMessageId? message = null;
-            IdentityResult result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
+            IdentityResult result = await _userManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
                 message = ManageMessageId.RemoveLoginSuccess;
@@ -152,7 +148,7 @@ namespace WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+                    IdentityResult result = await _userManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
                         return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
@@ -174,7 +170,7 @@ namespace WebSite.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+                    IdentityResult result = await _userManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
                     if (result.Succeeded)
                     {
                         return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
@@ -206,14 +202,14 @@ namespace WebSite.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
-            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+            var loginInfo = await _authenticationManager.GetExternalLoginInfoAsync();
             if (loginInfo == null)
             {
                 return RedirectToAction("Login");
             }
 
             // Sign in the user with this external login provider if the user already has a login
-            var user = await UserManager.FindAsync(loginInfo.Login);
+            var user = await _userManager.FindAsync(loginInfo.Login);
             if (user != null)
             {
                 await SignInAsync(user, isPersistent: false);
@@ -242,12 +238,12 @@ namespace WebSite.Controllers
         // GET: /Account/LinkLoginCallback
         public async Task<ActionResult> LinkLoginCallback()
         {
-            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
+            var loginInfo = await _authenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
             if (loginInfo == null)
             {
                 return RedirectToAction("Manage", new { Message = ManageMessageId.Error });
             }
-            var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
+            var result = await _userManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             if (result.Succeeded)
             {
                 return RedirectToAction("Manage");
@@ -270,17 +266,17 @@ namespace WebSite.Controllers
             if (ModelState.IsValid)
             {
                 // Get the information about the user from the external login provider
-                var info = await AuthenticationManager.GetExternalLoginInfoAsync();
+                var info = await _authenticationManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
                     return View("ExternalLoginFailure");
                 }
                 var user = new ApplicationUser() { UserName = model.UserName };
 
-                var result = await UserManager.CreateAsync(user);
+                var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
-                    result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                    result = await _userManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {
                         await SignInAsync(user, isPersistent: false);
@@ -300,7 +296,7 @@ namespace WebSite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut();
+            _authenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
         }
 
@@ -315,17 +311,17 @@ namespace WebSite.Controllers
         [ChildActionOnly]
         public ActionResult RemoveAccountList()
         {
-            var linkedAccounts = UserManager.GetLogins(User.Identity.GetUserId());
+            var linkedAccounts = _userManager.GetLogins(User.Identity.GetUserId());
             ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
             return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && UserManager != null)
+            if (disposing && _userManager != null)
             {
-                UserManager.Dispose();
-                UserManager = null;
+                _userManager.Dispose();
+                //_userManager = null;
             }
             base.Dispose(disposing);
         }
@@ -334,19 +330,11 @@ namespace WebSite.Controllers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
-
         private async Task SignInAsync(ApplicationUser user, bool isPersistent)
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-            var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-            AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
+            _authenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            var identity = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+            _authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
         }
 
         private void AddErrors(IdentityResult result)
@@ -359,7 +347,7 @@ namespace WebSite.Controllers
 
         private bool HasPassword()
         {
-            var user = UserManager.FindById(User.Identity.GetUserId());
+            var user = _userManager.FindById(User.Identity.GetUserId());
             if (user != null)
             {
                 return user.PasswordHash != null;
