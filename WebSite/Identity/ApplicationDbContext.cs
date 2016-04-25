@@ -25,7 +25,7 @@ namespace WebSite.Identity
                 .ToTable("Users");
         }*/
 
-        public DbSet<ApplicationUser.ToDo> ToDoes { get; set; }
+       //public DbSet<ApplicationUser.ToDo> ToDoes { get; set; }
 
         // This is useful if you do not want to tear down the database each time you run the application.
         // You want to create a new database if the Model changes
@@ -59,7 +59,7 @@ namespace WebSite.Identity
                 //Create User=Admin with password=123456
                 var user = new ApplicationUser();
                 user.UserName = name;
-                user.WorkNumber = "Unknown region of the Galaxy";
+                user.PhoneNumber = "Unknown region of the Galaxy";
                 user.FirstName = "Dread Pirate";
                 user.LastName = "Roberts";
                 var adminresult = UserManager.Create(user, password);

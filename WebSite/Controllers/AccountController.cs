@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using WebLib.Models;
 using WebSite.Identity;
 using WebSite.Models;
 
@@ -79,7 +80,7 @@ namespace WebSite.Controllers
                 var user = new ApplicationUser() { UserName = model.UserName };
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
-                user.WorkNumber = model.WorkNumber;
+                user.PhoneNumber = model.WorkNumber;
 
                 // Store Gender as Claim
                 user.Claims.Add(new IdentityUserClaim() { ClaimType = ClaimTypes.Gender, ClaimValue = "Male" });

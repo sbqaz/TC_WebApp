@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using WebLib.Models;
 using WebSite.Identity;
 using WebSite.Models;
 
@@ -67,7 +68,7 @@ namespace WebSite.Controllers
                 user.UserName = userViewModel.UserName;
                 user.FirstName = userViewModel.FirstName;
                 user.LastName = userViewModel.LastName;
-                user.WorkNumber = userViewModel.WorkNumber;
+                user.PhoneNumber = userViewModel.WorkNumber;
                 var adminresult = await _userManager.CreateAsync(user, userViewModel.Password);
 
                 //Add User Admin to Role Admin
@@ -135,7 +136,7 @@ namespace WebSite.Controllers
             user.UserName = formuser.UserName;
             user.FirstName = formuser.FirstName;
             user.LastName = formuser.LastName;
-            user.WorkNumber = formuser.WorkNumber;
+            user.PhoneNumber = formuser.PhoneNumber;
             if (ModelState.IsValid)
             {
                 //Update the user details

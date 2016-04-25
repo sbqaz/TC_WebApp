@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using WebLib.Models;
 using WebSite.Identity;
 
 namespace WebSite.Controllers
@@ -28,7 +29,7 @@ namespace WebSite.Controllers
             // Recover the profile information about the logged in user
             ViewBag.FirstName = currentUser.FirstName;
             ViewBag.LastName = currentUser.LastName;
-            ViewBag.WorkNumber = currentUser.WorkNumber;
+            ViewBag.WorkNumber = currentUser.PhoneNumber;
             return View();
         }
 

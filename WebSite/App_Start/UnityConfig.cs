@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
+using WebLib.Models;
 using WebSite.Controllers;
 using WebSite.Identity;
 

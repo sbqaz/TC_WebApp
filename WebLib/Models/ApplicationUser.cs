@@ -1,10 +1,9 @@
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace WebSite.Identity
+namespace WebLib.Models
 {
     public class ApplicationUser : IdentityUser
     {
@@ -17,18 +16,9 @@ namespace WebSite.Identity
         }
 
         // 3 additional rows added to User in ASPNetUsers
-        public string WorkNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
-
-        // Not implemented
-        public class ToDo
-        {
-            public int Id { get; set; }
-            public string Description { get; set; }
-            public bool IsDone { get; set; }
-            public virtual ApplicationUser User { get; set; }
-        }
+        public bool EmailNotification { get; set; }
+        public bool SMSNotification { get; set; }
     }
 }
