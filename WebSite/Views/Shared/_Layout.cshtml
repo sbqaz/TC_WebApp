@@ -1,43 +1,111 @@
-﻿<!DOCTYPE html>
-<html>
+﻿@RenderSection("scripts", required: false)
+
+@using System.Web.Mvc.Html
+@using Microsoft.AspNet.Identity
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" Content="IE=edge">
+    <meta name="viewport" Content="width=device-width, initial-scale=1">
+    <meta name="description" Content="Trafikstyring i Randers Kommune">
+    <meta name="author" Content="I4PRJ gruppe 01">
+
+    <title>TrafficControl 2k16</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="~/Content/css/sb-admin.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
+
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle menu</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                <a class="navbar-brand" href='@Url.Action("Index", "Home")'>TrafficControl</a>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Sager", "Index", "ToDo")</li>
-                    <li>@Html.ActionLink("Not used atm", "All", "ToDo")</li>
-                    <li>@Html.ActionLink("Roller", "Index", "RolesAdmin")</li>
-                    <li>@Html.ActionLink("Brugere", "Index", "UsersAdmin")</li>
-                </ul>
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-middle top-nav">
                 @Html.Partial("_LoginPartial")
+
+            </ul>
+
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li>
+                        <a href='@Url.Action("Index", "Home")'><i class="fa fa-fw fa-dashboard"></i> Index</a>
+                    </li>
+                    <li>
+                        <a href='@Url.Action("Index", "Case")'><i class="fa fa-fw fa-bar-chart-o"></i> Sager</a>
+                    </li>
+                    <li>
+                        <a href='@Url.Action("Index", "RolesAdmin")'><i class="fa fa-fw fa-bar-chart-o"></i> Roller</a>
+                    </li>
+                    <li>
+                        <a href='@Url.Action("Index", "UsersAdmin")'><i class="fa fa-fw fa-wrench"></i> Brugere</a>
+                    </li>
+                </ul>
             </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="content-wrapper">
+                    <div class="col-lg-12">
+                        @RenderBody()
+                    </div>
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.container-fluid -->
+
         </div>
+        <!-- /#page-wrapper -->
+
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="~/Content/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Content/js/bootstrap.min.js"></script>
 </body>
+
 </html>
+
+
+

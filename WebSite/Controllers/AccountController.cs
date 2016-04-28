@@ -152,7 +152,8 @@ namespace WebSite.Controllers
         {
             _authenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
-        }
+			//return RedirectToAction("Login", "Account");
+		}
 
         //
         // GET: /Account/ExternalLoginFailure

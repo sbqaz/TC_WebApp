@@ -5,11 +5,15 @@
     {
         @Html.AntiForgeryToken()
 
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar">
             <li>
-            <li>@Html.ActionLink("Min Profil", "Profile", "Home")</li>
+                <li>
+                    @Html.ActionLink("Min Profil", "Profile", "Home")
+                </li>
+                <li>
+                    <a href="javascript:document.getElementById('logoutForm').submit()">Log ud</a>
+                </li>
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
     }
 }
