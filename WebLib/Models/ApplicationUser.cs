@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -17,9 +18,13 @@ namespace WebLib.Models
         }
 
         // 4 additional rows added to User in ASPNetUsers
+        [DisplayName("Fornavn")]
         public string FirstName { get; set; }
+        [DisplayName("Efternavn")]
         public string LastName { get; set; }
+        [DisplayName("Email notifikation")]
         public bool EmailNotification { get; set; }
+        [DisplayName("SMS notifikationer")]
         public bool SMSNotification { get; set; }
     }
 }

@@ -69,7 +69,7 @@ namespace WebSite.Controllers
                 user.UserName = userViewModel.Email;
                 user.FirstName = userViewModel.FirstName;
                 user.LastName = userViewModel.LastName;
-                user.PhoneNumber = userViewModel.WorkNumber;
+                user.PhoneNumber = userViewModel.PhoneNumber;
                 var adminresult = await _userManager.CreateAsync(user, userViewModel.Password);
 
                 //Add User Admin to Role Admin

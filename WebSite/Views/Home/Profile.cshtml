@@ -5,10 +5,10 @@
 <hr />
 <dl class="dl-horizontal">
     <dt>
-        @Html.DisplayNameFor(model => model.UserName)
+        @Html.DisplayNameFor(model => model.Email)
     </dt>
     <dd>
-        @Html.DisplayFor(model => model.UserName)
+        @Html.DisplayFor(model => model.Email)
     </dd>
     <dt>
         @Html.DisplayNameFor(model => model.FirstName)
@@ -23,7 +23,7 @@
         @Html.DisplayFor(model => model.LastName)
     </dd>
     <dt>
-        @Html.DisplayNameFor(model => model.PhoneNumber)
+        @Html.LabelFor(model => model.PhoneNumber, "Telefon nummer")
     </dt>
     <dd>
         @Html.DisplayFor(model => model.PhoneNumber)
@@ -31,23 +31,27 @@
 </dl>
 
 <li>
-    @Html.ActionLink("Change password", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Password" })
+    @Html.ActionLink("Skift password", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Password" })
 </li>
 <b>
     Indstillinger for notifikationer
 </b>
+
 <dl class="dl-horizontal">
     <dt>
         @Html.DisplayNameFor(model => model.EmailNotification)
     </dt>
     <dd>
-        @Html.CheckBoxFor(model => model.EmailNotification);
+        @Html.CheckBoxFor(model => model.EmailNotification)
     </dd>
     <dt>
         @Html.DisplayNameFor(model => model.SMSNotification)
     </dt>
     <dd>
-        @Html.CheckBoxFor(m => m.SMSNotification, new { @checked = true });
+        @Html.CheckBoxFor(model => model.SMSNotification)
     </dd>
-
 </dl>
+
+<div class="form-actions no-color">
+    <input type="submit" value="Opdater" class="btn" />
+</div>

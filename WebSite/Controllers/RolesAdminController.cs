@@ -16,12 +16,10 @@ namespace WebSite.Controllers
     [Authorize(Roles = "Admin")]
     public class RolesAdminController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public RolesAdminController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public RolesAdminController(RoleManager<IdentityRole> roleManager)
         {
-            this._userManager = userManager;
             this._roleManager = roleManager;
         }
 
