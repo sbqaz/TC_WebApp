@@ -10,7 +10,7 @@ namespace WebSite.Identity
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("LocalTestConnection", throwIfV1Schema: false)
+            : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 
@@ -30,7 +30,7 @@ namespace WebSite.Identity
         // This is useful if you do not want to tear down the database each time you run the application.
         // You want to create a new database if the Model changes
         // public class MyDbInitializer : DropCreateDatabaseIfModelChanges<MyDbContext>
-        public class MyDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+        public class MyDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
         {
             protected override void Seed(ApplicationDbContext context)
             {
@@ -44,11 +44,11 @@ namespace WebSite.Identity
                 var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
                 string name = "Admin";
                 string password = "123456";
-                string test = "test";
+                //string test = "test";
 
                 //Create Role Test and User Test
-                RoleManager.Create(new IdentityRole(test));
-                UserManager.Create(new ApplicationUser() { UserName = test });
+                //RoleManager.Create(new IdentityRole(test));
+                //UserManager.Create(new ApplicationUser() { UserName = test });
 
                 //Create Role Admin if it does not exist
                 if (!RoleManager.RoleExists(name))

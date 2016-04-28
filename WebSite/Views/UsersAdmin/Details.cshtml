@@ -1,5 +1,5 @@
 ﻿@model WebLib.Models.ApplicationUser
-
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Details";
 }
@@ -29,14 +29,14 @@
             @Html.DisplayFor(model => model.LastName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.WorkNumber)
+            @Html.DisplayNameFor(model => model.PhoneNumber)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.WorkNumber)
+            @Html.DisplayFor(model => model.PhoneNumber)
         </dd>
     </dl>
 </div>
-<h4>List Of Roles</h4>
+@*<h4>List Of Roles</h4>
 <table class="table table-striped">
 
     @foreach (var item in Model.Roles)
@@ -47,21 +47,8 @@
             </td>
         </tr>
     }
-</table>
+</table>*@
 
-<h4>List Of Logins</h4>
-<table class="table table-striped">
-
-    @foreach (var item in Model.Logins)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LoginProvider)
-            </td>
-        </tr>
-    }
-
-</table>
 
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

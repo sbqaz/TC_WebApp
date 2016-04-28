@@ -1,27 +1,53 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
-<b>
-    My Profile information is as following:
-</b>
-<p>
-    FirstName = @ViewBag.FirstName
-</p>
-<p>
-    LastName = @ViewBag.LastName
-</p>
-<p>
-    WorkNumber = @ViewBag.WorkNumber
-</p>
-<b>
-    My Claims are as follows
-</b>
-@{
+﻿@using Microsoft.AspNet.Identity
+@model WebLib.Models.ApplicationUser
 
-    System.Security.Claims.ClaimsPrincipal claimsPrincipal = Context.User as System.Security.Claims.ClaimsPrincipal;
-    System.Security.Claims.ClaimsIdentity id = claimsPrincipal.Identity as System.Security.Claims.ClaimsIdentity;
-    foreach (var claim in id.Claims)
-    {
-        <p>Claim: @claim.ToString()</p>
-    }
-}
+<h4>User</h4>
+<hr />
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.UserName)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.UserName)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.FirstName)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.FirstName)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.LastName)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.LastName)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.PhoneNumber)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.PhoneNumber)
+    </dd>
+</dl>
+
+<li>
+    @Html.ActionLink("Change password", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Password" })
+</li>
+<b>
+    Indstillinger for notifikationer
+</b>
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.EmailNotification)
+    </dt>
+    <dd>
+        @Html.CheckBoxFor(model => model.EmailNotification);
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.SMSNotification)
+    </dt>
+    <dd>
+        @Html.CheckBoxFor(m => m.SMSNotification, new { @checked = true });
+    </dd>
+
+</dl>
