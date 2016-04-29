@@ -14,7 +14,6 @@ namespace WebLib.DependencyInjection
         public DbSet<Case> Cases { get; set; }
         public DbSet<Installation> Installations { get; }
         public DbSet<Position> Positions { get; }
-        public DbSet<User> Users { get; }
         public DbSet<Notification> Notifications { get; }
 
         public int SaveChanges()
@@ -25,7 +24,6 @@ namespace WebLib.DependencyInjection
         public void MarkAsModified(Case item) { }
         public void MarkAsModified(Installation item) { }
         public void MarkAsModified(Position item) { }
-        public void MarkAsModified(User item) { }
         public void MarkAsModified(Notification item) { }
 
         public void Dispose() { }

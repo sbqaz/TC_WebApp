@@ -256,25 +256,24 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstallationController.cs" />
     <Compile Include="Controllers\PositionController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604180658264_User.cs" />
-    <Compile Include="Migrations\201604180658264_User.Designer.cs">
-      <DependentUpon>201604180658264_User.cs</DependentUpon>
+    <Compile Include="Migrations\201604280801430_new.cs" />
+    <Compile Include="Migrations\201604280801430_new.Designer.cs">
+      <DependentUpon>201604280801430_new.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604180807456_User1.cs" />
-    <Compile Include="Migrations\201604180807456_User1.Designer.cs">
-      <DependentUpon>201604180807456_User1.cs</DependentUpon>
+    <Compile Include="Migrations\201604290633077_Update.cs" />
+    <Compile Include="Migrations\201604290633077_Update.Designer.cs">
+      <DependentUpon>201604290633077_Update.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604181736253_Notification.cs" />
-    <Compile Include="Migrations\201604181736253_Notification.Designer.cs">
-      <DependentUpon>201604181736253_Notification.cs</DependentUpon>
+    <Compile Include="Migrations\201604290645474_Update1.cs" />
+    <Compile Include="Migrations\201604290645474_Update1.Designer.cs">
+      <DependentUpon>201604290645474_Update1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604250637345_Status.cs" />
-    <Compile Include="Migrations\201604250637345_Status.Designer.cs">
-      <DependentUpon>201604250637345_Status.cs</DependentUpon>
+    <Compile Include="Migrations\201604290655333_Update2.cs" />
+    <Compile Include="Migrations\201604290655333_Update2.Designer.cs">
+      <DependentUpon>201604290655333_Update2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -367,17 +366,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201604180658264_User.resx">
-      <DependentUpon>201604180658264_User.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201604280801430_new.resx">
+      <DependentUpon>201604280801430_new.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604180807456_User1.resx">
-      <DependentUpon>201604180807456_User1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201604290633077_Update.resx">
+      <DependentUpon>201604290633077_Update.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604181736253_Notification.resx">
-      <DependentUpon>201604181736253_Notification.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201604290645474_Update1.resx">
+      <DependentUpon>201604290645474_Update1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604250637345_Status.resx">
-      <DependentUpon>201604250637345_Status.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201604290655333_Update2.resx">
+      <DependentUpon>201604290655333_Update2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

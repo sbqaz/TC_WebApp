@@ -3,16 +3,16 @@ namespace API.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Status : DbMigration
+    public partial class Update1 : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.Cases", "Status", c => c.Int(nullable: false));
+            AddColumn("dbo.Cases", "UserComment", c => c.String());
         }
         
         public override void Down()
         {
-            DropColumn("dbo.Cases", "Status");
+            DropColumn("dbo.Cases", "UserComment");
         }
     }
 }

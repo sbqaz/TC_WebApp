@@ -24,7 +24,6 @@ namespace API.Models
         public DbSet<Case> Cases { get; set; }
         public DbSet<Installation> Installations { get; set; }
         public DbSet<Position> Positions { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Notification> Notifications { get; set; } 
 
         //Code for unit test
@@ -39,11 +38,6 @@ namespace API.Models
         }
 
         public void MarkAsModified(Position item)
-        {
-            Entry(item).State = EntityState.Modified;
-        }
-
-        public void MarkAsModified(User item)
         {
             Entry(item).State = EntityState.Modified;
         }

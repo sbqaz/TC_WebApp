@@ -10,6 +10,7 @@ namespace WebLib.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
+        [Required]
         public string Msg { get; set; }
 
         public string BuildNewCaseString(string instaName, string instaAddr)

@@ -27,14 +27,6 @@ namespace WebLib.DependencyInjection
         }
     }
 
-    public class TestUserDbSet : TestDbSet<User>
-    {
-        public override User Find(params object[] keyValues)
-        {
-            return this.SingleOrDefault(user => user.Id == (string)keyValues.Single());
-        }
-    }
-
     public class TestNotificationDbSet : TestDbSet<Notification>
     {
         public override Notification Find(params object[] keyValues)

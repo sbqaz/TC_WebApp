@@ -9,12 +9,14 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using API.Models;
+using Microsoft.AspNet.Identity;
 using WebLib.DependencyInjection;
 using WebLib.Models;
 
 namespace API.Controllers
 {
     [Authorize]
+    [RoutePrefix("api/Case")]
     public class CaseController : ApiController
     {
         private IAppContext db = new ApiContext();
@@ -45,6 +47,56 @@ namespace API.Controllers
             return Ok(@case);
         }
 
+        // GET: api/GetMyCases
+        [Route("MyCases")]
+        public IQueryable<Case> GetMyCases()
+        {
+            var @case = from c in db.Cases
+                          where c.Worker == RequestContext.Principal.Identity.GetUserId()
+                          select new Case()
+                          {
+                              Id = c.Id,
+                              InstallationId = c.InstallationId,
+                              Status = c.Status,
+                              Worker = c.Worker,
+                              Time = c.Time,
+                              Observer = c.Observer,
+                              ErrorDescription = c.ErrorDescription,
+                              MadePepair = c.MadePepair
+                          };
+
+            return @case;
+        }
+
+        // PUT: api/Case/ClaimCase
+        [Route("ClaimCase")]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutClaimCase(long id)
+        {
+            Case temp = db.Cases.Find(id);
+            temp.Worker = RequestContext.Principal.Identity.GetUserId();
+            db.MarkAsModified(temp);
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CaseExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+
         // PUT: api/Case/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutCase(long id, Case @case)
@@ -61,9 +113,15 @@ namespace API.Controllers
 
             //db.Entry(@case).State = EntityState.Modified;
             db.MarkAsModified(@case);
-            Notification noti = new Notification();
-            noti.Msg = noti.BuildStatusChangedCase(db.Installations.Find(@case.InstallationId).Name,
-                db.Installations.Find(@case.InstallationId).Address, db.Cases.Find(@case.Id).Status, @case.Status);
+            
+            // Check if case status changed
+            if (@case.Status != db.Cases.Find(id).Status)
+            {
+                Notification noti = new Notification();
+                noti.Msg = noti.BuildStatusChangedCase(db.Installations.Find(@case.InstallationId).Name,
+                    db.Installations.Find(@case.InstallationId).Address, db.Cases.Find(@case.Id).Status, @case.Status);
+            }
+            
 
             try
             {
@@ -94,6 +152,7 @@ namespace API.Controllers
             }
 
             @case.Status = (int)Case.CaseStatus.created;
+            @case.Time = DateTime.Now;
             db.Cases.Add(@case);
             
             Notification noti = new Notification();

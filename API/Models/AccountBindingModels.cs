@@ -31,7 +31,7 @@ namespace API.Models
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
-
+    //
     public class RegisterBindingModel
     {
         [Required]
@@ -48,6 +48,19 @@ namespace API.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        public string PhoneNumber { get; set; }
+
+        [Required]
+        [Range(0, 2)]
+        public int Role { get; set; }
     }
 
     public class RegisterExternalBindingModel
@@ -80,5 +93,38 @@ namespace API.Models
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+
+    public enum UserRoles
+    {
+        Bruger = 0,
+        Montør = 1,
+        Admin = 2
+    }
+
+    public class GetUserInfo
+    {
+        public string Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        [Range(0, 2)]
+        public int Role { get; set; }
+        public bool EmailNotification { get; set; }
+        public bool SMSNotification { get; set; }
+    }
+
+    public class PutUserInfo
+    {
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
+        [Required]
+        public string PhoneNumber { get; set; }
+        [Required]
+        public bool EmailNotification { get; set; }
+        [Required]
+        public bool SMSNotification { get; set; }
     }
 }

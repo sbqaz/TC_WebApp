@@ -9,7 +9,7 @@ namespace API.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(API.Models.ApiContext context)

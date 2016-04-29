@@ -12,6 +12,6 @@ namespace WebLib.Models
         [Required]
         public double Latitude { get; set; }
         [Required]
-        public double Logitude { get; set; }
+        public double Longitude { get; set; }
     }
 }

@@ -17,6 +17,7 @@ namespace WebLib.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
+        [Required]
         public long InstallationId { get; set; }
         [Range(0, 3)]
         public int Status { get; set; }
@@ -25,7 +26,6 @@ namespace WebLib.Models
         public int Observer { get; set; }
         public string ErrorDescription { get; set; }
         public string MadePepair { get; set; }
-
-
+        public string UserComment { get; set; }
     }
 }
