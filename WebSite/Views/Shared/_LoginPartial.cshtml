@@ -8,7 +8,7 @@
         <ul class="nav navbar-nav navbar">
             <li>
                 <li>
-                    @Html.ActionLink("Min Profil", "Profile", "Home")
+                    @Html.ActionLink(@User.Identity.GetUserName(), "Profile", "Home")
                 </li>
                 <li>
                     <a href="javascript:document.getElementById('logoutForm').submit()">Log ud</a>

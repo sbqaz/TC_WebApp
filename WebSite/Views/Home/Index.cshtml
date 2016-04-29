@@ -1,8 +1,11 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+@{
     ViewBag.Title = "Index";
 }
 
 <div class="jumbotron">
-    <h1>Velkommen til TrafficControl</h1>
-    <p class="lead">Naviger via menuen til venstre.</p>
+    <h2>Velkommen til TrafficControl, @User.Identity.GetUserName()</h2>
+</div>
+<div>
+    TrafficControl er en fælles grænseflade for den aktuelle status samt historik for samtlige lyskryds i Randers Kommune. Portalen kan anvendes af medarbejdere ved Randers Kommune samt ansatte ved elektrikerfirmaet Strøm Hansen.
 </div>

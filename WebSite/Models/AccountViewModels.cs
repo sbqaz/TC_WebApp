@@ -26,15 +26,15 @@ namespace WebSite.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "Email")]
         public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Adgangskode")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Tryk her for at gemme log-in oplysninger")]
         public bool RememberMe { get; set; }
     }
 }
