@@ -10,6 +10,7 @@ using WebSite.Identity;
 
 namespace WebSite.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Index()
