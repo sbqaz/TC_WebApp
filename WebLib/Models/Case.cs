@@ -21,17 +21,14 @@ namespace WebLib.Models
 
         public enum ObserverSelection
         {
+			[Display(Name = "Politi")]
             police = 1,
-            user = 2,
-            thirdPart = 3,
-            own = 4,
-            alarm = 5,
-            lightError = 6,
-            toneSignal = 7,
-            pedestrianPush = 8,
-            shutdownError = 9,
-            trafficInjury = 10,
-            detectorError = 11
+			[Display(Name = "Randers Kommune")]
+			user = 2,
+			[Display(Name = "Tredjemand")]
+			thirdPart = 3,
+			[Display(Name = "Egen observation")]
+			own = 4
         }
 
         [Key]
@@ -40,18 +37,12 @@ namespace WebLib.Models
 		[DisplayName("Trafiklysets ID")]
 		[Required]
         public long InstallationId { get; set; }
-        [Range(0, 3)]
-
 		[DisplayName("Ansvarlig")]
 		public string Worker { get; set; }
 		[DisplayName("Tidspunkt for oprettelse")]
 		public DateTime Time { get; set; }
-
+		[DisplayName("Aktuel status")]
         public CaseStatus Status { get; set; }
-        public string Worker { get; set; }
-        public DateTime Time { get; set; }
-
-        [Range(0, 10)]
 		[DisplayName("Anmelder")]
 		public ObserverSelection Observer { get; set; }
 		[DisplayName("Fejlbeskrivelse")]

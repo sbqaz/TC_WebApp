@@ -4,12 +4,6 @@
         <name>WebLib</name>
     </assembly>
     <members>
-        <member name="P:WebLib.Models.Case.Observer">
-            <summary>
-            test hest
-            </summary>
-            <param name="Observer"> test test </param>
-        </member>
         <member name="P:WebLib.Models.Installation.Status">
             <summary>
             Status of the installation.
