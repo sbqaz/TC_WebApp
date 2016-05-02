@@ -22,36 +22,15 @@ namespace WebLib.Models
             return stringBuilder.ToString();
         }
 
-        public string BuildStatusChangedCase(string instaName, string instaAddr, int oldStatus, int newStatus)
+        public string BuildStatusChangedCase(string instaName, string instaAddr, Case.CaseStatus oldStatus, Case.CaseStatus newStatus)
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("Status er ændret på sag for lyskrudet: \n");
             stringBuilder.Append(instaName + "\n");
             stringBuilder.Append(instaAddr + "\n");
-            stringBuilder.Append("Ny status er: " + IntToCaseStatus(newStatus) + "\n");
-            stringBuilder.Append("Tidligere status er: " + IntToCaseStatus(oldStatus) + "\n");
+            stringBuilder.Append("Ny status er: " + newStatus + "\n");
+            stringBuilder.Append("Tidligere status er: " + oldStatus + "\n");
             return stringBuilder.ToString();
-        }
-
-        private string IntToCaseStatus(int s)
-        {
-            string returnString = "";
-            switch (s)
-            {
-                case  (int)Case.CaseStatus.created:
-                    returnString = "Oprettet";
-                    break;
-                case (int)Case.CaseStatus.started:
-                    returnString =  "I gang";
-                    break;
-                case (int)Case.CaseStatus.done:
-                    returnString =  "Færdig";
-                    break;
-                case (int)Case.CaseStatus.pending:
-                    returnString =  "Afventer";
-                    break;
-            }
-            return returnString;
         }
     }
     

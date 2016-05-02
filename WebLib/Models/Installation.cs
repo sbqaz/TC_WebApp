@@ -18,12 +18,6 @@ namespace WebLib.Models
         public long Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
-        /// <summary>
-        /// Status of the installation.
-        /// Green = 0
-        /// Yellow = 1
-        /// Red = 2
-        /// </summary>
         public InstalStatus Status { get; set; }
         public Position Position { get; set; }
     }

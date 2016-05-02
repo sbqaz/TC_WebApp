@@ -50,7 +50,6 @@ namespace WebLib.Models
 		[DisplayName("Repareret af")]
 		public string MadeRepair { get; set; }
 		[DisplayName("Kommentarer")]
-
         public string UserComment { get; set; }
     }
 }
