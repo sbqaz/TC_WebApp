@@ -71,5 +71,7 @@ namespace WebSite.Identity
                 }
             }
         }
-    }
+
+		public System.Data.Entity.DbSet<WebLib.Models.Case> Cases { get; set; }
+	}
 }

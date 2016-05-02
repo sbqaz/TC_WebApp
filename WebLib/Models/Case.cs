@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -56,7 +57,9 @@ namespace WebLib.Models
         [Range(0, 10)]
         public int Observer { get; set; }
         public string ErrorDescription { get; set; }
-        public string MadePepair { get; set; }
+		[DisplayName("")]
+		public string MadeRepair { get; set; }
+		[DisplayName("Kommentarer")]
         public string UserComment { get; set; }
     }
 }

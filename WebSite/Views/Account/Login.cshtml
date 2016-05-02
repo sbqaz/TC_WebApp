@@ -1,14 +1,15 @@
-@model WebSite.Models.LoginViewModel
+ï»¿@model WebSite.Models.LoginViewModel
 @{
     ViewBag.Title = "Velkommen til TrafficControl";
     Layout = null;
-}
+    Scripts.Render("~/bundles/jqueryval");
 
+}
+    
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" Content="IE=edge">
     <meta name="viewport" Content="width=device-width, initial-scale=1">
@@ -62,7 +63,7 @@
                                     @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
-                                        <h4>Log ind med email og adgangskode for at få adgang til TrafficControl</h4>
+                                        <h4>Log ind med email og adgangskode for at fï¿½ adgang til TrafficControl</h4>
                                         <hr />
                                         @Html.ValidationSummary(true)
                                         <div class="form-group">
@@ -116,6 +117,3 @@
 </body>
 
 </html>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

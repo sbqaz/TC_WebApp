@@ -62,7 +62,7 @@ namespace API.Controllers
                               Time = c.Time,
                               Observer = c.Observer,
                               ErrorDescription = c.ErrorDescription,
-                              MadePepair = c.MadePepair
+                              MadeRepair = c.MadeRepair
                           };
 
             return @case;
