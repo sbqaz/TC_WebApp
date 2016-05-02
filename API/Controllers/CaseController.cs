@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -28,10 +29,12 @@ namespace API.Controllers
             db = context;
         }
 
-       // GET: api/Case
+        /// <summary>
+        /// Gives last 1000 cases
+        /// </summary>
         public IQueryable<Case> GetCases()
         {
-            return db.Cases;
+            return db.Cases.Take(1000);
         }
 
         // GET: api/Case/5
@@ -121,7 +124,25 @@ namespace API.Controllers
                 noti.Msg = noti.BuildStatusChangedCase(db.Installations.Find(@case.InstallationId).Name,
                     db.Installations.Find(@case.InstallationId).Address, db.Cases.Find(@case.Id).Status, @case.Status);
             }
-            
+
+            SqlConnection con = new SqlConnection("DefaultConnection");
+            switch (@case.Status)
+            {
+                case (int)Case.CaseStatus.created:
+                    db.Installations.Find(@case.InstallationId).Status = (int)Installation.InstalStatus.Red;
+                    break;
+                case (int)Case.CaseStatus.started:
+                    db.Installations.Find(@case.InstallationId).Status = (int)Installation.InstalStatus.Red;
+                    break;
+                case (int)Case.CaseStatus.pending:
+                    SqlCommand cmd = new SqlCommand("SELECT Id FROM dbo.Cases WHERE InstallationId=@insId AND Status=1", con);
+
+                    db.Installations.Find(@case.InstallationId).Status = (int)Installation.InstalStatus.Yellow;
+                    break;
+                case (int)Case.CaseStatus.done:
+                    db.Installations.Find(@case.InstallationId).Status = (int)Installation.InstalStatus.Green;
+                    break;
+            }
 
             try
             {
@@ -152,6 +173,8 @@ namespace API.Controllers
             }
 
             @case.Status = (int)Case.CaseStatus.created;
+            db.Installations.Find(@case.InstallationId).Status = (int)Installation.InstalStatus.Red;
+
             @case.Time = DateTime.Now;
             db.Cases.Add(@case);
             
@@ -159,6 +182,7 @@ namespace API.Controllers
             noti.Msg = noti.BuildNewCaseString(db.Installations.Find(@case.InstallationId).Name, db.Installations.Find(@case.InstallationId).Address);
             db.Notifications.Add(noti);
 
+            
             db.SaveChanges();
             return CreatedAtRoute("DefaultApi", new { id = @case.Id }, @case);
         }
