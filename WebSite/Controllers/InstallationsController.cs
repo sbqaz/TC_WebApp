@@ -11,113 +11,112 @@ using WebSite.Identity;
 
 namespace WebSite.Controllers
 {
-    public class CasesController : Controller
+    public class InstallationsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private ApplicationDbContext _context;
 
-	    public CasesController(ApplicationDbContext context)
+	    public InstallationsController(ApplicationDbContext context)
 	    {
-		    this._context = context;
+		    _context = context;
 	    }
 
-        // GET: Cases
+        // GET: Installations
         public ActionResult Index()
         {
-            return View(_context.Cases.ToList());
+            return View(_context.Installations.ToList());
         }
 
-        // GET: Cases/Details/5
+        // GET: Installations/Details/5
         public ActionResult Details(long? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Case @case = _context.Cases.Find(id);
-            if (@case == null)
+            Installation installation = _context.Installations.Find(id);
+            if (installation == null)
             {
                 return HttpNotFound();
             }
-            return View(@case);
+            return View(installation);
         }
 
-        // GET: Cases/Create
+    /*    // GET: Installations/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Cases/Create
+        // POST: Installations/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,InstallationId,Status,Worker,Observer,ErrorDescription,MadeRepair,UserComment")] Case @case)
+        public ActionResult Create([Bind(Include = "Id,Name,Address,Status")] Installation installation)
         {
             if (ModelState.IsValid)
             {
-				@case.Time = DateTime.Now;
-                _context.Cases.Add(@case);
+                _context.Installations.Add(installation);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(@case);
+            return View(installation);
         }
 
-        // GET: Cases/Edit/5
+        // GET: Installations/Edit/5
         public ActionResult Edit(long? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Case @case = _context.Cases.Find(id);
-            if (@case == null)
+            Installation installation = _context.Installations.Find(id);
+            if (installation == null)
             {
                 return HttpNotFound();
             }
-            return View(@case);
+            return View(installation);
         }
 
-        // POST: Cases/Edit/5
+        // POST: Installations/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,InstallationId,Status,Worker,Time,Observer,ErrorDescription,MadeRepair,UserComment")] Case @case)
+        public ActionResult Edit([Bind(Include = "Id,Name,Address,Status")] Installation installation)
         {
             if (ModelState.IsValid)
             {
-                _context.Entry(@case).State = EntityState.Modified;
+                _context.Entry(installation).State = EntityState.Modified;
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(@case);
+            return View(installation);
         }
 
-        // GET: Cases/Delete/5
+        // GET: Installations/Delete/5
         public ActionResult Delete(long? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Case @case = _context.Cases.Find(id);
-            if (@case == null)
+            Installation installation = _context.Installations.Find(id);
+            if (installation == null)
             {
                 return HttpNotFound();
             }
-            return View(@case);
+            return View(installation);
         }
 
-        // POST: Cases/Delete/5
+        // POST: Installations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {
-            Case @case = _context.Cases.Find(id);
-            _context.Cases.Remove(@case);
+            Installation installation = _context.Installations.Find(id);
+            _context.Installations.Remove(installation);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -129,6 +128,6 @@ namespace WebSite.Controllers
                 _context.Dispose();
             }
             base.Dispose(disposing);
-        }
+        }*/
     }
 }
