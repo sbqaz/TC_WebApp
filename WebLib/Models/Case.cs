@@ -16,17 +16,17 @@ namespace WebLib.Models
 
         public enum ObserverSelection
         {
-            police = 0,
-            user = 1,
-            thirdPart = 2,
-            own = 3,
-            alarm = 4,
-            lightError = 5,
-            toneSignal = 6,
-            pedestrianPush = 7,
-            shutdownError = 8,
-            trafficInjury = 9,
-            detectorError = 10
+            police = 1,
+            user = 2,
+            thirdPart = 3,
+            own = 4,
+            alarm = 5,
+            lightError = 6,
+            toneSignal = 7,
+            pedestrianPush = 8,
+            shutdownError = 9,
+            trafficInjury = 10,
+            detectorError = 11
         }
 
         [Key]
@@ -35,28 +35,19 @@ namespace WebLib.Models
         [Required]
         public long InstallationId { get; set; }
         [Range(0, 3)]
-        public int Status { get; set; }
+        public CaseStatus Status { get; set; }
         public string Worker { get; set; }
         public DateTime Time { get; set; }
 
         /// <summary>
-        /// Observer that reportet the case.
-        /// police = 0
-        /// user = 1
-        /// thirdPart = 2
-        /// own = 3
-        /// alarm = 4
-        /// lightError = 5
-        /// toneSignal = 6
-        /// pedestrianPush = 7
-        /// shutdownError = 8
-        /// trafficInjury = 9
-        /// detectorError = 10
+        /// test hest
         /// </summary>
-        [Range(0, 10)]
-        public int Observer { get; set; }
+        /// <param name="Observer"> test test </param>
+        [Range(0, 11)]
+        public ObserverSelection Observer { get; set; }
         public string ErrorDescription { get; set; }
         public string MadeRepair { get; set; }
         public string UserComment { get; set; }
     }
 }
+
