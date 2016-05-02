@@ -1,4 +1,7 @@
-﻿@model IEnumerable<WebLib.Models.Case>
+﻿@using System.ComponentModel.DataAnnotations
+@using System.IdentityModel.Protocols.WSTrust
+@using WebLib.Models
+@model IEnumerable<WebLib.Models.Case>
 
 @{
     ViewBag.Title = "Sager";
@@ -9,6 +12,8 @@
 <p>
     @Html.ActionLink("Opret ny sag", "Create")
 </p>
+
+
 <table class="table">
     <tr>
         <th>
@@ -44,6 +49,7 @@
             @Html.DisplayFor(modelItem => item.InstallationId)
         </td>
         <td>
+
             @Html.DisplayFor(modelItem => item.Status)
         </td>
         <td>
@@ -65,9 +71,9 @@
             @Html.DisplayFor(modelItem => item.UserComment)
         </td>
         <td>
-            @Html.ActionLink("", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Rediger", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Detaljer", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Slet", "Delete", new { id=item.Id })
         </td>
     </tr>
 }
