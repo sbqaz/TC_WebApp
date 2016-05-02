@@ -284,6 +284,10 @@
     <Compile Include="Migrations\201605020838316_Update4.Designer.cs">
       <DependentUpon>201605020838316_Update4.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605021121379_Update5.cs" />
+    <Compile Include="Migrations\201605021121379_Update5.Designer.cs">
+      <DependentUpon>201605021121379_Update5.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -392,6 +396,9 @@
     <EmbeddedResource Include="Migrations\201605020838316_Update4.resx">
       <DependentUpon>201605020838316_Update4.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605021121379_Update5.resx">
+      <DependentUpon>201605021121379_Update5.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -399,7 +406,7 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
-    <Target Name="CustomCollectXmlDocumentationFiles">
+  <Target Name="CustomCollectXmlDocumentationFiles">
     <ItemGroup>
       <_CustomFiles Include="App_Data\XmlDocument.xml" />
       <_CustomFiles Include="App_Data\XmlDocumentWebLib.xml" />

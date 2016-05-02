@@ -142,24 +142,24 @@ namespace API.Controllers
             switch (@case.Status)
             {
                 case Case.CaseStatus.created:
-                    db.Installations.Find(@case.InstallationId).Status = (int)Installation.InstalStatus.Red;
+                    db.Installations.Find(@case.InstallationId).Status = Installation.InstalStatus.Red;
                     break;
                 case Case.CaseStatus.started:
-                    db.Installations.Find(@case.InstallationId).Status = (int)Installation.InstalStatus.Red;
+                    db.Installations.Find(@case.InstallationId).Status = Installation.InstalStatus.Red;
                     break;
                 case Case.CaseStatus.pending:
                     con.Open();
                     rdr = cmd.ExecuteReader();
                     if (rdr.HasRows)
                         break;
-                    db.Installations.Find(@case.InstallationId).Status = (int)Installation.InstalStatus.Yellow;
+                    db.Installations.Find(@case.InstallationId).Status = Installation.InstalStatus.Yellow;
                     break;
                 case Case.CaseStatus.done:
                     con.Open();
                     rdr = cmd.ExecuteReader();
                     if (rdr.HasRows)
                         break;
-                    db.Installations.Find(@case.InstallationId).Status = (int)Installation.InstalStatus.Green;
+                    db.Installations.Find(@case.InstallationId).Status = Installation.InstalStatus.Green;
                     break;
             }
 
@@ -192,7 +192,7 @@ namespace API.Controllers
             }
 
             @case.Status = (int)Case.CaseStatus.created;
-            db.Installations.Find(@case.InstallationId).Status = (int)Installation.InstalStatus.Red;
+            db.Installations.Find(@case.InstallationId).Status = Installation.InstalStatus.Red;
 
             @case.Time = DateTime.Now;
             db.Cases.Add(@case);

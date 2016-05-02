@@ -24,7 +24,7 @@ namespace WebLib.Models
         /// Yellow = 1
         /// Red = 2
         /// </summary>
-        public int Status { get; set; }
+        public InstalStatus Status { get; set; }
         public Position Position { get; set; }
     }
 }
