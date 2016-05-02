@@ -485,6 +485,14 @@
             <summary>
             Gives last 1000 cases
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.CaseController.GetCase(System.Int64)">
+            <summary>
+            Gives 1 case
+            </summary>
+            <param name="id">Id for the case</param>
+            <returns>Case whit the given id</returns>
         </member>
     </members>
 </doc>
