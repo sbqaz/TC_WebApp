@@ -4,13 +4,5 @@
         <name>WebLib</name>
     </assembly>
     <members>
-        <member name="P:WebLib.Models.Installation.Status">
-            <summary>
-            Status of the installation.
-            Green = 0
-            Yellow = 1
-            Red = 2
-            </summary>
-        </member>
     </members>
 </doc>
