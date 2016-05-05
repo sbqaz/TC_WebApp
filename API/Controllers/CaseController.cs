@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -28,12 +29,21 @@ namespace API.Controllers
             db = context;
         }
 
-       // GET: api/Case
+        /// <summary>
+        /// Gives last 1000 cases
+        /// </summary>
+        /// <returns></returns>
+        // GET: api/Case
         public IQueryable<Case> GetCases()
         {
-            return db.Cases;
+            return db.Cases.Take(1000);
         }
 
+        /// <summary>
+        /// Gives 1 case
+        /// </summary>
+        /// <param name="id">Id for the case</param>
+        /// <returns>Case whit the given id</returns>
         // GET: api/Case/5
         [ResponseType(typeof(Case))]
         public IHttpActionResult GetCase(long id)
@@ -62,7 +72,7 @@ namespace API.Controllers
                               Time = c.Time,
                               Observer = c.Observer,
                               ErrorDescription = c.ErrorDescription,
-                              MadePepair = c.MadePepair
+                              MadeRepair = c.MadeRepair
                           };
 
             return @case;
@@ -119,9 +129,39 @@ namespace API.Controllers
             {
                 Notification noti = new Notification();
                 noti.Msg = noti.BuildStatusChangedCase(db.Installations.Find(@case.InstallationId).Name,
-                    db.Installations.Find(@case.InstallationId).Address, db.Cases.Find(@case.Id).Status, @case.Status);
+                    db.Installations.Find(@case.InstallationId).Address, (int)db.Cases.Find(@case.Id).Status, (int)@case.Status);
             }
-            
+
+            SqlConnection con = new SqlConnection("DefaultConnection");
+            SqlDataReader rdr = null;
+            SqlCommand cmd = new SqlCommand("SELECT Id FROM dbo.Cases WHERE InstallationId=@insId AND (Status=@status1 OR Status=@status2)", con);
+            cmd.Parameters.AddWithValue("@insId", @case.InstallationId);
+            cmd.Parameters.AddWithValue("@status1", Case.CaseStatus.started);
+            cmd.Parameters.AddWithValue("@status2", Case.CaseStatus.created);
+
+            switch (@case.Status)
+            {
+                case Case.CaseStatus.created:
+                    db.Installations.Find(@case.InstallationId).Status = Installation.InstalStatus.Red;
+                    break;
+                case Case.CaseStatus.started:
+                    db.Installations.Find(@case.InstallationId).Status = Installation.InstalStatus.Red;
+                    break;
+                case Case.CaseStatus.pending:
+                    con.Open();
+                    rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                        break;
+                    db.Installations.Find(@case.InstallationId).Status = Installation.InstalStatus.Yellow;
+                    break;
+                case Case.CaseStatus.done:
+                    con.Open();
+                    rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
+                        break;
+                    db.Installations.Find(@case.InstallationId).Status = Installation.InstalStatus.Green;
+                    break;
+            }
 
             try
             {
@@ -152,6 +192,8 @@ namespace API.Controllers
             }
 
             @case.Status = (int)Case.CaseStatus.created;
+            db.Installations.Find(@case.InstallationId).Status = Installation.InstalStatus.Red;
+
             @case.Time = DateTime.Now;
             db.Cases.Add(@case);
             
@@ -159,6 +201,7 @@ namespace API.Controllers
             noti.Msg = noti.BuildNewCaseString(db.Installations.Find(@case.InstallationId).Name, db.Installations.Find(@case.InstallationId).Address);
             db.Notifications.Add(noti);
 
+            
             db.SaveChanges();
             return CreatedAtRoute("DefaultApi", new { id = @case.Id }, @case);
         }

@@ -7,14 +7,10 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OAuth;
 using API.Models;
-using API.Providers;
-using API.Results;
 using WebLib.Models;
 using System.Linq;
 
@@ -87,7 +83,7 @@ namespace API.Controllers
                 role = (int)UserRoles.Montør;
             }
 
-            var User = from u in UserManager.Users
+            var user = from u in UserManager.Users
                        where u.Id == userId
                        select new GetUserInfo()
                        {
@@ -99,11 +95,28 @@ namespace API.Controllers
                            SMSNotification = u.SMSNotification,
                            Role = role
                        };
-            List<GetUserInfo> temp = new List<GetUserInfo>();
-            temp = User.ToList();
+            var temp = user.ToList();
 
             return temp[0];
         }
+
+        // GET api/Account/UserInfo
+        [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+        [Route("UserInfo")]
+        public String GetUserInfo(string id)
+        {
+            var user = from u in UserManager.Users
+                       where u.Id == id
+                       select new GetUserInfo()
+                       {
+                           FirstName = u.FirstName,
+                           LastName = u.LastName
+                       };
+            var temp = user.ToList();
+
+            return temp[0].FirstName + " " + temp[0].LastName;
+        }
+
 
         // PUT api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]

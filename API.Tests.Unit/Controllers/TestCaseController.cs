@@ -67,9 +67,9 @@ namespace API.Tests.Unit.Controllers
             public void GetProducts_ShouldReturnAllProducts()
             {
                 var context = new TestAppContext();
-                context.Cases.Add(new Case { Id = 1, Worker = "Demo1", Observer = 20 });
-                context.Cases.Add(new Case { Id = 2, Worker = "Demo2", Observer = 30 });
-                context.Cases.Add(new Case { Id = 3, Worker = "Demo3", Observer = 40 });
+                //context.Cases.Add(new Case { Id = 1, Worker = "Demo1", Observer = 20 });
+                //context.Cases.Add(new Case { Id = 2, Worker = "Demo2", Observer = 30 });
+                //context.Cases.Add(new Case { Id = 3, Worker = "Demo3", Observer = 40 });
 
                 var controller = new CaseController(context);
                 var result = controller.GetCases() as TestCaseDbSet;
@@ -94,7 +94,7 @@ namespace API.Tests.Unit.Controllers
 
             Case GetDemoProduct()
             {
-                return new Case() { Id = 3, Worker = "Demo name", Observer = 5 };
+                //return new Case() { Id = 3, Worker = "Demo name", Observer = 5 };
             }
         }
     }

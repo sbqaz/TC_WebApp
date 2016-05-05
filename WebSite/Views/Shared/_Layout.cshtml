@@ -50,7 +50,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href='@Url.Action("Index", "Home")'>TrafficControl</a>
+                <a class="navbar-brand" href='@Url.Action("Index", "Home")'>
+                    <div style="display:inline-block;vertical-align:top;">
+                        <img src="~/Content/img/logo.png" width="20" height="40" />
+                    </div>
+                    <div style="display: inline-block; vertical-align: middle;">
+                        <div>Traffic Control</div>
+                    </div>
+                </a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-middle top-nav">
@@ -64,20 +71,29 @@
                         <a href='@Url.Action("Index", "Home")'><i class="fa fa-fw fa-dashboard"></i> Forside</a>
                     </li>
                     <li>
-                        <a href='@Url.Action("Index", "Case")'><i class="fa fa-fw fa-bar-chart-o"></i> Sager</a>
+                        <a href='@Url.Action("Index", "Cases")'><i class="fa fa-fw fa-list-ul"></i> Sager</a>
                     </li>
                     <li>
-                        <a href='@Url.Action("Index", "Case")'><i class="fa fa-fw fa-bar-chart-o"></i> Sager</a>
+                        <a href='@Url.Action("Index", "Installations")'><i class="fa fa-fw fa-car"></i> Trafiklys</a>
                     </li>
+                    <li>
+                        <a href="#demo"><i class="fa fa-fw fa-map-marker"></i> Kortoversigt</a>
+                    </li>
+
                     @if (User.IsInRole("Admin"))
                     {
                         <li>
-                            <a href='@Url.Action("Index", "RolesAdmin")'><i class="fa fa-fw fa-bar-chart-o"></i> Roller</a>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-wrench"></i> Administrator <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="demo" class="collapse">
+                                <li>
+                                    <a href='@Url.Action("Index", "RolesAdmin")'><i class="fa fa-fw fa-bar-chart-o"></i> Roller</a>
+                                </li>
+                                <li>
+                                    <a href='@Url.Action("Index", "UsersAdmin")'><i class="fa fa-fw fa-users"></i> Brugere</a>
+                                </li>
+                            </ul>
                         </li>
-                        <li>
-                            <a href='@Url.Action("Index", "UsersAdmin")'><i class="fa fa-fw fa-wrench"></i> Brugere</a>
-                        </li>}
-
+                    }
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
