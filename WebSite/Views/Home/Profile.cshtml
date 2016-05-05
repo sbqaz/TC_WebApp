@@ -31,27 +31,36 @@
 </dl>
 
 <li>
-    @Html.ActionLink("Skift password", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Password" })
+    @Html.ActionLink("Skift adgangskode", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Skift adgangskode" })
+</li>
+<li>
+    @Html.ActionLink("Skift bruger oplysninger", "Edit", "Home", routeValues: null, htmlAttributes: new { title = "Rediger bruger" })
 </li>
 <b>
     Indstillinger for notifikationer
 </b>
 
-<dl class="dl-horizontal">
-    <dt>
-        @Html.DisplayNameFor(model => model.EmailNotification)
-    </dt>
-    <dd>
-        @Html.CheckBoxFor(model => model.EmailNotification)
-    </dd>
-    <dt>
-        @Html.DisplayNameFor(model => model.SMSNotification)
-    </dt>
-    <dd>
-        @Html.CheckBoxFor(model => model.SMSNotification)
-    </dd>
-</dl>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-<div class="form-actions no-color">
-    <input type="submit" value="Opdater" class="btn" />
-</div>
+    <dl class="form-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailNotification)
+        </dt>
+        <dd>
+            @Html.CheckBoxFor(model => model.EmailNotification)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SMSNotification)
+        </dt>
+        <dd>
+            @Html.CheckBoxFor(model => model.SMSNotification)
+        </dd>
+    </dl>
+    <div class="form-actions no-color">
+        <input type="submit" value="Opdater" class="btn" />
+    </div>
+}
+
+
