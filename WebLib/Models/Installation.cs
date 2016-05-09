@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
 
 namespace WebLib.Models
 {
@@ -17,7 +16,6 @@ namespace WebLib.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         public string Name { get; set; }
-        public string Address { get; set; }
         public InstalStatus Status { get; set; }
         public Position Position { get; set; }
     }

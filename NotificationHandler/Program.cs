@@ -39,13 +39,14 @@ namespace NotificationHandler
 
             cmd = new SqlCommand("SELECT * FROM dbo.Notifications", con);
             rdr = cmd.ExecuteReader();
-
+            bool sendtStatus = false;
             if (rdr.HasRows)
             {
                 while (rdr.Read())
                 {
                     foreach (var r in reciver)
                     {
+                        sendtStatus = true;
                         MailMessage mail = new MailMessage("TrafficControl <noreply@trafficcontrol.dk>", r);
                         mail.Subject = "Ny sag oprettet";
                         mail.Body = rdr["Msg"].ToString();
@@ -66,10 +67,14 @@ namespace NotificationHandler
                             {
                                 Console.WriteLine(ex.ToString());
                             }
-
+                            sendtStatus = false;
                         }
                     }
-                    msgToDelete.Add((long)rdr["Id"]);
+                    if (sendtStatus)
+                    {
+                        msgToDelete.Add((long)rdr["Id"]);
+                    }
+                    
                 }
             }
             rdr.Close();

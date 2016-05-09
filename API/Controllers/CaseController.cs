@@ -128,8 +128,7 @@ namespace API.Controllers
             if (@case.Status != db.Cases.Find(id).Status)
             {
                 Notification noti = new Notification();
-                noti.Msg = noti.BuildStatusChangedCase(db.Installations.Find(@case.InstallationId).Name,
-                    db.Installations.Find(@case.InstallationId).Address, db.Cases.Find(@case.Id).Status, @case.Status);
+                noti.Msg = noti.BuildStatusChangedCase(db.Installations.Find(@case.InstallationId).Name, db.Cases.Find(@case.Id).Status, @case.Status);
             }
 
             SqlConnection con = new SqlConnection("DefaultConnection");
@@ -198,7 +197,7 @@ namespace API.Controllers
             db.Cases.Add(@case);
             
             Notification noti = new Notification();
-            noti.Msg = noti.BuildNewCaseString(db.Installations.Find(@case.InstallationId).Name, db.Installations.Find(@case.InstallationId).Address);
+            noti.Msg = noti.BuildNewCaseString(db.Installations.Find(@case.InstallationId).Name);
             db.Notifications.Add(noti);
 
             

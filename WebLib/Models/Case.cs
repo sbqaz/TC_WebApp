@@ -36,7 +36,7 @@ namespace WebLib.Models
         public long Id { get; set; }
 		[DisplayName("Trafiklysets ID")]
 		[Required]
-        public long InstallationId { get; set; }
+        public Installation InstallationId { get; set; }
 		[DisplayName("Ansvarlig")]
 		public string Worker { get; set; }
 		[DisplayName("Tidspunkt for oprettelse")]
