@@ -34,6 +34,8 @@ namespace WebLib.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
+		
+		//Foreign key
 		[DisplayName("Trafiklysets ID")]
 		[Required]
         public Installation InstallationId { get; set; }

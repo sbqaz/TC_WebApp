@@ -12,16 +12,17 @@ using WebSite.Identity;
 namespace WebSite.Controllers
 {
     public class CasesController : Controller
-    {
-        private readonly ApplicationDbContext _context;
+    {																		 
+		private readonly ApplicationDbContext _context;
 
-	    public CasesController(ApplicationDbContext context)
-	    {
-		    this._context = context;
-	    }
 
-        // GET: Cases
-        public ActionResult Index()
+		public CasesController(ApplicationDbContext context)
+		{
+			this._context = context;
+		}
+
+		// GET: Cases
+		public ActionResult Index()
         {
             return View(_context.Cases.ToList());
         }
@@ -52,10 +53,11 @@ namespace WebSite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,InstallationId,Status,Worker,Observer,ErrorDescription,MadeRepair,UserComment")] Case @case)
+        public ActionResult Create([Bind(Include = "Id,InstallationId,Worker,Status,Observer,ErrorDescription,MadeRepair,UserComment")] Case @case)
         {
             if (ModelState.IsValid)
             {
+				@case.InstallationId.Status = Installation.InstalStatus.Red;
 				@case.Time = DateTime.Now;
                 _context.Cases.Add(@case);
                 _context.SaveChanges();
@@ -85,7 +87,7 @@ namespace WebSite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,InstallationId,Status,Worker,Time,Observer,ErrorDescription,MadeRepair,UserComment")] Case @case)
+        public ActionResult Edit([Bind(Include = "Id,InstallationId,Worker,Time,Status,Observer,ErrorDescription,MadeRepair,UserComment")] Case @case)
         {
             if (ModelState.IsValid)
             {

@@ -6,8 +6,8 @@ namespace WebLib.Models
     public class Installation
     {
         public enum InstalStatus
-        {
-            Green = 0,
+        {							  
+			Green = 0,
             Yellow = 1,
             Red = 2
         }

@@ -43,7 +43,8 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.InstallationId)
@@ -71,9 +72,9 @@
             @Html.DisplayFor(modelItem => item.UserComment)
         </td>
         <td>
-            @Html.ActionLink("Rediger", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Detaljer", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Slet", "Delete", new { id=item.Id })
+            @Html.ActionLink("Rediger", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Detaljer", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Slet", "Delete", new { id = item.Id })
         </td>
     </tr>
 }
