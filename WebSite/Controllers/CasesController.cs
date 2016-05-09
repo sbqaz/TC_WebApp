@@ -53,7 +53,7 @@ namespace WebSite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,InstallationId,Worker,Status,Observer,ErrorDescription,MadeRepair,UserComment")] Case @case)
+        public ActionResult Create([Bind(Include = "Id,InstallationId.Id,Worker,Status,Observer,ErrorDescription,MadeRepair,UserComment")] Case @case)
         {
             if (ModelState.IsValid)
             {
