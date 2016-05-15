@@ -45,7 +45,8 @@ namespace WebSite.Controllers
         // GET: Cases/Create
         public ActionResult Create()
         {
-            return View();
+			ViewBag.Installation = new SelectList(_context.Installations, "Name", "Name");
+			return View();
         }
 
         // POST: Cases/Create
@@ -53,7 +54,7 @@ namespace WebSite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,InstallationId.Id,Worker,Status,Observer,ErrorDescription,MadeRepair,UserComment")] Case @case)
+        public ActionResult Create([Bind(Include = "Id,InstallationId,Worker,Status,Observer,ErrorDescription,MadeRepair,UserComment")] Case @case)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +65,9 @@ namespace WebSite.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(@case);
+			ViewBag.Installation = new SelectList(_context.Installations, "Name", "Name", @case.InstallationId);
+
+			return View(@case);
         }
 
         // GET: Cases/Edit/5
@@ -87,7 +90,7 @@ namespace WebSite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,InstallationId,Worker,Time,Status,Observer,ErrorDescription,MadeRepair,UserComment")] Case @case)
+        public ActionResult Edit([Bind(Include = "Id,installationId,Worker,Time,Status,Observer,ErrorDescription,MadeRepair,UserComment")] Case @case)
         {
             if (ModelState.IsValid)
             {
@@ -132,5 +135,7 @@ namespace WebSite.Controllers
             }
             base.Dispose(disposing);
         }
+
+
     }
 }

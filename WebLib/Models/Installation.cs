@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebLib.Models
@@ -15,7 +16,8 @@ namespace WebLib.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        public string Name { get; set; }
+		[DisplayName("Trafiklyset")]
+		public string Name { get; set; }
         public InstalStatus Status { get; set; }
         public Position Position { get; set; }
     }
