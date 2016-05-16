@@ -104,7 +104,7 @@ namespace API.Controllers
 
 
         // PUT: api/Case/5
-        [ResponseType(typeof(void))]
+        [ResponseType(typeof(CaseDTO))]
         public IHttpActionResult PutCase(long id, CaseDTO @case)
         {
             if (!ModelState.IsValid)
@@ -116,12 +116,22 @@ namespace API.Controllers
             {
                 return BadRequest();
             }
+
+            if (db.Cases.Count(c => c.Status != @case.Status && c.InstallationId.Id == @case.Installation) > 0)
+            {
+                Notification noti = new Notification();
+                noti.Msg = noti.BuildStatusChangedCase(db.Installations.SingleOrDefault(i => i.Id == @case.Installation).Name, db.Cases.SingleOrDefault(c => c.Id == id).Status, @case.Status);
+                db.Notifications.Add(noti);
+                db.SaveChanges();
+            }
+
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
             SqlDataReader rdr = null;
             SqlCommand cmd = null;
 
-            cmd = new SqlCommand(@"INSERT INTO dbo.Cases (Worker, Status, Observer, ErrorDescription, MadeRepair, UserComment) 
-                                VALUES (@Worker, @Status, @Observer, @ErrorDescription, @MadeRepair, @UserComment)", con);
+            cmd = new SqlCommand(@"UPDATE dbo.Cases SET Worker=@Worker, Status=@Status, Observer=@Observer, ErrorDescription=@ErrorDescription, MadeRepair=@MadeRepair, UserComment=@UserComment " +
+                                "WHERE Id=@Id", con);
+            cmd.Parameters.AddWithValue("@Id", id);
             cmd.Parameters.AddWithValue("@Worker", @case.Worker);
             cmd.Parameters.AddWithValue("@Status", @case.Status);
             cmd.Parameters.AddWithValue("@Observer", (int)@case.Observer);
@@ -130,62 +140,41 @@ namespace API.Controllers
             cmd.Parameters.AddWithValue("@UserComment", @case.UserComment);
             con.Open();
             rdr = cmd.ExecuteReader();
-            //db.Entry(@case).State = EntityState.Modified;
+            rdr.Close();
 
-            // Check if case status changed
-            if (@case.Status != db.Cases.Find(id).Status)
-            {
-                Notification noti = new Notification();
-                noti.Msg = noti.BuildStatusChangedCase(db.Installations.Find(@case.Installation).Name, db.Cases.Find(@case.Id).Status, @case.Status);
-            }
-
-            
-            cmd = new SqlCommand("SELECT Id FROM dbo.Cases WHERE InstallationId=@insId AND (Status=@status1 OR Status=@status2)", con);
+            cmd = new SqlCommand("SELECT Id FROM dbo.Cases WHERE InstallationId_Id=@insId AND (Status=@status1 OR Status=@status2)", con);
             cmd.Parameters.AddWithValue("@insId", @case.Installation);
-            cmd.Parameters.AddWithValue("@status1", Case.CaseStatus.started);
-            cmd.Parameters.AddWithValue("@status2", Case.CaseStatus.created);
+            cmd.Parameters.AddWithValue("@status1", (int)Case.CaseStatus.started);
+            cmd.Parameters.AddWithValue("@status2", (int)Case.CaseStatus.created);
+
+            Installation tmpInstallation = db.Installations.SingleOrDefault(i => i.Id == @case.Installation);
 
             switch (@case.Status)
             {
                 case Case.CaseStatus.created:
-                    db.Installations.Find(@case.Installation).Status = Installation.InstalStatus.Red;
+                    tmpInstallation.Status = Installation.InstalStatus.Red;
                     break;
                 case Case.CaseStatus.started:
-                    db.Installations.Find(@case.Installation).Status = Installation.InstalStatus.Red;
+                    tmpInstallation.Status = Installation.InstalStatus.Red;
                     break;
                 case Case.CaseStatus.pending:
-                    con.Open();
                     rdr = cmd.ExecuteReader();
                     if (rdr.HasRows)
                         break;
-                    db.Installations.Find(@case.Installation).Status = Installation.InstalStatus.Yellow;
+                    tmpInstallation.Status = Installation.InstalStatus.Yellow;
                     break;
                 case Case.CaseStatus.done:
-                    con.Open();
                     rdr = cmd.ExecuteReader();
                     if (rdr.HasRows)
                         break;
-                    db.Installations.Find(@case.Installation).Status = Installation.InstalStatus.Green;
+                    tmpInstallation.Status = Installation.InstalStatus.Green;
                     break;
             }
+            db.MarkAsModified(tmpInstallation);
+            db.SaveChanges();
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CaseExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            con.Close();
+            return CreatedAtRoute("DefaultApi", new { id = @case.Id }, @case);
         }
 
         // POST: api/Case
@@ -196,18 +185,19 @@ namespace API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            @case.Time=DateTime.Now;
             
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
             SqlCommand cmd = new SqlCommand("INSERT INTO dbo.Cases (Worker, Time, Status, Observer, ErrorDescription, MadeRepair, UserComment, InstallationId_Id) " +
                                             "OUTPUT INSERTED.Id "+
                                             "VALUES (@Worker, @Time, @Status, @Observer, @ErrorDescription, @MadeRepair, @UserComment, @InstallationId_Id)", con);
-            cmd.Parameters.AddWithValue("@Worker", @case.Worker);
+            cmd.Parameters.AddWithValue("@Worker", @case.Worker ?? "");
             cmd.Parameters.AddWithValue("@Status", (int)Case.CaseStatus.created);
-            cmd.Parameters.AddWithValue("@Time", DateTime.Now);
+            cmd.Parameters.AddWithValue("@Time", @case.Time);
             cmd.Parameters.AddWithValue("@Observer", (int)@case.Observer);
-            cmd.Parameters.AddWithValue("@ErrorDescription", @case.ErrorDescription);
-            cmd.Parameters.AddWithValue("@MadeRepair", @case.MadeRepair);
-            cmd.Parameters.AddWithValue("@UserComment", @case.UserComment);
+            cmd.Parameters.AddWithValue("@ErrorDescription", @case.ErrorDescription ?? "");
+            cmd.Parameters.AddWithValue("@MadeRepair", @case.MadeRepair ?? "");
+            cmd.Parameters.AddWithValue("@UserComment", @case.UserComment ?? "");
             cmd.Parameters.AddWithValue("@InstallationId_Id", (long)@case.Installation);
             con.Open();
             @case.Id = (long)cmd.ExecuteScalar();
@@ -216,40 +206,13 @@ namespace API.Controllers
             cmd.Parameters.AddWithValue("@Status", (int) Installation.InstalStatus.Red);
             cmd.Parameters.AddWithValue("Id", @case.Installation);
             SqlDataReader rdr = cmd.ExecuteReader();
+            con.Close();
 
-            return CreatedAtRoute("DefaultApi", new { id = @case.Id }, @case);
-            /*
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            @caseDTO.Status = (int)Case.CaseStatus.created;
-            db.Installations.Find(@caseDTO.InstallationId).Status = Installation.InstalStatus.Red;
-
-            @caseDTO.Time = DateTime.Now;
-
-            
-            var @case = new Case();
-            @case.InstallationId = db.Installations.Find(@caseDTO.InstallationId);
-            @case.Worker = @caseDTO.Worker;
-            @case.Time = @caseDTO.Time;
-            @case.Status = @caseDTO.Status;
-            @case.Observer = @caseDTO.Observer;
-            @case.ErrorDescription = @caseDTO.ErrorDescription;
-            @case.MadeRepair = @caseDTO.MadeRepair;
-            @case.UserComment = @caseDTO.UserComment;
-            
-            db.Cases.Add(@case);
-            
             Notification noti = new Notification();
-            noti.Msg = noti.BuildNewCaseString(db.Installations.Find(@case.InstallationId).Name);
-            db.Notifications.Add(noti);
-
-            
+            noti.Msg = noti.BuildNewCaseString(db.Installations.Find(db.Cases.Find(@case.Id).InstallationId).Name);
             db.SaveChanges();
+
             return CreatedAtRoute("DefaultApi", new { id = @case.Id }, @case);
-            */
         }
         /*
         // DELETE: api/Case/5
