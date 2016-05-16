@@ -7,8 +7,10 @@ using WebLib.Models;
 
 namespace API.Tests.Unit.Controllers
 {
+    
     public class TestCaseController
     {
+        /*
         [TestFixture]
         public class TestProductController
         {
@@ -97,5 +99,6 @@ namespace API.Tests.Unit.Controllers
                 //return new Case() { Id = 3, Worker = "Demo name", Observer = Case.ObserverSelection.own };
             }
         }
+        */
     }
 }

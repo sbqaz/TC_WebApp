@@ -45,7 +45,7 @@ namespace API.Controllers
 
             return Ok(position);
         }
-
+        /*
         // PUT: api/Position/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutPosition(long id, Position position)
@@ -112,7 +112,7 @@ namespace API.Controllers
 
             return Ok(position);
         }
-
+        */
         protected override void Dispose(bool disposing)
         {
             if (disposing)
