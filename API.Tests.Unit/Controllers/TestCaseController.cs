@@ -36,7 +36,7 @@ namespace API.Tests.Unit.Controllers
             {
                 var controller = new CaseController(new TestAppContext());
 
-                var item = GetDemoDTOProduct();
+                var item = GetDemoProduct();
 
                 var result = controller.PutCase(item.Id, item) as StatusCodeResult;
                 Assert.IsNotNull(result);
@@ -49,7 +49,7 @@ namespace API.Tests.Unit.Controllers
             {
                 var controller = new CaseController(new TestAppContext());
 
-                var badresult = controller.PutCase(999, GetDemoDTOProduct());
+                var badresult = controller.PutCase(999, GetDemoProduct());
                 Assert.IsInstanceOf(typeof(BadRequestResult), badresult);
             }
 
