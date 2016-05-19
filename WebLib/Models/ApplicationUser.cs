@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -22,9 +23,11 @@ namespace WebLib.Models
         public string FirstName { get; set; }
         [DisplayName("Efternavn")]
         public string LastName { get; set; }
-        [DisplayName("Email notifikation")]
+        [DisplayName("Email notifikationer")]
+        [UIHint("_Notification")]
         public bool EmailNotification { get; set; }
         [DisplayName("SMS notifikationer")]
+        [UIHint("_Notification")]
         public bool SMSNotification { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -20,10 +21,13 @@ namespace WebSite.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAuthenticationManager _authenticationManager;
-        public AccountController(UserManager<ApplicationUser> userManager, IAuthenticationManager authenticationManager)
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public AccountController(UserManager<ApplicationUser> userManager, IAuthenticationManager authenticationManager, RoleManager<IdentityRole> roleManager)
         {
             this._userManager = userManager;
             this._authenticationManager = authenticationManager;
+            this._roleManager = roleManager;
         }
 
         //
@@ -165,6 +169,67 @@ namespace WebSite.Controllers
             base.Dispose(disposing);
         }
 
+
+        //
+        // GET: /Account/Profile
+        public async Task<ActionResult> Profile(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            UserViewModel detailsModel = new UserViewModel();
+            detailsModel.User = await _userManager.FindByIdAsync(id);
+            detailsModel.Role = await _userManager.GetRolesAsync(id);
+            return View(detailsModel);
+        }
+
+
+        //
+        // GET: /Users/Edit/1
+        public async Task<ActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
+        //
+        // POST: /Users/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(ApplicationUser formuser, string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = await _userManager.FindByIdAsync(id);
+            user.FirstName = formuser.FirstName;
+            user.LastName = formuser.LastName;
+            user.PhoneNumber = formuser.PhoneNumber;
+            user.EmailNotification = formuser.EmailNotification;
+            user.SMSNotification = formuser.SMSNotification;
+            if (ModelState.IsValid)
+            {
+                //Update the user details
+                await _userManager.UpdateAsync(user);
+                return RedirectToAction("Profile", new {id = formuser.Id});
+            }
+            else
+            {
+                return View();
+            }
+        }
+
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
@@ -241,7 +306,10 @@ namespace WebSite.Controllers
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
+
+
         }
+
         #endregion
     }
 }

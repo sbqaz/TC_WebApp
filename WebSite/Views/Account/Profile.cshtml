@@ -5,12 +5,18 @@
     ViewBag.Title = "Bruger detaljer";
 }
 
-<h2>Detaljer</h2>
-
 <div>
     <h4>Bruger oplysninger:</h4>
-    <hr />
+    <hr/>
+    <div>
+        @Html.ActionLink("Skift adgangskode", "Manage", "Account", routeValues: null, htmlAttributes: new {title = "Skift adgangskode"})
+    </div>
+    <div>
+        @Html.ActionLink("Skift bruger oplysninger", "Edit", "Account", routeValues: new {id = Model.User.Id}, htmlAttributes: new {title = "Rediger bruger"})
+    </div>
+    <hr/>
     <dl class="dl-horizontal">
+
         <dt>
             @Html.DisplayNameFor(model => model.User.Email)
         </dt>
@@ -29,25 +35,37 @@
         <dd>
             @Html.DisplayFor(model => model.User.LastName)
         </dd>
+
         <dt>
             @Html.LabelFor(model => model.User.PhoneNumber, "Telefon nummer")
         </dt>
+
         <dd>
             @Html.DisplayFor(model => model.User.PhoneNumber)
         </dd>
+
         <dt>
             @Html.LabelFor(model => model.Role, "Bruger Privilegier")
-       </dt >
+        </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Role)
         </dd>
-    </dl >
-</div >
-<p >
-
-    @Html.ActionLink("Tilbage til Bruger liste", "Index")
-            </p>
-
-
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.User.EmailNotification)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.EmailNotification)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.SMSNotification)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.SMSNotification)
+        </dd>
+    </dl>
+</div>
+<hr/>
+    
 

@@ -1,21 +1,18 @@
 ﻿@model WebLib.Models.ApplicationUser
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Rediger bruger oplysninger";
 }
 
 <hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
+    <h1>@ViewBag.Title</h1>
 </hgroup>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
-    @*@Html.HiddenFor(model => model.Id)*@
-
 
     <fieldset class="form-horizontal">
-        <legend>Rediger bruger oplysninger</legend>
         <div class="control-group">
             @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })
             <div class="controls">
@@ -34,23 +31,16 @@
                 @Html.TextBoxFor(m => m.PhoneNumber)
             </div>
         </div>
-
-
-        @if (User.IsInRole("Admin"))
-        {
-            <h4>Opdater brugerens privilegier</h4>
+        <h4>Vælg rolle</h4>
+        @Html.DropDownList("RoleId", "Ingen rolle")
+        <div class="form-actions no-color">
+            <input type="submit" value="Opdater" class="btn" />
             <hr />
-            @Html.DropDownList("RoleId", "No Roles")
-            <div class="form-actions no-color">
-                <input type="submit" value="Edit" class="btn" />
+            @Html.ActionLink("Tilbage til Bruger liste", "Index")
             </div>
-        }
-    </fieldset>
+</fieldset>
 }
 
-<p>
-    @Html.ActionLink("Back to List", "Index")
-</p>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
