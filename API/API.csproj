@@ -260,38 +260,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604280801430_new.cs" />
-    <Compile Include="Migrations\201604280801430_new.Designer.cs">
-      <DependentUpon>201604280801430_new.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604290633077_Update.cs" />
-    <Compile Include="Migrations\201604290633077_Update.Designer.cs">
-      <DependentUpon>201604290633077_Update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604290645474_Update1.cs" />
-    <Compile Include="Migrations\201604290645474_Update1.Designer.cs">
-      <DependentUpon>201604290645474_Update1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604290655333_Update2.cs" />
-    <Compile Include="Migrations\201604290655333_Update2.Designer.cs">
-      <DependentUpon>201604290655333_Update2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605020655375_Update3.cs" />
-    <Compile Include="Migrations\201605020655375_Update3.Designer.cs">
-      <DependentUpon>201605020655375_Update3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605020838316_Update4.cs" />
-    <Compile Include="Migrations\201605020838316_Update4.Designer.cs">
-      <DependentUpon>201605020838316_Update4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605021121379_Update5.cs" />
-    <Compile Include="Migrations\201605021121379_Update5.Designer.cs">
-      <DependentUpon>201605021121379_Update5.cs</DependentUpon>
+    <Compile Include="Migrations\201605090706020_Update.cs" />
+    <Compile Include="Migrations\201605090706020_Update.Designer.cs">
+      <DependentUpon>201605090706020_Update.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\APIContext.cs" />
+    <Compile Include="Models\CaseDTO.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
@@ -362,7 +339,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201605090706020_Update.resx">
+      <DependentUpon>201605090706020_Update.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -376,29 +357,6 @@
       <Project>{9b0c1c31-1dbd-4048-be23-d221a5466956}</Project>
       <Name>WebLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201604280801430_new.resx">
-      <DependentUpon>201604280801430_new.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604290633077_Update.resx">
-      <DependentUpon>201604290633077_Update.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604290645474_Update1.resx">
-      <DependentUpon>201604290645474_Update1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604290655333_Update2.resx">
-      <DependentUpon>201604290655333_Update2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605020655375_Update3.resx">
-      <DependentUpon>201605020655375_Update3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605020838316_Update4.resx">
-      <DependentUpon>201605020838316_Update4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605021121379_Update5.resx">
-      <DependentUpon>201605021121379_Update5.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

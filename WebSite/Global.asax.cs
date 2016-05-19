@@ -20,7 +20,7 @@ namespace WebSite
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            //Database.SetInitializer<ApplicationDbContext>(new ApplicationDbContext.MyDbInitializer());
-        }
-    }
+			//Database.SetInitializer<ApplicationDbContext>(new ApplicationDbContext.MyDbInitializer());
+		}
+	}
 }

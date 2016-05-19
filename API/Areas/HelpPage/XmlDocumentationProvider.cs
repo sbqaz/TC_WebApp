@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web.Http.Controllers;
@@ -14,7 +16,8 @@ namespace API.Areas.HelpPage
     /// </summary>
     public class XmlDocumentationProvider : IDocumentationProvider, IModelDocumentationProvider
     {
-        private XPathNavigator _documentNavigator;
+        //private XPathNavigator _documentNavigator;
+        private List<XPathNavigator> _documentNavigators = new List<XPathNavigator>();
         private const string TypeExpression = "/doc/members/member[@name='T:{0}']";
         private const string MethodExpression = "/doc/members/member[@name='M:{0}']";
         private const string PropertyExpression = "/doc/members/member[@name='P:{0}']";
@@ -25,15 +28,32 @@ namespace API.Areas.HelpPage
         /// Initializes a new instance of the <see cref="XmlDocumentationProvider"/> class.
         /// </summary>
         /// <param name="documentPath">The physical path to XML document.</param>
-        public XmlDocumentationProvider(string documentPath)
+        public XmlDocumentationProvider(string appDataPath)
         {
-            if (documentPath == null)
+            if (appDataPath == null)
             {
-                throw new ArgumentNullException("documentPath");
+                throw new ArgumentNullException("appDataPath");
             }
-            XPathDocument xpath = new XPathDocument(documentPath);
-            _documentNavigator = xpath.CreateNavigator();
+
+            var files = new[] { "XmlDocument.xml", "XmlDocumentWebLib.xml" };
+            foreach (var file in files)
+            {
+                XPathDocument xpath = new XPathDocument(Path.Combine(appDataPath, file));
+                _documentNavigators.Add(xpath.CreateNavigator());
+            }
         }
+
+        /*
+    public XmlDocumentationProvider(string documentPath)
+    {
+        if (documentPath == null)
+        {
+            throw new ArgumentNullException("documentPath");
+        }
+        XPathDocument xpath = new XPathDocument(documentPath);
+        _documentNavigator = xpath.CreateNavigator();
+    }
+    */
 
         public string GetDocumentation(HttpControllerDescriptor controllerDescriptor)
         {
@@ -78,7 +98,8 @@ namespace API.Areas.HelpPage
             string memberName = String.Format(CultureInfo.InvariantCulture, "{0}.{1}", GetTypeName(member.DeclaringType), member.Name);
             string expression = member.MemberType == MemberTypes.Field ? FieldExpression : PropertyExpression;
             string selectExpression = String.Format(CultureInfo.InvariantCulture, expression, memberName);
-            XPathNavigator propertyNode = _documentNavigator.SelectSingleNode(selectExpression);
+            XPathNavigator propertyNode = SelectSingleNode(selectExpression);
+            //XPathNavigator propertyNode = _documentNavigator.SelectSingleNode(selectExpression);
             return GetTagValue(propertyNode, "summary");
         }
 
@@ -94,7 +115,8 @@ namespace API.Areas.HelpPage
             if (reflectedActionDescriptor != null)
             {
                 string selectExpression = String.Format(CultureInfo.InvariantCulture, MethodExpression, GetMemberName(reflectedActionDescriptor.MethodInfo));
-                return _documentNavigator.SelectSingleNode(selectExpression);
+                return SelectSingleNode(selectExpression);
+                //return _documentNavigator.SelectSingleNode(selectExpression);
             }
 
             return null;
@@ -131,9 +153,20 @@ namespace API.Areas.HelpPage
         {
             string controllerTypeName = GetTypeName(type);
             string selectExpression = String.Format(CultureInfo.InvariantCulture, TypeExpression, controllerTypeName);
-            return _documentNavigator.SelectSingleNode(selectExpression);
+            return SelectSingleNode(selectExpression);
+            //return _documentNavigator.SelectSingleNode(selectExpression);
         }
 
+        private XPathNavigator SelectSingleNode(string selectExpression)
+        {
+            foreach (var navigator in _documentNavigators)
+            {
+                var propertyNode = navigator.SelectSingleNode(selectExpression);
+                if (propertyNode != null)
+                    return propertyNode;
+            }
+            return null;
+        }
         private static string GetTypeName(Type type)
         {
             string name = type.FullName;

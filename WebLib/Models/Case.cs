@@ -34,21 +34,30 @@ namespace WebLib.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
+		
+		//Foreign key
 		[DisplayName("Trafiklysets ID")]
 		[Required]
-        public long InstallationId { get; set; }
+        public Installation InstallationId { get; set; }
+
 		[DisplayName("Ansvarlig")]
 		public string Worker { get; set; }
+
 		[DisplayName("Tidspunkt for oprettelse")]
 		public DateTime Time { get; set; }
+
 		[DisplayName("Aktuel status")]
         public CaseStatus Status { get; set; }
+
 		[DisplayName("Anmelder")]
 		public ObserverSelection Observer { get; set; }
+
 		[DisplayName("Fejlbeskrivelse")]
 		public string ErrorDescription { get; set; }
+
 		[DisplayName("Repareret af")]
 		public string MadeRepair { get; set; }
+
 		[DisplayName("Kommentarer")]
         public string UserComment { get; set; }
     }

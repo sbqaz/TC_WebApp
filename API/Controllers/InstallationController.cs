@@ -30,14 +30,14 @@ namespace API.Controllers
         // GET: api/Installation
         public IQueryable<Installation> GetInstallations()
         {
-            return db.Installations;
+            return db.Installations.Include(p => p.Position);
         }
 
         // GET: api/Installation/5
         [ResponseType(typeof(Installation))]
         public IHttpActionResult GetInstallation(long id)
         {
-            Installation installation = db.Installations.Find(id);
+            Installation installation = db.Installations.Include(p => p.Position).SingleOrDefault(i => i.Id == id);
             if (installation == null)
             {
                 return NotFound();
@@ -46,7 +46,7 @@ namespace API.Controllers
             return Ok(installation);
         }
 
-        // PUT: api/Installation/5
+       /* // PUT: api/Installation/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutInstallation(long id, Installation installation)
         {
@@ -61,6 +61,7 @@ namespace API.Controllers
             }
 
            // db.Entry(installation).State = EntityState.Modified;
+
             db.MarkAsModified(installation);
             try
             {
@@ -95,7 +96,7 @@ namespace API.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = installation.Id }, installation);
         }
-
+        
         // DELETE: api/Installation/5
         [ResponseType(typeof(Installation))]
         public IHttpActionResult DeleteInstallation(long id)
@@ -111,7 +112,7 @@ namespace API.Controllers
 
             return Ok(installation);
         }
-
+        */
         protected override void Dispose(bool disposing)
         {
             if (disposing)
