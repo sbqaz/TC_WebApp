@@ -16,7 +16,7 @@ namespace WebLib.Models
         public string BuildNewCaseString(string instaName)
         {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append("Der er oprettet en ny sag på lyskrydet: \n");
+            stringBuilder.Append("Der er oprettet en ny sag på lyskrydset: \n");
             stringBuilder.Append(instaName + "\n");
             return stringBuilder.ToString();
         }
@@ -24,7 +24,7 @@ namespace WebLib.Models
         public string BuildStatusChangedCase(string instaName, Case.CaseStatus oldStatus, Case.CaseStatus newStatus)
         {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append("Status er ændret på sag for lyskrudet: \n");
+            stringBuilder.Append("Status er ændret på sag for lyskrydset: \n");
             stringBuilder.Append(instaName + "\n");
             stringBuilder.Append("Ny status er: " + newStatus + "\n");
             stringBuilder.Append("Tidligere status er: " + oldStatus + "\n");
