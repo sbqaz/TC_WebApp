@@ -1,4 +1,5 @@
-﻿@model WebLib.Models.ApplicationUser
+﻿@using Microsoft.AspNet.Identity
+@model WebLib.Models.ApplicationUser
 @{
     ViewBag.Title = "Edit";
 }
@@ -11,8 +12,6 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
-    @*@Html.HiddenFor(model => model.Id)*@
-
 
     <fieldset class="form-horizontal">
         <legend>Rediger bruger oplysninger</legend>
@@ -29,27 +28,35 @@
             </div>
         </div>
         <div class="control-group">
-            @Html.LabelFor(m => m.PhoneNumber, "Telefon nummer", new { @class = "control-label" })
+            @Html.LabelFor(m => m.PhoneNumber, "Telefon nummer", new {@class = "control-label"})
             <div class="controls">
                 @Html.TextBoxFor(m => m.PhoneNumber)
             </div>
         </div>
 
-
-        @*@if (User.IsInRole("Admin"))
-        {
-            <h4>Opdater brugerens privilegier</h4>
-            <hr />
-            @Html.DropDownList("RoleId", "No Roles")
-            <div class="form-actions no-color">
-                <input type="submit" value="Edit" class="btn" />
+        <div class="control-group">
+            @Html.LabelFor(m => m.EmailNotification)
+            <div class="editor-field">
+                @Html.EditorFor(m => m.EmailNotification)
             </div>
-        }*@
-    </fieldset>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(m => m.SMSNotification)
+            <div class="editor-field">
+                @Html.EditorFor(m => m.SMSNotification)
+            </div>
+        </div>
+
+
+        <div class="form-actions no-color">
+        <input type="submit" value="Opdater" class="btn"/>
+        </div>
+</fieldset>
 }
 
 <p>
-    @Html.ActionLink("Back to List", "Index")
+   @Html.ActionLink("Tilbage til profil", "Profile", "Account", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new {title = "Detaljer"})
 </p>
 
 @section Scripts {

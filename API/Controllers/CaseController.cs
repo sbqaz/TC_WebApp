@@ -129,7 +129,7 @@ namespace API.Controllers
             {
                 Notification noti = new Notification();
                 noti.Msg = noti.BuildStatusChangedCase(db.Installations.Find(@case.InstallationId).Name,
-                    db.Installations.Find(@case.InstallationId).Address, (int)db.Cases.Find(@case.Id).Status, (int)@case.Status);
+                    db.Installations.Find(@case.InstallationId).Address, db.Cases.Find(@case.Id).Status, @case.Status);
             }
 
             SqlConnection con = new SqlConnection("DefaultConnection");

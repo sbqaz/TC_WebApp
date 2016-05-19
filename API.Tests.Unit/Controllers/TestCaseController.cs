@@ -95,6 +95,7 @@ namespace API.Tests.Unit.Controllers
             Case GetDemoProduct()
             {
                 //return new Case() { Id = 3, Worker = "Demo name", Observer = 5 };
+                return null;
             }
         }
     }

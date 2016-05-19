@@ -1,6 +1,6 @@
 ﻿@model WebSite.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Opret en ny bruger";
 }
 
 <hgroup class="title">
@@ -13,7 +13,6 @@
     @Html.ValidationSummary()
 
     <fieldset class="form-horizontal">
-        <legend>Create a new user.</legend>
         <div class="control-group">
             @Html.LabelFor(m => m.Email, new {@class = "control-label"})
             <div class="controls">
@@ -54,11 +53,12 @@
             </div>
         </div>
 
-        <h4>Vælg type</h4>
-        <hr />
-        @Html.DropDownList("RoleId","Ingen type")
+        <h4>Vælg rolle</h4>
+        @Html.DropDownList("RoleId","Ingen rolle")
         <div class="form-actions no-color">
-            <input type="submit" value="Create" class="btn" />
+            <input type="submit" value="Opret" class="btn"/>
+            <hr/>
+            @Html.ActionLink("Tilbage til Bruger liste", "Index")
         </div>
     </fieldset>
 }

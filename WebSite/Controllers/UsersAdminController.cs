@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using WebLib.Models;
@@ -44,8 +45,10 @@ namespace WebSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var user = await _userManager.FindByIdAsync(id);
-            return View(user);
+            UserViewModel detailsModel = new UserViewModel();
+            detailsModel.User = await _userManager.FindByIdAsync(id);
+            detailsModel.Role = await _userManager.GetRolesAsync(id);
+            return View(detailsModel);
         }
 
         //
@@ -126,7 +129,7 @@ namespace WebSite.Controllers
         // POST: /Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "UserName,Id")] ApplicationUser formuser, string id, string RoleId)
+        public async Task<ActionResult> Edit(ApplicationUser formuser, string id, string RoleId)
         {
             if (id == null)
             {
@@ -134,8 +137,6 @@ namespace WebSite.Controllers
             }
             ViewBag.RoleId = new SelectList(_roleManager.Roles, "Id", "Name");
             var user = await _userManager.FindByIdAsync(id);
-            user.Email = formuser.Email;
-            user.UserName = formuser.UserName;
             user.FirstName = formuser.FirstName;
             user.LastName = formuser.LastName;
             user.PhoneNumber = formuser.PhoneNumber;

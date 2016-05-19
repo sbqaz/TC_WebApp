@@ -12,7 +12,8 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.UserName)
+            @Html.Label("Brugere")
+
         </th>
     </tr>
 
@@ -20,12 +21,15 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.UserName)
+                @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
-                @Html.ActionLink("Rediger", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Detaljer", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Slet", "Delete", new { id = item.Id })
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.ActionLink("Rediger", "Edit", new {id = item.Id}) |
+                @Html.ActionLink("Detaljer", "Details", new {id = item.Id}) |
+                @Html.ActionLink("Slet", "Delete", new {id = item.Id})
             </td>
         </tr>
     }
