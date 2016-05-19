@@ -9,7 +9,7 @@ namespace API.Models
     {
         public long Id { get; set; }
         [Required]
-        public long Installation { get; set; }
+        public long InstallationId { get; set; }
         public string Worker { get; set; }
         public DateTime Time { get; set; }
         public Case.CaseStatus Status { get; set; }

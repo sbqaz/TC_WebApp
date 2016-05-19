@@ -45,74 +45,7 @@ namespace API.Controllers
 
             return Ok(position);
         }
-        /*
-        // PUT: api/Position/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutPosition(long id, Position position)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-            if (id != position.Id)
-            {
-                return BadRequest();
-            }
-
-            //db.Entry(position).State = EntityState.Modified;
-            db.MarkAsModified(position);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PositionExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // POST: api/Position
-        [ResponseType(typeof(Position))]
-        public IHttpActionResult PostPosition(Position position)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Positions.Add(position);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = position.Id }, position);
-        }
-
-        // DELETE: api/Position/5
-        [ResponseType(typeof(Position))]
-        public IHttpActionResult DeletePosition(long id)
-        {
-            Position position = db.Positions.Find(id);
-            if (position == null)
-            {
-                return NotFound();
-            }
-
-            db.Positions.Remove(position);
-            db.SaveChanges();
-
-            return Ok(position);
-        }
-        */
         protected override void Dispose(bool disposing)
         {
             if (disposing)

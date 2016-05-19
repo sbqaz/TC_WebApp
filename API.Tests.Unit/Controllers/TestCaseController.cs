@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Web.Http.Results;
 using API.Controllers;
+using API.Models;
 using NUnit.Framework;
 using WebLib.DependencyInjection;
 using WebLib.Models;
@@ -10,7 +11,7 @@ namespace API.Tests.Unit.Controllers
     
     public class TestCaseController
     {
-        /*
+        
         [TestFixture]
         public class TestProductController
         {
@@ -19,10 +20,10 @@ namespace API.Tests.Unit.Controllers
             {
                 var controller = new CaseController(new TestAppContext());
 
-                var item = GetDemoProduct();
+                var item = GetDemoDTOProduct();
 
                 var result =
-                    controller.PostCase(item) as CreatedAtRouteNegotiatedContentResult<Case>;
+                    controller.PostCase(item) as CreatedAtRouteNegotiatedContentResult<CaseDTO>;
 
                 Assert.IsNotNull(result);
                 Assert.AreEqual(result.RouteName, "DefaultApi");
@@ -35,7 +36,7 @@ namespace API.Tests.Unit.Controllers
             {
                 var controller = new CaseController(new TestAppContext());
 
-                var item = GetDemoProduct();
+                var item = GetDemoDTOProduct();
 
                 var result = controller.PutCase(item.Id, item) as StatusCodeResult;
                 Assert.IsNotNull(result);
@@ -48,7 +49,7 @@ namespace API.Tests.Unit.Controllers
             {
                 var controller = new CaseController(new TestAppContext());
 
-                var badresult = controller.PutCase(999, GetDemoProduct());
+                var badresult = controller.PutCase(999, GetDemoDTOProduct());
                 Assert.IsInstanceOf(typeof(BadRequestResult), badresult);
             }
 
@@ -69,9 +70,9 @@ namespace API.Tests.Unit.Controllers
             public void GetProducts_ShouldReturnAllProducts()
             {
                 var context = new TestAppContext();
-                //context.Cases.Add(new Case { Id = 1, Worker = "Demo1", Observer = 20 });
-                //context.Cases.Add(new Case { Id = 2, Worker = "Demo2", Observer = 30 });
-                //context.Cases.Add(new Case { Id = 3, Worker = "Demo3", Observer = 40 });
+                context.Cases.Add(new Case { Id = 1, InstallationId = new Installation {Id =1 } });
+                context.Cases.Add(new Case { Id = 2, InstallationId = new Installation { Id = 2 } });
+                context.Cases.Add(new Case { Id = 3, InstallationId = new Installation { Id = 3} });
 
                 var controller = new CaseController(context);
                 var result = controller.GetCases() as TestCaseDbSet;
@@ -80,25 +81,15 @@ namespace API.Tests.Unit.Controllers
                 Assert.AreEqual(3, result.Local.Count);
             }
 
-            [Test]
-            public void DeleteProduct_ShouldReturnOK()
-            {
-                var context = new TestAppContext();
-                var item = GetDemoProduct();
-                context.Cases.Add(item);
-
-                var controller = new CaseController(context);
-                var result = controller.DeleteCase(3) as OkNegotiatedContentResult<Case>;
-
-                Assert.IsNotNull(result);
-                Assert.AreEqual(item.Id, result.Content.Id);
-            }
-
             Case GetDemoProduct()
             {
-                //return new Case() { Id = 3, Worker = "Demo name", Observer = Case.ObserverSelection.own };
+                return new Case { Id = 3, Worker = "Demo name", Observer = Case.ObserverSelection.own };
+            }
+
+            CaseDTO GetDemoDTOProduct()
+            {
+                return new CaseDTO {Id = 1, InstallationId = 2};
             }
         }
-        */
     }
 }

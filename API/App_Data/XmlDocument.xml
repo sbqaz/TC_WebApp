@@ -494,5 +494,17 @@
             <param name="id">Id for the case</param>
             <returns>Case whit the given id</returns>
         </member>
+        <member name="M:API.Controllers.CaseController.GetMyCases">
+            <summary>
+            </summary>
+            <returns>Alle caes where worker = Token used</returns>
+        </member>
+        <member name="M:API.Controllers.CaseController.PutClaimCase(System.Int64)">
+            <summary>
+            Sets Worker on case, found by token
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

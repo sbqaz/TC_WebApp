@@ -38,7 +38,31 @@ namespace API.Controllers
         // GET: api/Case
         public IQueryable<Case> GetCases()
         {
-            return db.Cases.Include(i => i.InstallationId).Include(p => p.InstallationId.Position).Take(1000);
+            var cases = db.Cases.Include(i => i.InstallationId).Include(p => p.InstallationId.Position).Take(1000);
+
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            SqlDataReader rdr = null;
+            SqlCommand cmd = null;
+            con.Open();
+            foreach (var c in cases)
+            {
+                if (c.Worker != "")
+                {
+                    cmd = new SqlCommand(@"SELECT FirstName, LastName FROM dbo.AspNetUsers WHERE Id=@Id", con);
+                    cmd.Parameters.AddWithValue("@Id", c.Worker);
+                    rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows && rdr.Read())
+                    {
+                        c.Worker = rdr["FirstName"].ToString() + " " + rdr["LastName"].ToString();
+                    }
+                    rdr.Close();
+                }
+                
+
+            }
+            con.Close();
+
+            return cases;
         }
 
         /// <summary>
@@ -58,10 +82,30 @@ namespace API.Controllers
             {
                 return NotFound();
             }
+            if (@case.Worker != "")
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                SqlDataReader rdr = null;
+                SqlCommand cmd = null;
+                con.Open();
 
+                cmd = new SqlCommand(@"SELECT FirstName, LastName FROM dbo.AspNetUsers WHERE Id=@Id", con);
+                cmd.Parameters.AddWithValue("@Id", @case.Worker);
+                rdr = cmd.ExecuteReader();
+                if (rdr.HasRows && rdr.Read())
+                {
+                    @case.Worker = rdr["FirstName"].ToString() + " " + rdr["LastName"].ToString();
+                }
+                con.Close();
+            }
+           
             return Ok(@case);
         }
 
+
+        /// <summary>
+        /// </summary>
+        /// <returns>Alle caes where worker = Token used</returns>
         // GET: api/GetMyCases
         [Route("MyCases")]
         public IQueryable<Case> GetMyCases()
@@ -70,42 +114,62 @@ namespace API.Controllers
             var @case = db.Cases.Include(i => i.InstallationId)
                 .Include(p => p.InstallationId.Position)
                 .Where(c => c.Worker == uID);
-           
+
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            SqlDataReader rdr = null;
+            SqlCommand cmd = null;
+            con.Open();
+            foreach (var c in @case)
+            {
+                cmd = new SqlCommand(@"SELECT FirstName, LastName FROM dbo.AspNetUsers WHERE Id=@Id", con);
+                cmd.Parameters.AddWithValue("@Id", c.Worker);
+                rdr = cmd.ExecuteReader();
+                if (rdr.HasRows && rdr.Read())
+                {
+                    c.Worker = rdr["FirstName"].ToString() + " " + rdr["LastName"].ToString();
+                }
+                rdr.Close();
+
+            }
+            con.Close();
             return @case;
         }
 
+        /// <summary>
+        /// Sets Worker on case, found by token
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // PUT: api/Case/ClaimCase
         [Route("ClaimCase")]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutClaimCase(long id)
         {
-            Case temp = db.Cases.Find(id);
-            temp.Worker = RequestContext.Principal.Identity.GetUserId();
-            db.MarkAsModified(temp);
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            SqlDataReader rdr = null;
+            SqlCommand cmd = null;
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CaseExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            cmd = new SqlCommand(@"UPDATE dbo.Cases SET Worker=@Worker, Status=@Status WHERE Id=@Id", con);
+            cmd.Parameters.AddWithValue("@Worker", RequestContext.Principal.Identity.GetUserId());
+            cmd.Parameters.AddWithValue("@Status", (int)Case.CaseStatus.started);
+            cmd.Parameters.AddWithValue("@Id", id);
 
-            return StatusCode(HttpStatusCode.NoContent);
+            SqlCommand cmd2 = new SqlCommand(@"UPDATE dbo.Installations SET Status=@Status WHERE Id=(SELECT InstallationId_Id FROM dbo.Cases WHERE Id=@Id)", con);
+            cmd2.Parameters.AddWithValue("@Status", (int) Installation.InstalStatus.Yellow);
+            cmd2.Parameters.AddWithValue("@Id", id);
+            con.Open();
+            rdr = cmd.ExecuteReader();
+            rdr.Close();
+            rdr = cmd2.ExecuteReader();
+            con.Close();
+
+            return StatusCode(HttpStatusCode.OK);
         }
 
 
         // PUT: api/Case/5
-        [ResponseType(typeof(CaseDTO))]
-        public IHttpActionResult PutCase(long id, CaseDTO @case)
+        [ResponseType(typeof(Case))]
+        public IHttpActionResult PutCase(long id, Case @case)
         {
             if (!ModelState.IsValid)
             {
@@ -117,10 +181,10 @@ namespace API.Controllers
                 return BadRequest();
             }
 
-            if (db.Cases.Count(c => c.Status != @case.Status && c.InstallationId.Id == @case.Installation) > 0)
+            if (db.Cases.Count(c => c.Status != @case.Status && c.InstallationId.Id == @case.InstallationId.Id) > 0)
             {
                 Notification noti = new Notification();
-                noti.Msg = noti.BuildStatusChangedCase(db.Installations.SingleOrDefault(i => i.Id == @case.Installation).Name, db.Cases.SingleOrDefault(c => c.Id == id).Status, @case.Status);
+                noti.Msg = noti.BuildStatusChangedCase(db.Installations.SingleOrDefault(i => i.Id == @case.InstallationId.Id).Name, db.Cases.SingleOrDefault(c => c.Id == id).Status, @case.Status);
                 db.Notifications.Add(noti);
                 db.SaveChanges();
             }
@@ -129,11 +193,20 @@ namespace API.Controllers
             SqlDataReader rdr = null;
             SqlCommand cmd = null;
 
-            cmd = new SqlCommand(@"UPDATE dbo.Cases SET Worker=@Worker, Status=@Status, Observer=@Observer, ErrorDescription=@ErrorDescription, MadeRepair=@MadeRepair, UserComment=@UserComment " +
+            if (@case.Worker == "")
+            {
+                cmd = new SqlCommand(@"UPDATE dbo.Cases SET Worker=@Worker, Status=@Status, Observer=@Observer, ErrorDescription=@ErrorDescription, MadeRepair=@MadeRepair, UserComment=@UserComment " +
                                 "WHERE Id=@Id", con);
+                cmd.Parameters.AddWithValue("@Worker", "");
+            }
+            else
+            {
+                cmd = new SqlCommand(@"UPDATE dbo.Cases SET Status=@Status, Observer=@Observer, ErrorDescription=@ErrorDescription, MadeRepair=@MadeRepair, UserComment=@UserComment " +
+                                "WHERE Id=@Id", con);
+            }
+
             cmd.Parameters.AddWithValue("@Id", id);
-            cmd.Parameters.AddWithValue("@Worker", @case.Worker);
-            cmd.Parameters.AddWithValue("@Status", @case.Status);
+            cmd.Parameters.AddWithValue("@Status", (int)@case.Status);
             cmd.Parameters.AddWithValue("@Observer", (int)@case.Observer);
             cmd.Parameters.AddWithValue("@ErrorDescription", @case.ErrorDescription);
             cmd.Parameters.AddWithValue("@MadeRepair", @case.MadeRepair);
@@ -143,11 +216,11 @@ namespace API.Controllers
             rdr.Close();
 
             cmd = new SqlCommand("SELECT Id FROM dbo.Cases WHERE InstallationId_Id=@insId AND (Status=@status1 OR Status=@status2)", con);
-            cmd.Parameters.AddWithValue("@insId", @case.Installation);
+            cmd.Parameters.AddWithValue("@insId", @case.InstallationId.Id);
             cmd.Parameters.AddWithValue("@status1", (int)Case.CaseStatus.started);
             cmd.Parameters.AddWithValue("@status2", (int)Case.CaseStatus.created);
 
-            Installation tmpInstallation = db.Installations.SingleOrDefault(i => i.Id == @case.Installation);
+            Installation tmpInstallation = db.Installations.SingleOrDefault(i => i.Id == @case.InstallationId.Id);
 
             switch (@case.Status)
             {
@@ -198,39 +271,32 @@ namespace API.Controllers
             cmd.Parameters.AddWithValue("@ErrorDescription", @case.ErrorDescription ?? "");
             cmd.Parameters.AddWithValue("@MadeRepair", @case.MadeRepair ?? "");
             cmd.Parameters.AddWithValue("@UserComment", @case.UserComment ?? "");
-            cmd.Parameters.AddWithValue("@InstallationId_Id", (long)@case.Installation);
+            cmd.Parameters.AddWithValue("@InstallationId_Id", (long)@case.InstallationId);
             con.Open();
             @case.Id = (long)cmd.ExecuteScalar();
 
             cmd = new SqlCommand(@"UPDATE dbo.Installations SET Status=@Status WHERE Id=@Id", con);
             cmd.Parameters.AddWithValue("@Status", (int) Installation.InstalStatus.Red);
-            cmd.Parameters.AddWithValue("Id", @case.Installation);
+            cmd.Parameters.AddWithValue("@Id", @case.InstallationId);
             SqlDataReader rdr = cmd.ExecuteReader();
-            con.Close();
+            rdr.Close();
 
             Notification noti = new Notification();
-            noti.Msg = noti.BuildNewCaseString(db.Installations.Find(db.Cases.Find(@case.Id).InstallationId).Name);
-            db.SaveChanges();
+            cmd = new SqlCommand(@"SELECT Name FROM dbo.Installations WHERE Id=@Id", con);
+            cmd.Parameters.AddWithValue("@ID", @case.InstallationId);
+            var t = cmd.ExecuteScalar().ToString();
+            rdr = cmd.ExecuteReader();
 
+            if (rdr.HasRows && rdr.Read())
+            {
+                noti.Msg = noti.BuildNewCaseString(rdr["Name"].ToString());
+            }
+            db.Notifications.Add(noti);
+            db.SaveChanges();
+            con.Close();
             return CreatedAtRoute("DefaultApi", new { id = @case.Id }, @case);
         }
-        /*
-        // DELETE: api/Case/5
-        [ResponseType(typeof(Case))]
-        public IHttpActionResult DeleteCase(long id)
-        {
-            Case @case = db.Cases.Find(id);
-            if (@case == null)
-            {
-                return NotFound();
-            }
 
-            db.Cases.Remove(@case);
-            db.SaveChanges();
-
-            return Ok(@case);
-        }
-        */
         protected override void Dispose(bool disposing)
         {
             if (disposing)

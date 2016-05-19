@@ -277,6 +277,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\XmlDocument.xml" />
+    <Content Include="App_Data\XmlDocumentWebLib.xml" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -385,8 +386,8 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)WebLib\App_Data\XmlDocumentWebLib.XML
- $(ProjectDir)\App_Data\XMLDocument.XML</PostBuildEvent>
+    <PostBuildEvent>copy $(SolutionDir)WebLib\App_Data\XmlDocumentWebLib.xml
+ $(ProjectDir)\App_Data\XMLDocumentWebLib.xml</PostBuildEvent>
   </PropertyGroup>
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
