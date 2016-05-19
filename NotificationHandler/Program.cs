@@ -11,7 +11,7 @@ namespace NotificationHandler
         static void Main(string[] args)
         {
             SqlConnection con = new SqlConnection(@"Data Source=db.trafficcontrol.dk;Initial Catalog=TrafficControl;Integrated Security=False;User ID=API;Password=phantom161;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            SqlCommand cmd = new SqlCommand(@"SELECT Email FROM dbo.AspNetUsers WHERE dbo.AspNetUsers.EmailNotification='1'", con);
+            SqlCommand cmd = new SqlCommand(@"SELECT UserName FROM dbo.AspNetUsers WHERE dbo.AspNetUsers.EmailNotification='1'", con);
             
             List<string> reciver = new List<string>();
             List<long> msgToDelete = new List<long>();
@@ -32,7 +32,7 @@ namespace NotificationHandler
             {
                 while (rdr.Read())
                 {
-                    reciver.Add(rdr["Email"].ToString());
+                    reciver.Add(rdr["UserName"].ToString());
                 }
             }
             rdr.Close();
@@ -46,10 +46,10 @@ namespace NotificationHandler
                 {
                     foreach (var r in reciver)
                     {
-                        sendtStatus = true;
                         MailMessage mail = new MailMessage("TrafficControl <noreply@trafficcontrol.dk>", r);
                         mail.Subject = "Nofifikation fra Traffic Control";
                         mail.Body = rdr["Msg"].ToString();
+                        
                         try
                         {
                             client.Send(mail);
@@ -68,25 +68,19 @@ namespace NotificationHandler
                                 Console.WriteLine(ex.ToString());
                                 throw;
                             }
-                            sendtStatus = false;
                         }
                     }
-                    if (sendtStatus)
-                    {
-                        msgToDelete.Add((long)rdr["Id"]);
-                    }
-                    
+                    msgToDelete.Add(long.Parse(rdr["Id"].ToString()));
                 }
             }
             rdr.Close();
-
+            
             foreach (var msg in msgToDelete)
             {
                 cmd = new SqlCommand(@"DELETE FROM dbo.Notifications WHERE Id=@Id", con);
                 cmd.Parameters.AddWithValue("@Id", msg);
                 cmd.ExecuteNonQuery();
             }
-
             con.Close();
         }
     }
