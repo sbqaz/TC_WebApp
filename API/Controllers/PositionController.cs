@@ -27,12 +27,21 @@ namespace API.Controllers
             db = context;
         }
 
+        /// <summary>
+        /// Give all positions in the system
+        /// </summary>
+        /// <returns></returns>
         // GET: api/Position
         public IQueryable<Position> GetPositions()
         {
             return db.Positions;
         }
 
+        /// <summary>
+        /// Give the posion the the given id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: api/Position/5
         [ResponseType(typeof(Position))]
         public IHttpActionResult GetPosition(long id)

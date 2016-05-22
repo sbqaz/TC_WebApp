@@ -481,53 +481,6 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
-        <member name="M:API.Controllers.AccountController.GetUserInfo">
-            <summary>
-            Gives alle userdata on the user calling
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:API.Controllers.AccountController.GetUserInfo(System.String)">
-            <summary>
-            Gives a sting whit the full name on the user whit the given id
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:API.Controllers.AccountController.PutUserInfo(API.Models.PutUserInfo)">
-            <summary>
-            Updating user info 
-            </summary>
-            <param name="u"></param>
-            <returns></returns>
-        </member>
-        <member name="M:API.Controllers.AccountController.Logout">
-            <summary>
-            Logout the calling user
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:API.Controllers.AccountController.ChangePassword(API.Models.ChangePasswordBindingModel)">
-            <summary>
-            Change Passwrod for the calling user
-            </summary>
-            <param name="model"></param>
-            <returns></returns>
-        </member>
-        <member name="M:API.Controllers.AccountController.RemoveLogin(API.Models.RemoveLoginBindingModel)">
-            <summary>
-            Removing log in
-            </summary>
-            <param name="model"></param>
-            <returns></returns>
-        </member>
-        <member name="M:API.Controllers.AccountController.Register(API.Models.RegisterBindingModel)">
-            <summary>
-            Registering new user
-            </summary>
-            <param name="model"></param>
-            <returns></returns>
-        </member>
         <member name="M:API.Controllers.CaseController.GetCases">
             <summary>
             Gives last 1000 cases

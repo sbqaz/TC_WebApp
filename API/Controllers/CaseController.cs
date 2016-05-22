@@ -104,8 +104,9 @@ namespace API.Controllers
 
 
         /// <summary>
+        /// Gives all cases where worker are set to the same user as the token
         /// </summary>
-        /// <returns>Alle caes where worker = Token used</returns>
+        /// <returns></returns>
         // GET: api/GetMyCases
         [Route("MyCases")]
         public IQueryable<Case> GetMyCases()
@@ -166,7 +167,13 @@ namespace API.Controllers
             return StatusCode(HttpStatusCode.OK);
         }
 
-
+        /// <summary>
+        /// Update case.
+        /// To on claimCase, set Worker to empty string.
+        /// </summary>
+        /// <param name="id">Id for the case</param>
+        /// <param name="case">Ojecktet Case</param>
+        /// <returns></returns>
         // PUT: api/Case/5
         [ResponseType(typeof(Case))]
         public IHttpActionResult PutCase(long id, Case @case)
@@ -250,6 +257,11 @@ namespace API.Controllers
             return CreatedAtRoute("DefaultApi", new { id = @case.Id }, @case);
         }
 
+        /// <summary>
+        /// For creating a new case
+        /// </summary>
+        /// <param name="case"></param>
+        /// <returns></returns>
         // POST: api/Case
         [ResponseType(typeof(CaseDTO))]
         public IHttpActionResult PostCase(CaseDTO @case)
