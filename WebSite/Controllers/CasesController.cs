@@ -19,6 +19,7 @@ namespace WebSite.Controllers
     public class CasesController : Controller
     {																		 
 		private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager; 
 
 
 		public CasesController(ApplicationDbContext context)
@@ -48,7 +49,7 @@ namespace WebSite.Controllers
 					}
 					rdr.Close();
 				}
-
+            
 
 			}
 			con.Close();
