@@ -15,8 +15,9 @@ namespace WebLib.Models
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		[DisplayName("Trafiklysets ID")]
         public long Id { get; set; }
-		[DisplayName("Trafiklyset")]
+		[DisplayName("Trafiklysets navn")]
 		public string Name { get; set; }
         public InstalStatus Status { get; set; }
         public Position Position { get; set; }
