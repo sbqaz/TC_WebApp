@@ -37,7 +37,6 @@ namespace WebLib.Models
 		
 		//Foreign key
 		[DisplayName("Trafiklysets ID")]
-		[Required]
         public Installation InstallationId { get; set; }
 
 		[DisplayName("Ansvarlig")]
@@ -52,12 +51,15 @@ namespace WebLib.Models
 		[DisplayName("Anmelder")]
 		public ObserverSelection Observer { get; set; }
 
+		[Required]
 		[DisplayName("Fejlbeskrivelse")]
 		public string ErrorDescription { get; set; }
 
+		[Required]
 		[DisplayName("Repareret af")]
 		public string MadeRepair { get; set; }
 
+		[Required]
 		[DisplayName("Kommentarer")]
         public string UserComment { get; set; }
     }
