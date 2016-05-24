@@ -25,23 +25,11 @@ namespace WebSite.Controllers
 
         //
         // GET: /Roles/
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             return View(_roleManager.Roles);
         }
-
-        //
-        // GET: /Roles/Details/5
-        public async Task<ActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var role = await _roleManager.FindByIdAsync(id);
-            return View(role);
-        }
-
+        
         //
         // GET: /Roles/Create
         public ActionResult Create()
@@ -61,45 +49,6 @@ namespace WebSite.Controllers
                 if (!roleresult.Succeeded)
                 {
                     ModelState.AddModelError("", roleresult.Errors.First().ToString());
-                    return View();
-                }
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Roles/Edit/Admin
-        public async Task<ActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var role = await _roleManager.FindByIdAsync(id);
-            if (role == null)
-            {
-                return HttpNotFound();
-            }
-            return View(role);
-        }
-
-        //
-        // POST: /Roles/Edit/5
-        [HttpPost]
-
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Name,Id")] IdentityRole role)
-        {
-            if (ModelState.IsValid)
-            {
-                var result = await _roleManager.UpdateAsync(role);
-                if (!result.Succeeded)
-                {
-                    ModelState.AddModelError("", result.Errors.First().ToString());
                     return View();
                 }
                 return RedirectToAction("Index");

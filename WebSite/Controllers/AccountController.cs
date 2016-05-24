@@ -156,7 +156,6 @@ namespace WebSite.Controllers
         {
             _authenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
-			//return RedirectToAction("Login", "Account");
 		}
 
         protected override void Dispose(bool disposing)
@@ -164,7 +163,6 @@ namespace WebSite.Controllers
             if (disposing && _userManager != null)
             {
                 _userManager.Dispose();
-                //_userManager = null;
             }
             base.Dispose(disposing);
         }

@@ -181,7 +181,7 @@ namespace WebSite.Controllers
 
         //
         // GET: /Users/Delete/5
-        public async Task<ActionResult> Delete(string id)
+        public ActionResult Delete(string id)
         {
             if (id == null)
             {
@@ -207,22 +207,7 @@ namespace WebSite.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-
                 var user = _context.Users.Find(id);
-                //var logins = user.Logins;
-                //foreach (var login in logins)
-                //{
-                //    _context.UserLogins.Remove(login);
-                //}
-                //var rolesForUser = await _roleManager.Roles.GetRolesForUserAsync(id, CancellationToken.None);
-                //if (rolesForUser.Count() > 0)
-                //{
-
-                //    foreach (var item in rolesForUser)
-                //    {
-                //        var result = await _roleManager.Roles.RemoveUserFromRoleAsync(user.Id, item.Id, CancellationToken.None);
-                //    }
-                //}
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
