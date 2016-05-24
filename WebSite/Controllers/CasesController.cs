@@ -113,7 +113,7 @@ namespace WebSite.Controllers
 				SqlCommand cmd = new SqlCommand("INSERT INTO dbo.Cases (Worker, Time, Status, Observer, ErrorDescription, MadeRepair, UserComment, InstallationId_Id) " +
 												"OUTPUT INSERTED.Id " +
 												"VALUES (@Worker, @Time, @Status, @Observer, @ErrorDescription, @MadeRepair, @UserComment, @InstallationId_Id)", con);
-				cmd.Parameters.AddWithValue("@Worker", User.Identity.GetUserId());
+				cmd.Parameters.AddWithValue("@Worker", "");
 				cmd.Parameters.AddWithValue("@Status", (int)Case.CaseStatus.created);
 				cmd.Parameters.AddWithValue("@Time", DateTime.Now);
 				cmd.Parameters.AddWithValue("@Observer", (int)@case.Observer);
@@ -142,11 +142,6 @@ namespace WebSite.Controllers
 				_context.Notifications.Add(noti);
 				_context.SaveChanges();
 				con.Close();
-
-
-/*
-				_context.Cases.Add(@case);
-                _context.SaveChanges();*/
                 return RedirectToAction("Index");
             }
 
@@ -177,82 +172,92 @@ namespace WebSite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,installationId,Worker,Time,Status,Observer,ErrorDescription,MadeRepair,UserComment")] Case @case)
+        public ActionResult Edit(Case @case)
         {
-            if (ModelState.IsValid)
-            {
+			if (ModelState.IsValid)
+	        {
 
-				if (_context.Cases.Count(c => c.Status != @case.Status && c.InstallationId.Id == @case.InstallationId.Id) > 0)
-				{
-					Notification noti = new Notification();
-					noti.Msg = noti.BuildStatusChangedCase(_context.Installations.SingleOrDefault(i => i.Id == @case.InstallationId.Id).Name, _context.Cases.SingleOrDefault(c => c.Id == @case.Id).Status, @case.Status);
-					_context.Notifications.Add(noti);
-					_context.SaveChanges();
-				}
+		        if (_context.Cases.Count(c => c.Status != @case.Status && c.InstallationId.Id == @case.InstallationId.Id) > 0)
+		        {
+			        Notification noti = new Notification();
+			        noti.Msg =
+				        noti.BuildStatusChangedCase(
+					        _context.Installations.SingleOrDefault(i => i.Id == @case.InstallationId.Id).Name,
+					        _context.Cases.SingleOrDefault(c => c.Id == @case.Id).Status, @case.Status);
+			        _context.Notifications.Add(noti);
+			        _context.SaveChanges();
+		        }
 
-				SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-				SqlDataReader rdr = null;
-				SqlCommand cmd = null;
+		        SqlConnection con =
+			        new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+		        SqlDataReader rdr = null;
+		        SqlCommand cmd = null;
 
-				if (@case.Worker == "")
-				{
-					cmd = new SqlCommand(@"UPDATE dbo.Cases SET Worker=@Worker, Status=@Status, Observer=@Observer, ErrorDescription=@ErrorDescription, MadeRepair=@MadeRepair, UserComment=@UserComment " +
-									"WHERE Id=@Id", con);
-					cmd.Parameters.AddWithValue("@Worker", "");
-				}
-				else
-				{
-					cmd = new SqlCommand(@"UPDATE dbo.Cases SET Status=@Status, Observer=@Observer, ErrorDescription=@ErrorDescription, MadeRepair=@MadeRepair, UserComment=@UserComment " +
-									"WHERE Id=@Id", con);
-				}
+		        if (@case.Worker == "")
+		        {
+			        cmd =
+				        new SqlCommand(
+					        @"UPDATE dbo.Cases SET Worker=@Worker, Status=@Status, Observer=@Observer, ErrorDescription=@ErrorDescription, MadeRepair=@MadeRepair, UserComment=@UserComment " +
+					        "WHERE Id=@Id", con);
+			        cmd.Parameters.AddWithValue("@Worker", "");
+		        }
+		        else
+		        {
+			        cmd =
+				        new SqlCommand(
+					        @"UPDATE dbo.Cases SET Status=@Status, Observer=@Observer, ErrorDescription=@ErrorDescription, MadeRepair=@MadeRepair, UserComment=@UserComment " +
+					        "WHERE Id=@Id", con);
+		        }
 
-				cmd.Parameters.AddWithValue("@Id", @case.Id);
-				cmd.Parameters.AddWithValue("@Status", (int)@case.Status);
-				cmd.Parameters.AddWithValue("@Observer", (int)@case.Observer);
-				cmd.Parameters.AddWithValue("@ErrorDescription", @case.ErrorDescription);
-				cmd.Parameters.AddWithValue("@MadeRepair", @case.MadeRepair);
-				cmd.Parameters.AddWithValue("@UserComment", @case.UserComment);
-				con.Open();
-				rdr = cmd.ExecuteReader();
-				rdr.Close();
+		        cmd.Parameters.AddWithValue("@Id", @case.Id);
+		        cmd.Parameters.AddWithValue("@Status", (int) @case.Status);
+		        cmd.Parameters.AddWithValue("@Observer", (int) @case.Observer);
+		        cmd.Parameters.AddWithValue("@ErrorDescription", @case.ErrorDescription);
+		        cmd.Parameters.AddWithValue("@MadeRepair", @case.MadeRepair);
+		        cmd.Parameters.AddWithValue("@UserComment", @case.UserComment);
+		        con.Open();
+		        rdr = cmd.ExecuteReader();
+		        rdr.Close();
 
-				cmd = new SqlCommand("SELECT Id FROM dbo.Cases WHERE InstallationId_Id=@insId AND (Status=@status1 OR Status=@status2)", con);
-				cmd.Parameters.AddWithValue("@insId", @case.InstallationId.Id);
-				cmd.Parameters.AddWithValue("@status1", (int)Case.CaseStatus.started);
-				cmd.Parameters.AddWithValue("@status2", (int)Case.CaseStatus.created);
+		        cmd =
+			        new SqlCommand(
+				        "SELECT Id FROM dbo.Cases WHERE InstallationId_Id=@insId AND (Status=@status1 OR Status=@status2)", con);
+		        cmd.Parameters.AddWithValue("@insId", @case.InstallationId.Id);
+		        cmd.Parameters.AddWithValue("@status1", (int) Case.CaseStatus.started);
+		        cmd.Parameters.AddWithValue("@status2", (int) Case.CaseStatus.created);
 
-				Installation tmpInstallation = _context.Installations.SingleOrDefault(i => i.Id == @case.InstallationId.Id);
+		        Installation tmpInstallation = _context.Installations.SingleOrDefault(i => i.Id == @case.InstallationId.Id);
 
-				switch (@case.Status)
-				{
-					case Case.CaseStatus.created:
-						tmpInstallation.Status = Installation.InstalStatus.Red;
-						break;
-					case Case.CaseStatus.started:
-						tmpInstallation.Status = Installation.InstalStatus.Red;
-						break;
-					case Case.CaseStatus.pending:
-						rdr = cmd.ExecuteReader();
-						if (rdr.HasRows)
-							break;
-						tmpInstallation.Status = Installation.InstalStatus.Yellow;
-						break;
-					case Case.CaseStatus.done:
-						rdr = cmd.ExecuteReader();
-						if (rdr.HasRows)
-							break;
-						tmpInstallation.Status = Installation.InstalStatus.Green;
-						break;
-				}
-				_context.Entry(tmpInstallation).State = EntityState.Modified;
-				_context.SaveChanges();
+		        switch (@case.Status)
+		        {
+			        case Case.CaseStatus.created:
+				        tmpInstallation.Status = Installation.InstalStatus.Red;
+				        break;
+			        case Case.CaseStatus.started:
+				        tmpInstallation.Status = Installation.InstalStatus.Red;
+				        break;
+			        case Case.CaseStatus.pending:
+				        rdr = cmd.ExecuteReader();
+				        if (rdr.HasRows)
+					        break;
+				        tmpInstallation.Status = Installation.InstalStatus.Yellow;
+				        break;
+			        case Case.CaseStatus.done:
+				        rdr = cmd.ExecuteReader();
+				        if (rdr.HasRows)
+					        break;
+				        tmpInstallation.Status = Installation.InstalStatus.Green;
+				        break;
+		        }
+		        _context.Entry(tmpInstallation).State = EntityState.Modified;
+		        _context.SaveChanges();
 
-				con.Close();
+		        con.Close();
 
-				return RedirectToAction("Index");
-            }
+		        return RedirectToAction("Index");
+	        }
+
 			ViewBag.Installation = new SelectList(_context.Installations, "Id", "Id", @case.InstallationId);
-
 			return View(@case);
         }
 
