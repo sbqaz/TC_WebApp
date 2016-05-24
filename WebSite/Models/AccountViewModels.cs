@@ -8,18 +8,18 @@ namespace WebSite.Models
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "Nuværende adgangskode")]
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "Adgangskoden skal være mindst {2} karakterer lang.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Ny adgangskode")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(Name = "Bekræft ny adgangskode")]
+        [Compare("NewPassword", ErrorMessage = "Ny adgangskode og bekræft ny adgangskode stemmer ikke overens")]
         public string ConfirmPassword { get; set; }
     }
 
