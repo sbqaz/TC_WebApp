@@ -18,7 +18,7 @@
 
 
         <div class="form-group">
-            @Html.LabelFor(model => model.InstallationId.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.InstallationId.Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(x => x.InstallationId.Id, (SelectList)ViewBag.Installation, "Vælg et lyskryds fra listen")
 
