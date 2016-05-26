@@ -19,9 +19,7 @@ namespace WebSite.Controllers
     public class CasesController : Controller
     {																		 
 		private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager; 
-
-
+        
 		public CasesController(ApplicationDbContext context)
 		{
 			this._context = context;

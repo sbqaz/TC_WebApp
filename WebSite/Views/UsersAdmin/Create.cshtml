@@ -14,21 +14,21 @@
 
     <fieldset class="form-horizontal">
         <div class="control-group">
-            @Html.LabelFor(m => m.Email, new {@class = "control-label"})
+            @Html.LabelFor(m => m.Email, new { @class = "control-label" })
             <div class="controls">
                 @Html.TextBoxFor(m => m.Email)
             </div>
         </div>
 
         <div class="control-group">
-            @Html.LabelFor(m => m.PhoneNumber, new {@class = "control-label"})
+            @Html.LabelFor(m => m.PhoneNumber, new { @class = "control-label" })
             <div class="controls">
                 @Html.TextBoxFor(m => m.PhoneNumber)
             </div>
         </div>
 
         <div class="control-group">
-            @Html.LabelFor(m => m.FirstName, new {@class = "control-label"})
+            @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })
             <div class="controls">
                 @Html.TextBoxFor(m => m.FirstName)
             </div>
@@ -54,10 +54,11 @@
         </div>
 
         <h4>Vælg rolle</h4>
-        @Html.DropDownList("RoleId","Ingen rolle")
+        @Html.DropDownList("RoleId", "Ingen rolle")
+
         <div class="form-actions no-color">
-            <input type="submit" value="Opret" class="btn"/>
-            <hr/>
+            <input type="submit" value="Opret" class="btn" />
+            <hr />
             @Html.ActionLink("Tilbage til Bruger liste", "Index")
         </div>
     </fieldset>

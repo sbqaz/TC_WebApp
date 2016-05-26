@@ -37,6 +37,7 @@ namespace WebLib.Models
 		
 		//Foreign key
 		[DisplayName("Trafiklysets ID")]
+        [Required]
         public Installation InstallationId { get; set; }
 
 		[DisplayName("Ansvarlig")]

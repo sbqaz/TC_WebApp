@@ -74,13 +74,13 @@ namespace WebSite.Controllers
                 user.LastName = userViewModel.LastName;
                 user.PhoneNumber = userViewModel.PhoneNumber;
                 var adminresult = await _userManager.CreateAsync(user, userViewModel.Password);
-
-                //Add User Admin to Role Admin
+                
+                //Add User to Role
                 if (adminresult.Succeeded)
                 {
                     if (!String.IsNullOrEmpty(RoleId))
                     {
-                        //Find Role Admin
+                        //Find Role
                         var role = await _roleManager.FindByIdAsync(RoleId);
                         var result = await _userManager.AddToRoleAsync(user.Id, role.Name);
                         if (!result.Succeeded)
@@ -96,7 +96,6 @@ namespace WebSite.Controllers
                     ModelState.AddModelError("", adminresult.Errors.First().ToString());
                     ViewBag.RoleId = new SelectList(_roleManager.Roles, "Id", "Name");
                     return View();
-
                 }
                 return RedirectToAction("Index");
             }
