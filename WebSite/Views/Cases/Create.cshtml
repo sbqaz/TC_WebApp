@@ -25,13 +25,7 @@
                 @Html.ValidationMessageFor(model => model.InstallationId, "", new { @class = "text-danger" })
             </div>
         </div>
-        @*        <div class="form-group">
-            @Html.LabelFor(model => model.InstallationId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.InstallationId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.InstallationId, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -41,13 +35,6 @@
             </div>
         </div>
 
-@*        <div class="form-group">
-            @Html.LabelFor(model => model.Worker, htmlAttributes: new {@class = "control-label col-md-2"})
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Worker, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.Worker, "", new {@class = "text-danger"})
-            </div>
-        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Observer, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -62,22 +49,6 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ErrorDescription, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ErrorDescription, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MadeRepair, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MadeRepair, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MadeRepair, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserComment, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UserComment, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.UserComment, "", new { @class = "text-danger" })
             </div>
         </div>
 

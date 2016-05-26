@@ -55,12 +55,10 @@ namespace WebLib.Models
 		[Required]
 		[DisplayName("Fejlbeskrivelse")]
 		public string ErrorDescription { get; set; }
-
-		[Required]
+		
 		[DisplayName("Repareret af")]
 		public string MadeRepair { get; set; }
-
-		[Required]
+		
 		[DisplayName("Kommentarer")]
         public string UserComment { get; set; }
     }

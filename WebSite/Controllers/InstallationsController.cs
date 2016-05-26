@@ -11,6 +11,7 @@ using WebSite.Identity;
 
 namespace WebSite.Controllers
 {
+	[Authorize]
     public class InstallationsController : Controller
     {
         private ApplicationDbContext _context;

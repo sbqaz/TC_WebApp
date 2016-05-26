@@ -16,6 +16,7 @@ using WebSite.Identity;
 
 namespace WebSite.Controllers
 {
+	[Authorize]
     public class CasesController : Controller
     {																		 
 		private readonly ApplicationDbContext _context;
@@ -116,8 +117,8 @@ namespace WebSite.Controllers
 				cmd.Parameters.AddWithValue("@Time", DateTime.Now);
 				cmd.Parameters.AddWithValue("@Observer", (int)@case.Observer);
 				cmd.Parameters.AddWithValue("@ErrorDescription", @case.ErrorDescription ?? "");
-				cmd.Parameters.AddWithValue("@MadeRepair", @case.MadeRepair ?? "");
-				cmd.Parameters.AddWithValue("@UserComment", @case.UserComment ?? "");
+				cmd.Parameters.AddWithValue("@MadeRepair", "");
+				cmd.Parameters.AddWithValue("@UserComment", "");
 				cmd.Parameters.AddWithValue("@InstallationId_Id", @case.InstallationId.Id);
 				con.Open();
 				@case.Id = (long)cmd.ExecuteScalar();
@@ -210,9 +211,9 @@ namespace WebSite.Controllers
 		        cmd.Parameters.AddWithValue("@Id", @case.Id);
 		        cmd.Parameters.AddWithValue("@Status", (int) @case.Status);
 		        cmd.Parameters.AddWithValue("@Observer", (int) @case.Observer);
-		        cmd.Parameters.AddWithValue("@ErrorDescription", @case.ErrorDescription);
-		        cmd.Parameters.AddWithValue("@MadeRepair", @case.MadeRepair);
-		        cmd.Parameters.AddWithValue("@UserComment", @case.UserComment);
+		        cmd.Parameters.AddWithValue("@ErrorDescription", @case.ErrorDescription ?? "");
+		        cmd.Parameters.AddWithValue("@MadeRepair", @case.MadeRepair ?? "");
+		        cmd.Parameters.AddWithValue("@UserComment", @case.UserComment ?? "");
 		        con.Open();
 		        rdr = cmd.ExecuteReader();
 		        rdr.Close();
