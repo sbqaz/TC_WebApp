@@ -1,47 +1,44 @@
 ﻿@model WebLib.Models.ApplicationUser
-@{
-    ViewBag.Title = "Rediger bruger oplysninger";
-}
 
-<hgroup class="title">
-    <h1>@ViewBag.Title</h1>
-</hgroup>
+<div classe="jumbotron">
+    <h2>Rediger brugeroplysninger</h2>
+</div>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
 
-    <fieldset class="form-horizontal">
-        <div class="control-group">
-            @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })
-            <div class="controls">
-                @Html.TextBoxFor(m => m.FirstName)
+        <fieldset class="form-horizontal">
+            <div class="control-group">
+                @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.FirstName)
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            @Html.LabelFor(m => m.LastName, new { @class = "control-label" })
-            <div class="controls">
-                @Html.TextBoxFor(m => m.LastName)
+            <div class="control-group">
+                @Html.LabelFor(m => m.LastName, new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.LastName)
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            @Html.LabelFor(m => m.PhoneNumber, "Telefon nummer", new { @class = "control-label" })
-            <div class="controls">
-                @Html.TextBoxFor(m => m.PhoneNumber)
+            <div class="control-group">
+                @Html.LabelFor(m => m.PhoneNumber, "Telefon nummer", new { @class = "control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.PhoneNumber)
+                </div>
             </div>
-        </div>
-        <h4>Vælg rolle</h4>
-        @Html.DropDownList("RoleId", "Ingen rolle")
-        <div class="form-actions no-color">
-            <input type="submit" value="Opdater" class="btn" />
-            <hr />
-            @Html.ActionLink("Tilbage til Bruger liste", "Index")
+            <h4>Vælg rolle</h4>
+            @Html.DropDownList("RoleId", "Ingen rolle")
+            <div class="form-actions no-color">
+                <input type="submit" value="Opdater" class="btn" />
+                <hr />
+                @Html.ActionLink("Tilbage til Bruger liste", "Index")
             </div>
-</fieldset>
-}
+        </fieldset>
+    }
 
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

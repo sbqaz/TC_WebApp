@@ -3,29 +3,30 @@
 @{
     ViewBag.Title = "Roller";
 }
+<div classe="jumbotron">
+    <h2>Oversigt over roller</h2>
+</div>
 
-<h2>Oversigt over roller</h2>
-
-<p>
-    @Html.ActionLink("Opret ny rolle", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+    <p>
+        @Html.ActionLink("Opret ny rolle", "Create")
+    </p>
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.ActionLink("Slet", "Delete", new { id = item.Id })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Slet", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>

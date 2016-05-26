@@ -1,25 +1,27 @@
 ﻿@model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
 
-<h2>Fjern rolle</h2>
+<div classe="jumbotron">
+    <h2>Fjern rolle</h2>
+    </div>
+    <h3>Er du sikker på at du vil slette rollen, og fjerne alle brugere fra denne rolle?</h3>
+    <div>
 
-<h3>Er du sikker på at du vil slette rollen, og fjerne alle brugere fra denne rolle?</h3>
-<div>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.Label("Rolle type:")
+            </dt>
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.Label("Rolle type:")
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+        </dl>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-    </dl>
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Tilbage til Rolle liste", "Index")
-        </div>
-    }
-</div>
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Tilbage til Rolle liste", "Index")
+            </div>
+        }
+    </div>

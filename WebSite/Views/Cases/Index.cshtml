@@ -3,12 +3,9 @@
 @using WebLib.Models
 @model IEnumerable<WebLib.Models.Case>
 
-@{
-    ViewBag.Title = "Sager";
-}
-
-<h2>Oversigt over sager</h2>
-
+<div class="jumbotron">
+    <h2>Oversigt over sager</h2>
+</div>
 <p>
     @Html.ActionLink("Opret ny sag", "Create")
 </p>

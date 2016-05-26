@@ -3,35 +3,35 @@
 @{
     ViewBag.Title = "Brugere";
 }
-
-<h2>Oversigt over brugere</h2>
-
-<p>
-    @Html.ActionLink("Opret ny bruger", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.Label("Brugere")
-
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<div classe="jumbotron">
+    <h2>Oversigt over brugere</h2>
+    </div>
+    <p>
+        @Html.ActionLink("Opret ny bruger", "Create")
+    </p>
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.ActionLink("Rediger", "Edit", new {id = item.Id}) |
-                @Html.ActionLink("Detaljer", "Details", new {id = item.Id}) |
-                @Html.ActionLink("Slet", "Delete", new {id = item.Id})
-            </td>
-        </tr>
-    }
+            <th>
+                @Html.Label("Brugere")
 
-</table>
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.ActionLink("Rediger", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Detaljer", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Slet", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>

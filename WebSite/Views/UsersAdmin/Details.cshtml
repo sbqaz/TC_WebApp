@@ -1,53 +1,51 @@
 ﻿@model WebSite.Models.UserViewModel
 @using Microsoft.AspNet.Identity
 @using WebLib.Models
-@{
-    ViewBag.Title = "Bruger detaljer";
-}
 
-<h2>Detaljer</h2>
+<div classe="jumbotron">
+    <h2>Brugerdetaljer</h2></div>
 
-<div>
-    <h4>Bruger oplysninger:</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.User.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.Email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.User.LastName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.LastName)
-        </dd>
-        <dt>
-            @Html.LabelFor(model => model.User.PhoneNumber, "Telefon nummer")
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.PhoneNumber)
-        </dd>
-        <dt>
-            @Html.LabelFor(model => model.Role, "Bruger Privilegier")
-       </dt >
+    <div>
+        <h4>Bruger oplysninger:</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.User.Email)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.Email)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.User.FirstName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.FirstName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.User.LastName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.LastName)
+            </dd>
+            <dt>
+                @Html.LabelFor(model => model.User.PhoneNumber, "Telefon nummer")
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.PhoneNumber)
+            </dd>
+            <dt>
+                @Html.LabelFor(model => model.Role, "Bruger Privilegier")
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Role)
-        </dd>
-    </dl >
-</div >
-<p >
+            <dd>
+                @Html.DisplayFor(model => model.Role)
+            </dd>
+        </dl>
+    </div>
+    <p>
 
-    @Html.ActionLink("Tilbage til Bruger liste", "Index")
-            </p>
+        @Html.ActionLink("Tilbage til Bruger liste", "Index")
+    </p>
 
 
 

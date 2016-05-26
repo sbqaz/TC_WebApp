@@ -1,6 +1,5 @@
 ﻿@model WebSite.Models.LoginViewModel
 @{
-    ViewBag.Title = "Velkommen til TrafficControl";
     Layout = null;
     Scripts.Render("~/bundles/jqueryval");
 
@@ -16,7 +15,7 @@
     <meta name="description" Content="Trafikstyring i Randers Kommune">
     <meta name="author" Content="I4PRJ gruppe 01">
 
-    <title>TrafficControl 2k16</title>
+    <title>TrafficControl</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="~/Content/css/bootstrap.min.css" rel="stylesheet">
@@ -43,10 +42,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href='@Url.Action("Index", "Home")'>TrafficControl</a>
-            </div>
+                <a class="navbar-brand" href='@Url.Action("Index", "Home")'>
+                    <div style="display:inline-block;vertical-align:middle;">
+                        <img src="~/Content/img/logo.png" width="15" height="30" />
+                    </div>
+                    <div style="display: inline-block; vertical-align:middle;">
+                        <div>Traffic Control</div>
+                    </div>
+                </a>
+            </div>            </div>
             <!-- /.navbar-collapse -->
-        </nav>
 
         <div id="page-wrapper">
 
@@ -56,48 +61,50 @@
                 <div class="content-wrapper">
                     <div class="col-lg-12">
 
-                        <h2>@ViewBag.Title.</h2>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <section id="loginForm">
-                                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                                    {
-                                        @Html.AntiForgeryToken()
-                                        <h4>Log ind med email og adgangskode for at få adgang til TrafficControl</h4>
-                                        <hr />
-                                        @Html.ValidationSummary(true)
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.UserName, new { @class = "col-md-4 control-label" })
-                                            <div class="col-md-6">
-                                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(m => m.UserName)
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.Password, new { @class = "col-md-4 control-label" })
-                                            <div class="col-md-6">
-                                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(m => m.Password)
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-offset-2 col-md-10"> 
-                                                <div class="checkbox">
-                                                    @Html.CheckBoxFor(m => m.RememberMe)
-                                                    @Html.LabelFor(m => m.RememberMe)
+                        <div classe="jumbotron">
+                            <h2>Velkommen til TrafficControl</h2>
+                        </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <section id="loginForm">
+                                        @using (Html.BeginForm("Login", "Account", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <h4>Log ind med email og adgangskode for at få adgang til TrafficControl</h4>
+                                            <hr/>
+                                            @Html.ValidationSummary(true)
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.UserName, new {@class = "col-md-4 control-label"})
+                                                <div class="col-md-6">
+                                                    @Html.TextBoxFor(m => m.UserName, new {@class = "form-control"})
+                                                    @Html.ValidationMessageFor(m => m.UserName)
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-offset-2 col-md-10">
-                                                <input type="submit" value="Log in" class="btn btn-default" />
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.Password, new {@class = "col-md-4 control-label"})
+                                                <div class="col-md-6">
+                                                    @Html.PasswordFor(m => m.Password, new {@class = "form-control"})
+                                                    @Html.ValidationMessageFor(m => m.Password)
+                                                </div>
                                             </div>
-                                        </div>}
-                                </section>
+                                            <div class="form-group">
+                                                <div class="col-md-offset-2 col-md-10">
+                                                    <div class="checkbox">
+                                                        @Html.CheckBoxFor(m => m.RememberMe)
+                                                        @Html.LabelFor(m => m.RememberMe)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-offset-2 col-md-10">
+                                                    <input type="submit" value="Log in" class="btn btn-default"/>
+                                                </div>
+                                            </div>}
+                                    </section>
+                                </div>
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
                 </div>
                 <!-- /.row -->
 
