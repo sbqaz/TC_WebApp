@@ -4,67 +4,69 @@
 
 
 <div>
-    <div classe="jumbotron">
-        <h2>Bruger oplysninger:</h2></div>
-        <hr />
-        <div>
-            @Html.ActionLink("Skift adgangskode", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Skift adgangskode" })
-        </div>
-        <div>
-            @Html.ActionLink("Skift bruger oplysninger", "Edit", "Account", routeValues: new { id = Model.User.Id }, htmlAttributes: new { title = "Rediger bruger" })
-        </div>
-        <hr />
-        <dl class="dl-horizontal">
-
-            <dt>
-                @Html.DisplayNameFor(model => model.User.Email)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.User.Email)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.User.FirstName)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.User.FirstName)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.User.LastName)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.User.LastName)
-            </dd>
-
-            <dt>
-                @Html.LabelFor(model => model.User.PhoneNumber, "Telefon nummer")
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.User.PhoneNumber)
-            </dd>
-
-            <dt>
-                @Html.LabelFor(model => model.Role, "Bruger Privilegier")
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Role)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.User.EmailNotification)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.User.EmailNotification)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.User.SMSNotification)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.User.SMSNotification)
-            </dd>
-        </dl>
+    
+    <div style="background:transparent !important" class="jumbotron">
+        <h2>Bruger oplysninger:</h2>
     </div>
+    <hr/>
+    <div>
+        @Html.ActionLink("Skift adgangskode", "Manage", "Account", routeValues: null, htmlAttributes: new {title = "Skift adgangskode"})
+    </div>
+    <div>
+        @Html.ActionLink("Skift bruger oplysninger", "Edit", "Account", routeValues: new {id = Model.User.Id}, htmlAttributes: new {title = "Rediger bruger"})
+    </div>
+    <hr/>
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.LastName)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.User.PhoneNumber, "Telefon nummer")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Role, "Bruger Privilegier")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.EmailNotification)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.EmailNotification)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.SMSNotification)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.SMSNotification)
+        </dd>
+    </dl>
+</div>
 <hr/>
     
 
