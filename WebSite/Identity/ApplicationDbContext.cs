@@ -34,45 +34,43 @@ namespace WebSite.Identity
         {
             protected override void Seed(ApplicationDbContext context)
             {
-                InitializeIdentityForEF(context);
+                //InitializeIdentityForEF(context);
                 base.Seed(context);
             }
+            // Provides the application with a User, when first released. Redundant when in release
+            // Run in Global.asax.cs with cmd: //Database.SetInitializer<ApplicationDbContext>(new ApplicationDbContext.MyDbInitializer());
+            // to initialize
+            //
+            //private void InitializeIdentityForEF(ApplicationDbContext context)
+            //{
+            //    var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            //    var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            //    string name = "Admin";
+            //    string password = "123456";
 
-            private void InitializeIdentityForEF(ApplicationDbContext context)
-            {
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-                string name = "Admin";
-                string password = "123456";
-                //string test = "test";
+            //    //Create Role Admin if it does not exist
+            //    if (!RoleManager.RoleExists(name))
+            //    {
+            //        var roleresult = RoleManager.Create(new IdentityRole(name));
+            //    }
 
-                //Create Role Test and User Test
-                //RoleManager.Create(new IdentityRole(test));
-                //UserManager.Create(new ApplicationUser() { UserName = test });
+            //    //Create User=Admin with password=123456
+            //    var user = new ApplicationUser();
+            //    user.UserName = name;
+            //    user.PhoneNumber = "Unknown region of the Galaxy";
+            //    user.FirstName = "Dread Pirate";
+            //    user.LastName = "Roberts";
+            //    var adminresult = UserManager.Create(user, password);
 
-                //Create Role Admin if it does not exist
-                if (!RoleManager.RoleExists(name))
-                {
-                    var roleresult = RoleManager.Create(new IdentityRole(name));
-                }
-
-                //Create User=Admin with password=123456
-                var user = new ApplicationUser();
-                user.UserName = name;
-                user.PhoneNumber = "Unknown region of the Galaxy";
-                user.FirstName = "Dread Pirate";
-                user.LastName = "Roberts";
-                var adminresult = UserManager.Create(user, password);
-
-                //Add User Admin to Role Admin
-                if (adminresult.Succeeded)
-                {
-                    var result = UserManager.AddToRole(user.Id, name);
-                }
-            }
+            //    //Add User Admin to Role Admin
+            //    if (adminresult.Succeeded)
+            //    {
+            //        var result = UserManager.AddToRole(user.Id, name);
+            //    }
+            //}
         }
 
-		public System.Data.Entity.DbSet<WebLib.Models.Case> Cases { get; set; }
+        public System.Data.Entity.DbSet<WebLib.Models.Case> Cases { get; set; }
 
 		public System.Data.Entity.DbSet<WebLib.Models.Installation> Installations { get; set; }
 
